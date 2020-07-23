@@ -12,14 +12,14 @@ export const selectInitialWPM = createSelector(
   opt => opt.initialWPM
 );
 
-export const selectAppendMin = createSelector(
+export const selectAppendIfShorter = createSelector(
   [selectReaderOptions], 
-  opt => opt.appendMin
+  opt => opt.appendIfShorter
 );
 
-export const selectBreakFrom = createSelector(
+export const selectBreakIfLonger = createSelector(
   [selectReaderOptions], 
-  opt => opt.breakFrom
+  opt => opt.breakIfLonger
 );
 
 export const selectInitialSpeeds = createSelector(
@@ -27,7 +27,17 @@ export const selectInitialSpeeds = createSelector(
   opt => ({ wpm: opt.initialWPM, cpm: opt.initialCPM })
 );
 
+export const selectMaxAppend = createSelector(
+  [selectReaderOptions], 
+  opt => opt.maxAppend
+);
+
+export const selectInitialAccelerationTimeSecs = createSelector(
+  [selectReaderOptions],
+  opt => opt.initialAccelerationTimeSecs
+)
+
 export const selectWordOptions = createSelector(
   [selectReaderOptions],
-  opt => ({ appendMin: opt.appendMin, breakFrom: opt.breakFrom })
+  opt => ({ appendIfShorter: opt.appendIfShorter, breakIfLonger: opt.breakIfLonger, maxAppend: opt.maxAppend })
 );

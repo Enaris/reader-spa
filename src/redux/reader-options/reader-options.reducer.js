@@ -12,13 +12,9 @@ const INITIAL_STATE = {
   appendIfShorter: -1, 
   maxAppend: -1,
 
-  initialAccelaretionTimeSecs: -1,
+  initialAccelerationTimeSecs: -1,
 
   addPerMin: -1,
-
-  appendMin: 1, 
-  breakFrom: -1
-
 }
 
 const ReaderOptionsReducer = (state = INITIAL_STATE, action) => {
@@ -33,16 +29,26 @@ const ReaderOptionsReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         initialCPM: action.payload
       }
-    case ReaderOptionsActionTypes.SET_APPEND_MIN: 
+    case ReaderOptionsActionTypes.SET_APPEND_IF_SHORTER: 
       return {
         ...state, 
-        appendMin: action.payload
+        appendIfShorter: action.payload
       }
-    case ReaderOptionsActionTypes.SET_BREAK_FROM: 
+    case ReaderOptionsActionTypes.SET_BREAK_IF_LONGER: 
       return {
         ...state, 
-        breakFrom: action.payload
+        breakIfLonger: action.payload
       } 
+    case ReaderOptionsActionTypes.SET_INITIAL_ACCELERATION_TIME_SECS:
+      return {
+        ...state, 
+        initialAccelerationTimeSecs: action.payload
+      }
+    case ReaderOptionsActionTypes.SET_MAX_APPEND: 
+      return {
+        ...state, 
+        maxAppend: action.payload
+      }
     default:
       return state;
   }

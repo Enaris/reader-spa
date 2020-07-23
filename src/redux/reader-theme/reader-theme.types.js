@@ -1,0 +1,8 @@
+const ReaderThemeActionTypes = {
+  SET_THEME: 'SET_THEME',
+  SET_BACKGROUND_COLOR: 'SET_BACKGROUND_COLOR',
+  SET_WORD_COLOR: 'SET_WORD_COLOR',
+  SET_WORD_FONT_SIZE: 'SET_WORD_FONT_SIZE'
+}
+
+export default ReaderThemeActionTypes;

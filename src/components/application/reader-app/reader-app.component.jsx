@@ -9,8 +9,9 @@ import ReaderText from '../reader-text/reader-text.component';
 import ReaderWord from '../reader-word/reader-word.component';
 import { pauseReading, resumeReading } from '../../../redux/reader/reader.actions';
 import { wTimeoutStop } from '../../../utils/w-delay';
-import { textToArray } from '../../../utils/text-helpers';
 import { setTextArray } from '../../../redux/reading/reading.actions';
+import { ReaderAppStyled } from './reader-app.styled';
+import { textToArray } from '../../../utils/text-helpers';
 
 const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, resumeReader, timeoutId, processTextToArray }) => {
 
@@ -23,7 +24,7 @@ const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, re
   }
 
   return (
-    <div className='reader-app'>
+    <ReaderAppStyled>
       {
         textLoading ?
         <div> Loading </div> :
@@ -34,7 +35,7 @@ const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, re
           <ReaderWord />
         </div>
       }
-    </div>
+    </ReaderAppStyled>
   )
 }
 
