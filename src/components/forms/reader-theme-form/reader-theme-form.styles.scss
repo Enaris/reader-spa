@@ -1,0 +1,53 @@
+.reader-theme-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1em;
+  background-image: linear-gradient(#000, #171151, #000);
+  padding: 10px;
+  box-shadow: 0px 0px 5px #171151;
+
+  .color-preview {
+    text-align: center;
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .color-picker {
+    padding: 0.5rem;
+    //background-color: lightblue;
+    //background-image: linear-gradient(to right, #c3cdd0, #040011);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .font-size-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 5px;
+    justify-content: center;
+
+    .font-size-title {
+      margin-right: 5px;
+    }
+
+    .font-slider {
+      margin-right: 5px;
+      width: 30vw;
+    }
+
+    .slider-container {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .submit-theme-bttn {
+    width: 25vw;
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,38 @@
+.option-bar-container {
+  background: none;
+}
+
+.option-bar-shade {
+  height: 100%;
+  display: flex;
+  width: 40px;
+}
+
+.option-bar {
+  background-color: black;
+  color: white;
+  position: fixed;
+  height: 100%;
+  right: -75vw;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+
+  .options-toggle {
+    display: flex;
+    color: white;
+    font-size: 2rem;
+    max-width: 40px;
+    height: 100%;
+    padding: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .options-reader {
+    height: 100%;
+    flex-direction: column;
+    width: 75vw;
+    position: relative;
+  }
+}

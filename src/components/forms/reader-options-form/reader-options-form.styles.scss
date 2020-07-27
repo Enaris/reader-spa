@@ -1,0 +1,22 @@
+.reader-options-form {
+  padding: 0.5rem;
+
+  .options-label {
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .change-theme-btn {
+    margin-bottom: 5px;
+    width: 100%;
+
+    .change-theme-btn-text {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+}

@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   theme: {
     bgColor: '#2C2C2C',
     wordColor: '#C8C8C8',
-    wordSize: '45px'
+    wordSize: 45
   }
 
 }
