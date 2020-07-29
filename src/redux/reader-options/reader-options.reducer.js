@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   targetCPM: -1,
 
   breakIfLonger: -1,
+  slowIfLonger: -1, 
   appendIfShorter: -1, 
   maxAppend: -1,
 
@@ -49,6 +50,35 @@ const ReaderOptionsReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         maxAppend: action.payload
       }
+    case ReaderOptionsActionTypes.SET_SPEED_OPTIONS:
+      const { 
+        initialCPM, 
+        initialWPM, 
+        targetWPM, 
+        targetCPM, 
+        breakIfLonger, 
+        slowIfLonger, 
+        appendIfShorter, 
+        maxAppend, 
+        initialAccelerationTimeSecs, 
+        addPerMin, 
+        slowTo 
+      } = action.payload;
+      return {
+        ...state,
+        initialCPM: initialCPM,
+        initialWPM: initialWPM, 
+        targetWPM: targetWPM, 
+        targetCPM: targetCPM, 
+        breakIfLonger: breakIfLonger, 
+        slowIfLonger: slowIfLonger,
+        appendIfShorter: appendIfShorter, 
+        maxAppend: maxAppend, 
+        initialAccelerationTimeSecs: initialAccelerationTimeSecs, 
+        addPerMin: addPerMin, 
+        slowTo: slowTo 
+      } 
+
     default:
       return state;
   }

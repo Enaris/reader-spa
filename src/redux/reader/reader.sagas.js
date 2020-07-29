@@ -16,7 +16,7 @@ export function* changeWord() {
   const textEnded = yield select(selectTextEnded);
   
   if (textEnded)
-  return;
+    return;
   
   var oldStart = yield select(selectPartPosition);
   if (oldStart === -1)

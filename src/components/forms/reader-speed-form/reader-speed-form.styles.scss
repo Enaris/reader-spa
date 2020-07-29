@@ -2,3 +2,21 @@
   display: flex;
   align-items: center;
 }
+
+.reader-speed-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .r-s-f-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.txt-field-width-primary {
+  width: 100%;
+  min-width: 50px;
+}
+

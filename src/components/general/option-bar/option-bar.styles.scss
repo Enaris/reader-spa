@@ -20,18 +20,21 @@
 
   .options-toggle {
     display: flex;
+    flex-direction: column;
     color: white;
     font-size: 2rem;
     max-width: 40px;
     height: 100%;
     padding: 4px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    cursor: pointer;
   }
 
   .options-reader {
-    height: 100%;
+    //height: 100%;
     flex-direction: column;
+    overflow-y: auto;
     width: 75vw;
     position: relative;
   }

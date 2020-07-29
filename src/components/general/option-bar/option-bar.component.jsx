@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './option-bar.styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import ReaderOptionsForm from '../../forms/reader-options-form/reader-options-form.component';
 
@@ -20,8 +20,10 @@ const OptionBar = () => {
         transition={{ ease: "easeOut", duration: 0.25 }}
         className='option-bar'
       >
-        <div className='options-toggle'>
-          <FontAwesomeIcon icon={faCog} onClick={() => setOptExpanded(!optExpanded)} />
+        <div className='options-toggle' onClick={() => setOptExpanded(!optExpanded)}>
+          <FontAwesomeIcon icon={faCog} />
+          <FontAwesomeIcon icon={optExpanded ? faArrowAltCircleRight : faArrowAltCircleLeft} />
+          <FontAwesomeIcon icon={faCog} />
         </div>
         <div className='options-reader'>
           <ReaderOptionsForm />

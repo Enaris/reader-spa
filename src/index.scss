@@ -44,6 +44,10 @@ body, html, #root {
   width: 100%;
 }
 
+.vw65 {
+  width: 65vw;
+}
+
 .ml5 {
   margin-left: 5px;
 }
@@ -52,7 +56,7 @@ body, html, #root {
   margin: 0 1rem;
 }
 
-.txt-field-width-primary {
-  width: 25vw;
-  min-width: 50px;
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }

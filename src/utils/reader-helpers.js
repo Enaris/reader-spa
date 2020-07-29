@@ -7,7 +7,7 @@ export const findNextWord = (oldStart, oldLength, allText, options) => {
   if (oldEnd >= allText.length)
     return { start: oldEnd, length: -1 };
 
-  const { appendMin, breakFrom } = options;
+  const { appendIfShorter, breakIfLonger } = options;
   const oldWordEnded = isCharacter(allText[oldEnd], whitespaces);
   var wordStart = oldEnd;
   var brokenWord = false;
@@ -27,8 +27,8 @@ export const findNextWord = (oldStart, oldLength, allText, options) => {
   var appended = 0;
   var nextStart = -1;
   var nextEnd = -1;
-  while (wordEnd !== allText.length && wordToAppendLength <= appendMin && appended < 3 ) {
-    if (breakFrom > 0 && wordLength > breakFrom)
+  while (wordEnd !== allText.length && wordToAppendLength <= appendIfShorter && appended < 3 ) {
+    if (breakIfLonger > 0 && wordLength > breakIfLonger)
       break;
       
     nextStart = findFromIndex(ch => !isCharacter(ch, whitespaces), allText, wordEnd);    
@@ -40,8 +40,8 @@ export const findNextWord = (oldStart, oldLength, allText, options) => {
     wordLength = wordEnd - wordStart;
     ++appended;
   }
-  if (breakFrom > 1 && wordStart !== 0 && wordLength > breakFrom) {
-    wordLength = breakFrom;
+  if (breakIfLonger > 1 && wordStart !== 0 && wordLength > breakIfLonger) {
+    wordLength = breakIfLonger;
   }
   
   return { start: wordStart, length: wordLength, broken: brokenWord };

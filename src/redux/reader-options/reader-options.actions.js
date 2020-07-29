@@ -19,3 +19,8 @@ export const setBreakFrom = breakFrom => ({
   type: ReaderOptionsActionTypes.SET_BREAK_FROM, 
   payload: breakFrom
 })
+
+export const setSpeedOptions = options => ({
+  type: ReaderOptionsActionTypes.SET_SPEED_OPTIONS, 
+  payload: options
+})
