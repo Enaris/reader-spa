@@ -10,3 +10,13 @@ export const wTimeoutStop = (timeoutId, funk, ...funkArgs) => {
 }
 
 export const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+export const timeoutWToken = (ms, cancellationToken) => {
+  return new Promise((resolve, reject) => {
+    cancellationToken.cancel = () => {
+      reject();
+    };
+    setTimeout(resolve, ms);
+  })
+}
+
