@@ -2,16 +2,16 @@ import ReaderOptionsActionTypes from './reader-options.types';
 
 const INITIAL_STATE = {
 
-  initialCPM: 3000, 
+  initialCPM: 1000, 
   initialWPM: -1, 
 
   targetWPM: -1, 
   targetCPM: -1,
 
-  breakIfLonger: -1,
+  breakIfLonger: 5,
   slowIfLonger: -1, 
-  appendIfShorter: -1, 
-  maxAppend: -1,
+  appendIfShorter: 3, 
+  maxAppend: 3,
 
   initialAccelerationTimeSecs: -1,
 

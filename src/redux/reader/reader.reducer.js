@@ -10,7 +10,12 @@ const INITIAL_STATE = {
 
   currentReadTimeMs: 333,
 
-  currentTimeout: null
+  currentTimeout: null, 
+
+  // ------------------
+  currentPart: '',
+  partIndexes: [],
+  partEnd: 0,  
 }
 
 const ReaderReducer = (state = INITIAL_STATE, action) => {
@@ -63,6 +68,15 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state, 
         currentTimeout: action.payload
+      }
+
+    case ReaderActionTypes.SET_PART_INFO_SUCCESS: 
+      const { word, wordsIndexes, end } = action.payload;
+      return {
+        ...state,
+        currentPart: word, 
+        partIndexes: wordsIndexes, 
+        partEnd: end
       }
     default:
         return state;

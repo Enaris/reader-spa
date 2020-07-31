@@ -34,3 +34,17 @@ export const setCurrentTimeout = timeoutId => ({
   type: ReaderActionTypes.SET_CURRENT_TIMEOUT, 
   payload: timeoutId
 })
+
+export const setPartInfoStart = () => ({
+  type: ReaderActionTypes.SET_PART_INFO_START 
+})
+
+export const setPartInfoSuccess = info => ({
+  type: ReaderActionTypes.SET_PART_INFO_SUCCESS, 
+  payload: info
+})
+
+export const setWordLength = length => ({
+  type: ReaderActionTypes.SET_WORD_LENGTH,
+  payload: length
+})

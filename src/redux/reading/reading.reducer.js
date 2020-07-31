@@ -1,9 +1,9 @@
 import ReadingActionTypes from './reading.types';
 
 const INITIAL_STATE = {
-  text: "Here im am a asjkdfhkjdsh an ajksdfh v sjkdfhhhk c sdfjhj sdfhj fsdjhsfsd.",
+  text: "Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu.",
   textArray: [],
-  textLoading: false,
+  textLoading: true,
   textEnded: false,  
 }
 

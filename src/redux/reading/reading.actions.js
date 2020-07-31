@@ -17,3 +17,11 @@ export const setTextArray = array => ({
   type: ReadingActionTypes.SET_TEXT_ARRAY, 
   payload: array
 })
+
+export const setLoadTextStart = () => ({
+  type: ReadingActionTypes.LOAD_TEXT_START
+})
+
+export const setLoadTextSuccess = () => ({
+  type: ReadingActionTypes.LOAD_TEXT_SUCCESS
+})

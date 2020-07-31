@@ -9,15 +9,17 @@ import ReaderText from '../reader-text/reader-text.component';
 import ReaderWord from '../reader-word/reader-word.component';
 import { pauseReading, resumeReading } from '../../../redux/reader/reader.actions';
 import { wTimeoutStop } from '../../../utils/w-delay';
-import { setTextArray } from '../../../redux/reading/reading.actions';
+import { setTextArray, setLoadTextStart, setLoadTextSuccess } from '../../../redux/reading/reading.actions';
 import { ReaderAppStyled } from './reader-app.styled';
 import { textToArray } from '../../../utils/text-helpers';
 
-const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, resumeReader, timeoutId, processTextToArray }) => {
+const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, resumeReader, timeoutId, processTextToArray, loadTextStart, loadTextSuccess }) => {
 
   useEffect(() => {
-    processTextToArray(textToArray(text))
-  }, [processTextToArray, text]);
+    loadTextStart();
+    processTextToArray(textToArray(text));
+    loadTextSuccess();
+  }, [processTextToArray, text, setLoadTextStart, setLoadTextSuccess]);
 
   const pause = () => {
     wTimeoutStop(timeoutId, pauseReader);
@@ -50,7 +52,9 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   pauseReader: () => dispatch(pauseReading()),
   resumeReader: () => dispatch(resumeReading()), 
-  processTextToArray: text => dispatch(setTextArray(text))
+  processTextToArray: text => dispatch(setTextArray(text)), 
+  loadTextStart: () => dispatch(setLoadTextStart()),
+  loadTextSuccess: () => dispatch(setLoadTextSuccess()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderApp);

@@ -45,3 +45,19 @@ export const selectTimeout = createSelector(
   [selectReader], 
   reader => reader.currentTimeout
 )
+
+// -------------------
+export const selectPartEnd = createSelector(
+  [selectReader], 
+  reader => reader.partEnd
+)
+
+export const selectPartStr = createSelector(
+  [selectReader], 
+  reader => reader.currentPart
+)
+
+export const selectPartIndexes = createSelector(
+  [selectReader], 
+  reader => reader.partIndexes
+)
