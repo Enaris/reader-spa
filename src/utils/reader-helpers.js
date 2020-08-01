@@ -87,8 +87,8 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
   var currentWord = wordsArray[currentWordIndex];
   
   var wordObj = broken 
-  ? takeWordPartByOldEnd(currentWord, oldEnd, breakIfLonger, 0)
-  : takeWordPartByMaxLen(currentWord, breakIfLonger, 0);
+    ? takeWordPartByOldEnd(currentWord, oldEnd, breakIfLonger, 0)
+    : takeWordPartByMaxLen(currentWord, breakIfLonger, 0);
   var result = { 
     word: `${broken ? '-' : ''}${wordObj.wordStr}`, 
     wordsIndexes: [ currentWordIndex ], 

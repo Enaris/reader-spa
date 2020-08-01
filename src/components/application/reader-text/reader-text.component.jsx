@@ -3,24 +3,24 @@ import { connect } from 'react-redux';
 import './reader-text.styles.scss';
 import { selectTextArray } from '../../../redux/reading/reading.selectors';
 import { createStructuredSelector } from 'reselect';
-import { selectPartPosition } from '../../../redux/reader/reader.selectors';
 import ReaderTextWord from '../reader-text-word/reader-text-word.component';
+import { selectPartEnd } from '../../../redux/reader/reader.selectors';
 
-const ReaderText = ({ textArray, currentPos }) => {
+const ReaderText = ({ textArray, currentEnd }) => {
 
   
   return (
     <div className='reader-text'>
       {
-        textArray.map(word => <ReaderTextWord wordObj={word} cIndex={ currentPos } key={word.start} /> )
+        textArray.map((word, i) => <ReaderTextWord wordObj={word} wIndex={ i } currentEnd={currentEnd} key={word.start} /> )
       }
     </div>
   )
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentPos: selectPartPosition, 
-  textArray: selectTextArray 
+  textArray: selectTextArray, 
+  currentEnd: selectPartEnd
 })
 
 export default connect(mapStateToProps)(ReaderText);

@@ -1,13 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './reader-text-word.styles.scss';
-import { setWord, resumeReading } from '../../../redux/reader/reader.actions';
+import { resumeReading, setPartInfoSuccess } from '../../../redux/reader/reader.actions';
 
-const ReaderTextWord = ({ wordObj: { start, end, word }, cIndex, resume, changeCurrentWord }) => {
+const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, resume, changeCurrentWord }) => {
 
-  const isInRange = () => cIndex >= start && cIndex < end;
+  const isInRange = () => currentEnd >= start && currentEnd <= end;
   const handleResume = () => {
-    changeCurrentWord({ start: start - 1, length: 0, broken: false });
+    changeCurrentWord({ 
+      word: "", 
+      wordsIndexes: [ wIndex === 0 ? 0 : wIndex -1 ], 
+      end: start === 0 ? 0 : start - 1, 
+      lengthWithoutSpaces: 0 
+    });
     resume();
   }
 
@@ -24,7 +29,7 @@ const ReaderTextWord = ({ wordObj: { start, end, word }, cIndex, resume, changeC
 }
 
 const mapDispatchToProps = dispatch => ({
-  changeCurrentWord: wordInfo => dispatch(setWord(wordInfo)),
+  changeCurrentWord: wordInfo => dispatch(setPartInfoSuccess(wordInfo)),
   resume: () => dispatch(resumeReading())
 });
 
