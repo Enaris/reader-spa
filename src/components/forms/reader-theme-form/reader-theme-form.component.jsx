@@ -4,12 +4,14 @@ import './reader-theme-form.styles.scss';
 import { CirclePicker } from 'react-color';
 import { setTheme } from '../../../redux/reader-theme/reader-theme.actions';
 import { Button, Slider } from '@material-ui/core';
+import { selectTheme } from '../../../redux/reader-theme/reader-theme.selectors';
+import { createStructuredSelector } from 'reselect';
 
-const ReaderThemeForm = ({ changeTheme }) => {
-
-  const [ bgColor, setBgColor ] = useState("#000000");
-  const [ txtColor, setTxtColor ] = useState("#ffffff");
-  const [ fontSize, setFontSize ] = useState(44);
+const ReaderThemeForm = ({ changeTheme, theme }) => {
+  
+  const [ bgColor, setBgColor ] = useState(theme.bgColor);
+  const [ txtColor, setTxtColor ] = useState(theme.wordColor);
+  const [ fontSize, setFontSize ] = useState(theme.wordSize);
   const colors = ['#000000', '#191919', '#323232', '#4b4b4b', '#646464', '#7d7d7d', '#969696', '#b4b4b4', '#cdcdcd', '#e6e6e6', '#ffffff'];
 
   return (
@@ -59,8 +61,12 @@ const ReaderThemeForm = ({ changeTheme }) => {
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  theme: selectTheme
+})
+
 const mapDispatchToProps = dispatch => ({
   changeTheme: theme => dispatch(setTheme(theme))
 });
 
-export default connect(null, mapDispatchToProps)(ReaderThemeForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ReaderThemeForm);

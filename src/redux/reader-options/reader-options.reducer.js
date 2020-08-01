@@ -15,7 +15,9 @@ const INITIAL_STATE = {
 
   initialAccelerationTimeSecs: -1,
 
-  addPerMin: -1,
+  addPerMin: 11,
+
+  slowTo: 200,
 }
 
 const ReaderOptionsReducer = (state = INITIAL_STATE, action) => {

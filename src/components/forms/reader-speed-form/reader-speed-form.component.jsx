@@ -8,10 +8,12 @@ import validationSchema from './reader-spped-form.validation';
 import RFormControlLabel from '../../general/formik/RFormControlLabel/RFormControlLabel.component';
 import RRadioGroup from '../../general/formik/RRadioGroup/RRadioGroup.component';
 import { setSpeedOptions } from '../../../redux/reader-options/reader-options.actions';
+import { selectReaderFormData, selectSpeedType } from '../../../redux/reader-options/reader-options.selectors';
+import { createStructuredSelector } from 'reselect';
 
-const ReaderSpeedForm = ({ changeOptions }) => {
+const ReaderSpeedForm = ({ changeOptions, options, sType }) => {
 
-  const [ speedType, setSpeedType ] = useState('wpm');
+  const [ speedType, setSpeedType ] = useState(sType);
   const handleSubmit = ({ speed, 
     targetSpeed, 
     accelerationTime, 
@@ -41,26 +43,30 @@ const ReaderSpeedForm = ({ changeOptions }) => {
     }
     changeOptions(options);
   }
+  console.log(options);
   return (
     <div className='reader-speed-form'>
       <Formik
+        // initialValues={{
+        //   ...options
+        // }}
         initialValues={{
-          speed: 300, 
-          targetSpeed: 500, 
-          accelerationTime: 10,
-          accelerationConstant: 10,
+          speed: options.speed, 
+          targetSpeed: options.targetSpeed, 
+          accelerationTime: options.accelerationTime,
+          accelerationConstant: options.accelerationConstant,
 
-          longerThan: 7,
-          slowTo: 200,
-          appendIfShorter: 1, 
-          maxAppend: 2,
+          longerThan: options.longerThan,
+          slowTo: options.slowTo,
+          appendIfShorter: options.appendIfShorter, 
+          maxAppend: options.maxAppend,
 
           //---------------------
-          doAccelerateIni: false,
-          doAccelerateConst: false,
-          actIfLonger: false, 
-          doAppendWords: false,
-          actionIfLonger: 'slow'
+          doAccelerateIni: options.doAccelerateIni,
+          doAccelerateConst: options.doAccelerateConst,
+          actIfLonger: options.actIfLonger, 
+          doAppendWords: options.doAppendWords,
+          actionIfLonger: options.actionIfLonger
         }}
         validationSchema={validationSchema}
         onSubmit={v => handleSubmit(v)}
@@ -80,7 +86,7 @@ const ReaderSpeedForm = ({ changeOptions }) => {
             <div className='flex-column'>
               <RFormControlLabel
                 name='doAccelerateIni'
-                control={<Switch color='primary' />} 
+                control={<Switch color='primary' checked={props.values.doAccelerateIni} />} 
                 label='Initial acceleration'
               />
               <RField 
@@ -103,7 +109,7 @@ const ReaderSpeedForm = ({ changeOptions }) => {
             <div className='flex-column'>
               <RFormControlLabel
                 name='doAccelerateConst'
-                control={<Switch color='primary' />} 
+                control={<Switch color='primary' checked={props.values.doAccelerateConst} />} 
                 label='Constant acceleration'
               />
               <div>
@@ -120,7 +126,7 @@ const ReaderSpeedForm = ({ changeOptions }) => {
             <div className='flex-column'>
               <RFormControlLabel
                 name='actIfLonger'
-                control={<Switch color='primary' />} 
+                control={<Switch color='primary' checked={props.values.actIfLonger} />} 
                 label='Act if word is too long'
               />
               <RRadioGroup 
@@ -149,7 +155,7 @@ const ReaderSpeedForm = ({ changeOptions }) => {
             <div className='flex-column'>
               <RFormControlLabel
                 name='doAppendWords' 
-                control={<Switch color='primary' />} 
+                control={<Switch color='primary' checked={props.values.doAppendWords} />} 
                 label='Append short words to next'
               />
               <RField 
@@ -179,8 +185,13 @@ const ReaderSpeedForm = ({ changeOptions }) => {
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  options: selectReaderFormData, 
+  sType: selectSpeedType
+})
+
 const mapDispatchToProps = dispatch => ({
   changeOptions: options => dispatch(setSpeedOptions(options))
 })
 
-export default connect(null, mapDispatchToProps)(ReaderSpeedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ReaderSpeedForm);

@@ -1,36 +1,41 @@
 import { createSelector } from 'reselect';
+import { toSpeedType, toReaderFormData } from '../../utils/reader-options-helpers';
 
-const selectReaderOptions = state => state.readerOptions;
-
-export const selectInitialCMP = createSelector(
-  [selectReaderOptions],
-  opt => opt.initialCPM
-);
-
-export const selectInitialWPM = createSelector(
-  [selectReaderOptions], 
-  opt => opt.initialWPM
-);
-
-export const selectAppendIfShorter = createSelector(
-  [selectReaderOptions], 
-  opt => opt.appendIfShorter
-);
-
-export const selectBreakIfLonger = createSelector(
-  [selectReaderOptions], 
-  opt => opt.breakIfLonger
-);
+export const selectReaderOptions = state => state.readerOptions;
 
 export const selectInitialSpeeds = createSelector(
   [selectReaderOptions],
   opt => ({ wpm: opt.initialWPM, cpm: opt.initialCPM })
 );
 
-export const selectMaxAppend = createSelector(
+export const selectSpeedOptions = createSelector(
   [selectReaderOptions], 
-  opt => opt.maxAppend
-);
+  opt => ({
+    initialCPM: opt.initialCPM, 
+    initialWPM: opt.initialWPM, 
+
+    targetWPM: opt.targetWPM, 
+    targetCPM: opt.targetCPM,
+
+    slowIfLonger: opt.slowIfLonger, 
+
+    initialAccelerationTimeSecs: opt.initialAccelerationTimeSecs,
+
+    addPerMin: opt.addPerMin,
+
+    slowTo: opt.slowTo,
+  })
+)
+
+export const selectSpeedType = createSelector(
+  [selectReaderOptions], 
+  opt => toSpeedType({ initialCPM: opt.initialCPM, initialWPM: opt.initialWPM })
+)
+
+export const selectReaderFormData = createSelector(
+  [selectReaderOptions], 
+  opt => toReaderFormData(opt)
+)
 
 export const selectInitialAccelerationTimeSecs = createSelector(
   [selectReaderOptions],
