@@ -29,8 +29,8 @@ const ReaderSpeedForm = ({ changeOptions, options, sType }) => {
     doAppendWords
   }) => {
     var options = {
-      initialCPM: speedType === 'wpm' ? speed : -1, 
-      initialWPM: speedType === 'cpm' ? speed : -1, 
+      initialWPM: speedType === 'wpm' ? speed : -1, 
+      initialCPM: speedType === 'cpm' ? speed : -1, 
       targetWPM: doAccelerateIni && speedType === 'wpm' ? targetSpeed : -1, 
       targetCPM: doAccelerateIni && speedType === 'cpm' ? targetSpeed : -1 , 
       breakIfLonger: actIfLonger && actionIfLonger === 'break' ? longerThan : -1, 
@@ -47,9 +47,7 @@ const ReaderSpeedForm = ({ changeOptions, options, sType }) => {
   return (
     <div className='reader-speed-form'>
       <Formik
-        // initialValues={{
-        //   ...options
-        // }}
+        
         initialValues={{
           speed: options.speed, 
           targetSpeed: options.targetSpeed, 

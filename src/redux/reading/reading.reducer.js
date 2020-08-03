@@ -1,7 +1,7 @@
 import ReadingActionTypes from './reading.types';
 
 const INITIAL_STATE = {
-  text: "Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu.",
+  text: "Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu.",
   textArray: [],
   textLoading: true,
   textEnded: false,  

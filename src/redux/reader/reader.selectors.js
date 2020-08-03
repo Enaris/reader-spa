@@ -26,3 +26,18 @@ export const selectPartIndexes = createSelector(
   [selectReader], 
   reader => reader.partIndexes
 )
+
+export const selectCurrentSpeed = createSelector(
+  [selectReader], 
+  reader => reader.currentSpeed
+)
+
+export const selectReadingTime = createSelector(
+  [selectReader], 
+  reader => reader.readingTime
+)
+
+export const selectSlow = createSelector(
+  [selectReader], 
+  reader => reader.slow
+)
