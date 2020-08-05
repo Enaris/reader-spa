@@ -1,10 +1,5 @@
 export const getSpeedIncrease = ({ accelerationPerMin, timeMs }) => {
-  var x = (accelerationPerMin / 60000) * timeMs
-  console.log('-xxxxxxxxxxx');
-  console.log(accelerationPerMin);
-  console.log(timeMs);
-  console.log(x);
-  return x;
+  return (accelerationPerMin / 60000) * timeMs
 }
 
 export const getSpeedIncreaseByTarget = ({ 

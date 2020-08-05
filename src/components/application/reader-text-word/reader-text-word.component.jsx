@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './reader-text-word.styles.scss';
-import { resumeReading, setPartInfoSuccess } from '../../../redux/reader/reader.actions';
+import { resumeReadingStart, setPartInfoSuccess } from '../../../redux/reader/reader.actions';
 
 const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, resume, changeCurrentWord }) => {
 
@@ -30,7 +30,7 @@ const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, res
 
 const mapDispatchToProps = dispatch => ({
   changeCurrentWord: wordInfo => dispatch(setPartInfoSuccess(wordInfo)),
-  resume: () => dispatch(resumeReading())
+  resume: () => dispatch(resumeReadingStart())
 });
 
 export default connect(null, mapDispatchToProps)(ReaderTextWord);

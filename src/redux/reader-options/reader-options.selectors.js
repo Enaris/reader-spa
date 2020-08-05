@@ -37,12 +37,12 @@ export const selectReaderFormData = createSelector(
   opt => toReaderFormData(opt)
 )
 
-export const selectSpeed = createSelector(
+export const selectInitialSpeed = createSelector(
   [selectReaderOptions], 
   opt => {
-    const useWpm = opt.initialWPM > 0;
+    const useWPM = opt.initialWPM > 0;
     return { 
-      speed: useWPM ? speedOptions.initialWPM : speedOptions.initialCPM,
+      speed: useWPM ? opt.initialWPM : opt.initialCPM,
       type: useWPM ? 'wpm' : 'cpm' 
     } 
   }

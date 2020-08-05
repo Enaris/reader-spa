@@ -5,7 +5,7 @@ import ReaderActionTypes from './reader.types';
 import { selectPartLength, selectReaderPaused, selectPartEnd, selectPartIndexes, selectCurrentSpeed, selectReadingTime, selectSlow } from './reader.selectors';
 import { selectTextEnded, selectTextArray } from '../reading/reading.selectors';
 import { setTextEnded } from '../reading/reading.actions';
-import { selectWordOptions, selectSpeedOptions, selectSpeed } from '../reader-options/reader-options.selectors';
+import { selectWordOptions, selectSpeedOptions, selectInitialSpeed } from '../reader-options/reader-options.selectors';
 import { setPartInfoSuccess, setCurrentSpeed, setReadingTime, setSlow, resumeReadingSucees } from './reader.actions';
 import { timeoutWToken } from '../../utils/w-delay';
 import { wpmToWaitMs, cpmToWaitMs } from '../../utils/wpm-cmp-helpers';
@@ -37,12 +37,13 @@ export function* changePart() {
   const useWPM = speedOptions.initialWPM > 0;
   const doIniAcceleration = speedOptions.targetCPM > 0 || speedOptions.targetWPM > 0;
   const doConstAcceleration = speedOptions.addPerMin > 0;
+  const initialSpeed = yield select(selectInitialSpeed);
 
   var currentSpeed = yield select(selectCurrentSpeed);
   if (currentSpeed === null)
     currentSpeed = {
-      speed: useWPM ? speedOptions.initialWPM : speedOptions.initialCPM,
-      type: useWPM ? 'wpm' : 'cpm'
+      speed: initialSpeed.speed,
+      type: initialSpeed.type
     };
   
   const length = yield select(selectPartLength);
@@ -56,35 +57,39 @@ export function* changePart() {
   var wait = useWPM ? wpmToWaitMs(usedSpeed) : cpmToWaitMs(usedSpeed, length);
   const readingTime = yield select(selectReadingTime);
 
+  if (length === 0) {
+    wait = 0;
+  } 
   var cancelToken = {};
+
+  yield call(timeoutWToken, wait, cancelToken);
+  
   const paused = yield select(selectReaderPaused);
   if (paused) {
     yield call(cancelToken.cancel);
     return;
   }
-
-  if (length === 0) {
-    wait = 0;
-  } 
-  yield call(timeoutWToken, wait, cancelToken);
+  
+  yield put(setPartInfoSuccess({ word, wordsIndexes, end, lengthWithoutSpaces }));
   const newReadingTime = readingTime + wait;
   yield put(setReadingTime(newReadingTime));
 
-  yield put(setPartInfoSuccess({ word, wordsIndexes, end, lengthWithoutSpaces }));
-
   var newSpeed = currentSpeed.speed;
   if (doIniAcceleration && newReadingTime / 1000 < speedOptions.initialAccelerationTimeSecs) {
-    newSpeed += getSpeedIncreaseByTarget({ 
+    const x = getSpeedIncreaseByTarget({ 
       options: {
-        initialSpeed: useWPM ? speedOptions.initialWPM : speedOptions.initialCPM, 
+        initialSpeed: initialSpeed.speed, 
         targetSpeed: useWPM ? speedOptions.targetWPM : speedOptions.targetCPM, 
         accTimeSecs: speedOptions.initialAccelerationTimeSecs
-      }, timeMs: wait
+      }, timeMs: newReadingTime
     });
+    console.log('x');
+    console.log(x);
+    newSpeed = initialSpeed.speed + x;
   }
   else if ((doConstAcceleration && !doIniAcceleration)   
     || (doConstAcceleration && doIniAcceleration && readingTime / 1000 > speedOptions.initialAccelerationTimeSecs)) {
-      newSpeed += getSpeedIncrease({ accelerationPerMin: speedOptions.addPerMin, timeMs: wait});
+      newSpeed = initialSpeed.speed + getSpeedIncrease({ accelerationPerMin: speedOptions.addPerMin, timeMs: newReadingTime});
   }
 
   const doSlow = doSlowDown(speedOptions.slowIfLonger, lengthWithoutSpaces);
@@ -105,10 +110,10 @@ export function* changePart() {
 
 export function* resumeReading() {
   
-  const speed = yield select(selectSpeed);
+  yield put(resumeReadingSucees());
+  const speed = yield select(selectInitialSpeed);
   yield put(setCurrentSpeed(speed));
 
-  yield put(resumeReadingSucees);
 }
 
 export function* onChangePart() {

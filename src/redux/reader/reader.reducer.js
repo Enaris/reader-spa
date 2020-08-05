@@ -21,6 +21,7 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         readerPaused: true
       }
+    
     case ReaderActionTypes.RESUME_READING_SUCCESS: 
       return {
         ...state, 

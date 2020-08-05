@@ -3,21 +3,21 @@ import ReaderOptionsActionTypes from './reader-options.types';
 const INITIAL_STATE = {
 
   initialCPM: -1, 
-  initialWPM: 100, 
+  initialWPM: 300, 
 
-  targetWPM: -1, 
+  targetWPM: 400, 
   targetCPM: -1,
 
   breakIfLonger: -1,
-  slowIfLonger: -1, 
+  slowIfLonger: 5, 
   appendIfShorter: -1, 
   maxAppend: -1,
 
-  initialAccelerationTimeSecs: -1,
+  initialAccelerationTimeSecs: 60,
 
-  addPerMin: 100,
+  addPerMin: -1,
 
-  slowTo: -1,
+  slowTo: 50,
 }
 
 const ReaderOptionsReducer = (state = INITIAL_STATE, action) => {
