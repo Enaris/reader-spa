@@ -3,17 +3,23 @@ import { call, all, put, takeLatest } from 'redux-saga/effects';
 import AuthActionTypes from './auth.types';
 import axios from 'axios';
 import { loginUrl, registerUrl } from '../../utils/api-urls';
-import { loginSuccess, loginFailure, registerSuccess, registerFailure } from './auth.actions';
+import { loginSuccess, loginFailure, registerSuccess, registerFailure, loginStart } from './auth.actions';
+import { push } from 'connected-react-router';
 
 export function* login({ payload }) {
   try {
     const result = yield call(axios.post, loginUrl, payload)
-    console.log(result);
-    yield put(loginSuccess(result));
+    console.log(result.data);
+    yield put(loginSuccess(result.data));
+    sessionStorage.setItem("token", result.data.token);
+    axios.defaults.headers.common = {
+      'Authorization': `Bearer ${ result.data.token }`
+    };
+    yield put(push('/'));
   }
   catch (e) {
-    console.log(e);
-    yield put(loginFailure(e));
+    console.log(e.response.data);
+    yield put(loginFailure(e.response.data));
   }
 }
 
@@ -24,10 +30,12 @@ export function* register({ payload }) {
     const result = yield call(axios.post, registerUrl, payload)
     console.log(result);
     yield put(registerSuccess(result));
+
+    yield put(loginStart({ email: payload.email, password: payload.password }));
   }
   catch (e) {
-    console.log(e);
-    yield put(registerFailure(e));
+    console.log(e.response.data);
+    yield put(registerFailure(e.response.data));
   }
 }
 

@@ -5,7 +5,7 @@ import RegisterForm from '../../components/forms/register-form/register-form.com
 const RegisterPage = () => {
 
   return (
-    <div className='register-page'>
+    <div className='page-flex flex-center flex-column p5'>
       <RegisterForm />
     </div>
   )

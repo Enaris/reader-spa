@@ -52,11 +52,43 @@ body, html, #root {
   margin-left: 5px;
 }
 
+.mb5 {
+  margin-bottom: 1rem;
+}
+
 .mx5 {
   margin: 0 1rem;
+}
+
+.p5 {
+  padding: 1rem; 
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.page-flex {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.min-vw50 {
+  min-width: 50vw;
+}
+
+.icon-link-active {
+  color: lightblue;
+}
+
+.errors {
+  color: #f44336;
 }

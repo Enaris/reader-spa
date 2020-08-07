@@ -6,11 +6,13 @@ import RField from '../../general/formik/RField/RField.component';
 import { Button } from '@material-ui/core';
 import validationSchema from './register-form.validation';
 import { registerStart } from '../../../redux/auth/auth.actions';
+import { createStructuredSelector } from 'reselect';
+import { selectRegisterErrors } from '../../../redux/auth/auth.selectors';
 
-const RegisterForm = ({ register }) => {
+const RegisterForm = ({ register, registerErrors }) => {
 
   return (
-    <div className='register-form'>
+    <div >
       <Formik 
         initialValues={{
           email: '',
@@ -20,10 +22,20 @@ const RegisterForm = ({ register }) => {
         validationSchema={validationSchema}
         onSubmit={v => {console.log(v); register({email: v.email, password: v.password});}}
       >
-        <Form>
-          <RField name='email' label='Email' variant='outlined' />
-          <RField name='password' label='Password' type='password' variant='outlined' />
-          <RField name='confirmPassword' label='Password' type='password' variant='outlined' />
+        <Form className='register-form min-vw50'>
+          { registerErrors &&
+            <div className='errors mb5'>
+              <ul>
+                {
+                  registerErrors.map(e => <li key={e.code}>{e.description}</li>)
+                }
+              </ul>
+            </div>    
+          }
+          
+          <RField containerClass='mb5' fullWidth name='email' label='Email' variant='outlined' />
+          <RField containerClass='mb5' fullWidth name='password' label='Password' type='password' variant='outlined' />
+          <RField containerClass='mb5' fullWidth name='confirmPassword' label='Confirm Password' type='password' variant='outlined' />
           <Button type='submit' variant='outlined'> Login </Button>
         </Form>
       </Formik>
@@ -35,4 +47,8 @@ const mapDispatchToProps = dispatch => ({
   register: registerData => dispatch(registerStart(registerData))
 })
 
-export default connect(null, mapDispatchToProps)(RegisterForm);
+const mapStateToProps = createStructuredSelector({
+  registerErrors: selectRegisterErrors
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

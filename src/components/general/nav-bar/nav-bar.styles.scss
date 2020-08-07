@@ -1,6 +1,14 @@
 .nav-bar {
   display: flex;
-  width: 200px;
+  max-width: 15vw;
   flex-shrink: 0;
   background-color: black;
+  height: 100%;
+  padding: 0.2rem 0.3rem;
+}
+
+.nav-links {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
 }

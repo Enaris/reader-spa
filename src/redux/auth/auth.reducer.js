@@ -40,11 +40,13 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         loggingIn: false, 
         loginErrors: [] 
       }
-    case AuthActionTypes.LOGIN_SUCCESS: 
+    case AuthActionTypes.LOGIN_SUCCESS:
+      const { aspUserId, email, token } = action.payload; 
       return {
         ...state, 
         loggingIn: false, 
-        user: action.payload, 
+        user: { aspUserId, email },
+        token: token, 
         loginErrors: []
       }
     case AuthActionTypes.LOGIN_FAILURE: 
