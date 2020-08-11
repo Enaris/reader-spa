@@ -30,3 +30,16 @@ export const registerFailure = error => ({
   payload: error
 })
 
+export const checkTokenStart = token => ({
+  type: AuthActionTypes.CHECK_TOKEN_START, 
+  payload: token
+})
+
+export const checkTokenSuccess = loginResult => ({
+  type: AuthActionTypes.CHECK_TOKEN_SUCCESS, 
+  payload: loginResult
+})
+
+export const checkTokenFailure = () => ({
+  type: AuthActionTypes.CHECK_TOKEN_FAILURE
+})

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.scss';
 import { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
@@ -13,6 +13,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import HomePage from './pages/home-page/home-page.component';
 import LoginPage from './pages/login-page/login-page.component';
 import RegisterPage from './pages/register-page/register-page.component';
+import { checkTokenStart } from './redux/auth/auth.actions';
+import NonAuthRoute from './components/general/route/non-auth-route/non-auth-route.component';
+import { selectCheckingToken } from './redux/auth/auth.selectors';
+import TextAddPage from './pages/text-add-page/text-add-page.component';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -20,7 +24,11 @@ const muiTheme = createMuiTheme({
   },
 });
 
-function App({ theme }) {
+function App({ theme, checkToken, checkingToken }) {
+  useEffect(() => {
+    checkToken(sessionStorage.getItem('token'));
+  }, [checkToken])
+
   return (
     <ThemeProvider theme={ theme }>
       <MuiThemeProvider theme={ muiTheme }>
@@ -31,8 +39,9 @@ function App({ theme }) {
             <Route exact path='/' component={ HomePage } />
             <Route exact path='/lib' component={ LibraryPage } />
             <Route exact path='/reader' component={ ReaderPage } />
-            <Route exact path='/login' component={ LoginPage } />
-            <Route exact path='/register' component={ RegisterPage } />
+            <Route exact path='/text/add' component={ TextAddPage } />
+            <NonAuthRoute exact isLoading={ checkingToken } path='/login' Component={ LoginPage } redirectTo='/' />
+            <NonAuthRoute exact isLoading={ checkingToken } path='/register' Component={ RegisterPage } redirectTo='/' />
           </Switch>
         </div>
       </MuiThemeProvider>
@@ -41,7 +50,12 @@ function App({ theme }) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  theme: selectTheme
+  theme: selectTheme, 
+  checkingToken: selectCheckingToken
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  checkToken: token => dispatch(checkTokenStart(token))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

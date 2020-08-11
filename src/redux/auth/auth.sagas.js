@@ -2,8 +2,8 @@ import { call, all, put, takeLatest } from 'redux-saga/effects';
 
 import AuthActionTypes from './auth.types';
 import axios from 'axios';
-import { loginUrl, registerUrl } from '../../utils/api-urls';
-import { loginSuccess, loginFailure, registerSuccess, registerFailure, loginStart } from './auth.actions';
+import { loginUrl, registerUrl, checkTokenUrl } from '../../utils/api-urls';
+import { loginSuccess, loginFailure, registerSuccess, registerFailure, loginStart, checkTokenSuccess, checkTokenFailure } from './auth.actions';
 import { push } from 'connected-react-router';
 
 export function* login({ payload }) {
@@ -39,6 +39,27 @@ export function* register({ payload }) {
   }
 }
 
+export function* checkToken({ payload }) {
+
+  if (payload === null) {
+    yield put(checkTokenFailure());
+    return;
+  }  
+
+  try {
+    const result = yield call(axios.post, checkTokenUrl(payload));
+    console.log(result);
+    yield put(checkTokenSuccess(result));
+    sessionStorage.setItem("token", result.data.token);
+    axios.defaults.headers.common = {
+      'Authorization': `Bearer ${ result.data.token }`
+    };
+  }
+  catch {
+    yield put(checkTokenFailure());
+  }
+}
+
 export function* onLogin() {
   yield takeLatest(AuthActionTypes.LOGIN_START, login);
 }
@@ -47,9 +68,14 @@ export function* onRegister() {
   yield takeLatest(AuthActionTypes.REGISTER_START, register)
 }
 
+export function* onCheckToken() {
+  yield takeLatest(AuthActionTypes.CHECK_TOKEN_START, checkToken);
+}
+
 export default function* AuthSagas() {
   yield all([
     call(onLogin),
-    call(onRegister) 
+    call(onRegister), 
+    call(onCheckToken) 
   ])
 }

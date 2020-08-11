@@ -9,7 +9,9 @@ const INITIAL_STATE = {
   token: null, 
 
   loginErrors: [], 
-  registerErrors: []
+  registerErrors: [], 
+
+  checkingToken: false
 }
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +20,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
     case AuthActionTypes.REGISTER_START: 
       return {
         ...state,
-        registerOngoing: false, 
+        registerOngoing: true, 
         registerErrors: [] 
       }
     case AuthActionTypes.REGISTER_SUCCESS: 
@@ -37,7 +39,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
     case AuthActionTypes.LOGIN_START: 
       return {
         ...state,
-        loggingIn: false, 
+        loggingIn: true, 
         loginErrors: [] 
       }
     case AuthActionTypes.LOGIN_SUCCESS:
@@ -52,9 +54,29 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
     case AuthActionTypes.LOGIN_FAILURE: 
       return {
         ...state, 
-        registerOngoing: false, 
+        loggingIn: false, 
         loginErrors: action.payload
       }
+
+    case AuthActionTypes.CHECK_TOKEN_START: 
+      return {
+        ...state, 
+        checkingToken: true,
+      }
+    case AuthActionTypes.CHECK_TOKEN_SUCCESS: 
+      return {
+        ...state, 
+        checkingToken: false,
+        user: { aspUserId: action.payload.aspUserId, email: action.payload.email },
+        token: action.payload.token, 
+      }
+    case AuthActionTypes.CHECK_TOKEN_FAILURE: 
+      return {
+        ...state, 
+        checkingToken: false,
+        user: null,
+        token: null
+      }  
 
     default:
       return state;

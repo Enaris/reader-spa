@@ -16,3 +16,18 @@ export const selectLoginErrors = createSelector(
   [selectAuth],
   auth => auth.loginErrors
 )
+
+export const selectLoggingIn = createSelector(
+  [selectAuth],
+  auth => auth.loggingIn
+)
+
+export const selectCheckingToken = createSelector(
+  [selectAuth],
+  auth => auth.checkingToken
+)
+
+export const selectCurrentUser = createSelector(
+  [selectAuth], 
+  auth => auth.user
+)

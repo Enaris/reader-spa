@@ -42,11 +42,12 @@ const LoginForm = ({ login, loginErrors }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-  loginErrors: selectLoginErrors
+  loginErrors: selectLoginErrors,
 })
 
 const mapDispatchToProps = dispatch => ({
   login: loginData => dispatch(loginStart(loginData))
+  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
