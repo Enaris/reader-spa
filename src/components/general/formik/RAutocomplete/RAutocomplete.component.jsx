@@ -3,14 +3,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useField } from 'formik';
 
 const RAutocomplete = ({ containerClass, ...props  }) => {
-  const [ field, meta ] = useField(props);
+  const [ field, meta, helpers ] = useField(props);
+  const { setValue } = helpers;
   return (
     <div className={ containerClass }>
       <Autocomplete 
         {...field} 
         {...props} 
-        error={ meta.touched && Boolean(meta.error) } 
-        helperText={meta.error}
+
+        onChange={(e, value) => setValue(value) }
       />
     </div>
   )

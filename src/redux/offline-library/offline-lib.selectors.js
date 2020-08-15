@@ -11,3 +11,8 @@ export const selectReading = id => createSelector(
   [selectOfflineLib], 
   reader => reader.readings.find(r => r.id === id)
 )
+
+export const selectTags = createSelector(
+  [selectOfflineLib], 
+  reader => reader.tags
+)

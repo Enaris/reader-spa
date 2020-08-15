@@ -1,0 +1,1 @@
+export const dataFormConfig = { headers: { 'Content-Type': 'multipart/form-data' }};

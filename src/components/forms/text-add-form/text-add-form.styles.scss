@@ -1,0 +1,22 @@
+.add-text-form {
+  padding: 1rem 0;
+
+  .tags-added {
+    display: flex;
+    flex-wrap: 1;
+    flex-direction: row;
+  }
+
+  .added-image-container {
+    display: flex;
+    width: 100%;
+  
+    .added-image {
+      width: 15em;
+      height: 24em;
+    }
+  }
+}
+
+
+

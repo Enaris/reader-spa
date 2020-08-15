@@ -9,7 +9,6 @@ import { push } from 'connected-react-router';
 export function* login({ payload }) {
   try {
     const result = yield call(axios.post, loginUrl, payload)
-    console.log(result.data);
     yield put(loginSuccess(result.data));
     sessionStorage.setItem("token", result.data.token);
     axios.defaults.headers.common = {
@@ -18,23 +17,19 @@ export function* login({ payload }) {
     yield put(push('/'));
   }
   catch (e) {
-    console.log(e.response.data);
     yield put(loginFailure(e.response.data));
   }
 }
 
 export function* register({ payload }) {
   
-  console.log(registerUrl);
   try {
     const result = yield call(axios.post, registerUrl, payload)
-    console.log(result);
     yield put(registerSuccess(result));
 
     yield put(loginStart({ email: payload.email, password: payload.password }));
   }
   catch (e) {
-    console.log(e.response.data);
     yield put(registerFailure(e.response.data));
   }
 }
@@ -48,7 +43,6 @@ export function* checkToken({ payload }) {
 
   try {
     const result = yield call(axios.post, checkTokenUrl(payload));
-    console.log(result);
     yield put(checkTokenSuccess(result));
     sessionStorage.setItem("token", result.data.token);
     axios.defaults.headers.common = {

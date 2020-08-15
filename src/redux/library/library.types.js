@@ -1,0 +1,9 @@
+const LibraryActionTypes = {
+
+  ADD_READING_START: 'ADD_READING_START',
+  ADD_READING_SUCCESS: 'ADD_READING_SUCCESS',
+  ADD_READING_FAILURE: 'ADD_READING_FAILURE'
+  
+}
+
+export default LibraryActionTypes;

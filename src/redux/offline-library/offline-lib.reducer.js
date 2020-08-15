@@ -17,11 +17,12 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
     case OfflineLibActionTypes.ADD_READING: 
       return {
         ...state, 
-        readings: state.readings.push(action.payload)
+        readings: [ ...state.readings, action.payload.data ],
+        tags: [ ...state.tags, ...action.payload.newTags ]
       }
 
     default:
-        return state;
+      return state;
   }
 }
 
