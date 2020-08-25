@@ -3,17 +3,21 @@ import { connect } from 'react-redux';
 import './text-add-form.styles.scss';
 import { Formik, Form } from 'formik';
 import RField from '../../general/formik/RField/RField.component';
-import { Button, TextField, Chip, InputAdornment, IconButton, FormControlLabel, Switch } from '@material-ui/core';
+import { Button, TextField, Chip, FormControlLabel, Switch } from '@material-ui/core';
 import RAutocomplete from '../../general/formik/RAutocomplete/RAutocomplete.component';
 import CancelIcon from '@material-ui/icons/Cancel';
 import NewTag from '../../general/new-tag/new-tag.component';
 import RDropPreview from '../../general/RDropzone/RDropPreview/RDropPreview.component';
 import { addReading } from '../../../redux/offline-library/offline-lib.actions';
 import { isNullOrWhitespace } from '../../../utils/string-helpers';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
+import { formToAddRequestData, formToOfflineText } from './text-add-form.utils';
+import { addReadingStart } from '../../../redux/library/library.actions';
+import { selectLastReadingIndex } from '../../../redux/offline-library/offline-lib.selectors';
 
-const TextAddForm = ({ user, tags, addReading }) => {
+const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
 
-  const [ newTag, setNewTag ] = useState("");
   const [ tagsAdded, setTagsAdded ] = useState([]);
   const [ coverImg, setCoverImg ] = useState(null);
   const [ addCover, setAddCover ] = useState(false);
@@ -26,11 +30,9 @@ const TextAddForm = ({ user, tags, addReading }) => {
   }
 
   const handleRemoveNewTag = tag => {
-    setNewTag("");
     setTagsAdded(tagsAdded.filter(item => tag.id !== item.id)); 
   }
   const handleAddNewTag = addedTag => {
-    setNewTag("");
     if (isNullOrWhitespace(addedTag))
       return;
     if ((tags && tags.some(tag => tag.name === addedTag)) || (tagsAdded && tagsAdded.some(tag => tag.name === addedTag))) {
@@ -39,35 +41,41 @@ const TextAddForm = ({ user, tags, addReading }) => {
     setTagsAdded([...tagsAdded, {id: addedTag, name: addedTag}]); 
   }
   const handleSubmit = data => {
-    var reading = { ...data };
-    reading.tags = [ ...reading.tags, ...tagsAdded ];
-    addReading({data: reading, newTags: tagsAdded});
+    user 
+    ? addReadingOnline(formToAddRequestData(data, user.aspUserId, tagsAdded, coverImg))
+    : addReadingOffline(formToOfflineText(data, tagsAdded, largestIdInReadings));
   }
 
   return (
     <div className='min-vw50 add-text-form'>
 
-      <FormControlLabel 
-        value={ addCover }
-        onChange={ e => setAddCover(e.target.checked) }
-        control={<Switch color='primary' checked={ addCover } />} 
-        label='Add cover'
-      />
+      { user &&
+        <div>
+          <FormControlLabel 
+            value={ addCover }
+            onChange={ e => setAddCover(e.target.checked) }
+            control={<Switch color='primary' checked={ addCover } />} 
+            label='Add cover'
+          />
 
-      { addCover &&
-        <div className='added-image-container mb5'>
-          <div className='added-image'>
-            <RDropPreview 
-              label='Add cover image'
-              onRemove={ handleRemoveImg }
-              handleDrop={ handleDropImg }
-            />
-          </div>
+          { addCover &&
+            <div className='added-image-container mb5'>
+              <div className='added-image'>
+                <RDropPreview 
+                  label='Add cover image'
+                  onRemove={ handleRemoveImg }
+                  handleDrop={ handleDropImg }
+                />
+              </div>
+            </div>
+          }
         </div>
       }
+      
 
       <Formik 
         initialValues={{
+          title: '',
           text: '',
           description: '', 
           links: '', 
@@ -76,9 +84,16 @@ const TextAddForm = ({ user, tags, addReading }) => {
         onSubmit={v => handleSubmit(v) }
       >
         { props => {
-          console.log(props.values); 
           return (
           <Form >
+            <RField 
+              containerClass='mb5' 
+              fullWidth 
+              name='title' 
+              label='Title' 
+              variant='outlined' 
+              color='primary' 
+            />
             <RField 
               containerClass='mb5' 
               fullWidth 
@@ -164,8 +179,14 @@ const TextAddForm = ({ user, tags, addReading }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addReading: data => dispatch(addReading(data))
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser,
+  largestIdInReadings: selectLastReadingIndex
 })
 
-export default connect(null, mapDispatchToProps)(TextAddForm);
+const mapDispatchToProps = dispatch => ({
+  addReadingOffline: data => dispatch(addReading(data)),
+  addReadingOnline: data => dispatch(addReadingStart(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextAddForm);

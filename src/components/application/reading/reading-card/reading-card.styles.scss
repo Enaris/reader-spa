@@ -1,0 +1,30 @@
+.reading-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2px white;
+  background-color: black;
+
+  .reading-card-image-container {
+    display: flex;
+    width: 15em;
+    height: 24em;
+
+    .reading-card-image {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      .cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;      
+      }
+    }
+  }
+
+  .reading-card-desc-container { 
+    padding: 1px 5px;
+  }
+}

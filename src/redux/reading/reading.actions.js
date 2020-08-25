@@ -18,10 +18,10 @@ export const setTextArray = array => ({
   payload: array
 })
 
-export const setLoadTextStart = () => ({
-  type: ReadingActionTypes.LOAD_TEXT_START
+export const processTextStart = () => ({
+  type: ReadingActionTypes.PROCESS_TEXT_START,
 })
 
-export const setLoadTextSuccess = () => ({
-  type: ReadingActionTypes.LOAD_TEXT_SUCCESS
+export const processTextSuccess = () => ({
+  type: ReadingActionTypes.PROCESS_TEXT_SUCCESS
 })

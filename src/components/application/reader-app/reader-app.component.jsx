@@ -3,22 +3,19 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import './reader-app.styles.scss';
-import { selectTextLoading, selectTextEnded, selectText } from '../../../redux/reading/reading.selectors';
+import { selectTextProcessing, selectTextEnded, selectText } from '../../../redux/reading/reading.selectors';
 import { selectReaderPaused } from '../../../redux/reader/reader.selectors';
 import ReaderText from '../reader-text/reader-text.component';
 import ReaderWord from '../reader-word/reader-word.component';
 import { pauseReading } from '../../../redux/reader/reader.actions';
-import { setTextArray, setLoadTextStart, setLoadTextSuccess } from '../../../redux/reading/reading.actions';
+import { processTextStart } from '../../../redux/reading/reading.actions';
 import { ReaderAppStyled } from './reader-app.styled';
-import { textToArray } from '../../../utils/text-helpers';
 
-const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, processTextToArray, loadTextStart, loadTextSuccess }) => {
+const ReaderApp = ({ text, textProcessing, textEnded, readerPaused, pauseReader, processText }) => {
 
   useEffect(() => {
-    loadTextStart();
-    processTextToArray(textToArray(text));
-    loadTextSuccess();
-  }, [processTextToArray, text, loadTextStart, loadTextSuccess]);
+    processText();
+  }, [processText, text]);
 
   const pause = () => {
     pauseReader();
@@ -27,7 +24,7 @@ const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, pr
   return (
     <ReaderAppStyled>
       {
-        textLoading ?
+        textProcessing ?
         <div> Loading </div> :
         textEnded || readerPaused ?
         <ReaderText /> :
@@ -41,7 +38,7 @@ const ReaderApp = ({ text, textLoading, textEnded, readerPaused, pauseReader, pr
 }
 
 const mapStateToProps = createStructuredSelector({
-  textLoading: selectTextLoading,
+  textProcessing: selectTextProcessing,
   textEnded: selectTextEnded,
   readerPaused: selectReaderPaused, 
   text: selectText 
@@ -49,9 +46,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   pauseReader: () => dispatch(pauseReading()),
-  processTextToArray: text => dispatch(setTextArray(text)), 
-  loadTextStart: () => dispatch(setLoadTextStart()),
-  loadTextSuccess: () => dispatch(setLoadTextSuccess()),
+  processText: () => dispatch(processTextStart())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderApp);

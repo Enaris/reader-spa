@@ -3,7 +3,7 @@ import './spinner-overlay.styles.scss';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SpinnerOverlay = ({ Spinner }) => {
+const SpinnerOverlay = () => {
 
   return (
     <div className='spinner-overlay'>

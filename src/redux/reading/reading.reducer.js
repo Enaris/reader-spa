@@ -3,7 +3,7 @@ import ReadingActionTypes from './reading.types';
 const INITIAL_STATE = {
   text: "Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu. Alicja ma kota, kot ma Alę, Alicja w Krainie czarów i tak dalej o w małymm znaczeniu.",
   textArray: [],
-  textLoading: true,
+  textProcessing: true,
   textEnded: false,  
 }
 
@@ -31,20 +31,20 @@ const ReadingReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         textEnded: true
       }
-    case ReadingActionTypes.LOAD_TEXT_START: 
+    case ReadingActionTypes.PROCESS_TEXT_START: 
       return {
         ...state, 
-        textLoading: true
+        textProcessing: true
       }
-    case ReadingActionTypes.LOAD_TEXT_SUCCESS:
+    case ReadingActionTypes.PROCESS_TEXT_SUCCESS:
       return {
         ...state, 
-        textLoading: false
+        textProcessing: false
       }
-    case ReadingActionTypes.LOAD_TEXT_FAILURE:
+    case ReadingActionTypes.PROCESS_TEXT_FAILURE:
       return {
         ...state,
-        textLoading: false
+        textProcessing: false
       }
     default:
       return state;

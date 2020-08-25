@@ -43,7 +43,7 @@ export function* checkToken({ payload }) {
 
   try {
     const result = yield call(axios.post, checkTokenUrl(payload));
-    yield put(checkTokenSuccess(result));
+    yield put(checkTokenSuccess(result.data));
     sessionStorage.setItem("token", result.data.token);
     axios.defaults.headers.common = {
       'Authorization': `Bearer ${ result.data.token }`

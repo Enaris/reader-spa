@@ -1,7 +1,7 @@
 import ReaderActionTypes from './reader.types';
 
 const INITIAL_STATE = {
-  readerPaused: false,
+  readerPaused: true,
 
   currentPart: '',
   partIndexes: [],
@@ -52,7 +52,12 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
         partEnd: end, 
         partLength: lengthWithoutSpaces
       }
-
+    
+    case ReaderActionTypes.RESET_READER: 
+      return {
+        ...INITIAL_STATE
+      }
+    
     default:
         return state;
   }

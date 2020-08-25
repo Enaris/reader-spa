@@ -12,9 +12,9 @@ export const selectTextEnded = createSelector(
   reading => reading.textEnded
 );
 
-export const selectTextLoading = createSelector(
+export const selectTextProcessing = createSelector(
   [selectReading], 
-  reading => reading.textLoading
+  reading => reading.textProcessing
 );
 
 export const selectTextArray = createSelector(

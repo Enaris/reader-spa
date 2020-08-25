@@ -9,7 +9,9 @@ const ReaderActionTypes = {
   SET_PART_INFO_SUCCESS: 'SET_PART_INFO_SUCCESS',  
   SET_CURRENT_SPEED: 'SET_CURRENT_SPEED', 
   SET_READING_TIME: 'SET_READING_TIME', 
-  SET_SLOW: 'SET_SLOW' 
+  SET_SLOW: 'SET_SLOW', 
+
+  RESET_READER: 'RESET_READER'
 }
 
 export default ReaderActionTypes;

@@ -59,7 +59,6 @@ const takeWordPartByOldEnd = (word, oldEnd, max, overallLength) => {
 }
 
 const takeWordPartByMaxLen = (word, max, overallLength) => {
-  console.log(`ovLen: ${overallLength}`);
   var end = word.end - word.start;
   const lenBeforeBreak = max - overallLength;
   if (max > 0) 
@@ -72,9 +71,10 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
   var oldLastIndex = arrayLast(oldIndexes);
   var oldLastWord = oldLastIndex === null ? null : wordsArray[oldLastIndex];
 
-  var broken = oldLastWord !== null && oldLastWord.end !== oldEnd;
-  if (oldEnd === arrayLast(wordsArray).end && !broken)
+  var broken = oldLastWord !== null && oldLastWord.start !== 0 && oldLastWord.end !== oldEnd;
+  if (oldEnd === arrayLast(wordsArray).end && !broken) {
     return { word: null, wordsIndexes: [], end: -1, lengthWithoutSpaces: -1 };
+  }
   
   const { breakIfLonger, appendIfShorter, maxAppend } = options;
 

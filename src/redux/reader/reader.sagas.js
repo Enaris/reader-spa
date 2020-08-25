@@ -83,8 +83,6 @@ export function* changePart() {
         accTimeSecs: speedOptions.initialAccelerationTimeSecs
       }, timeMs: newReadingTime
     });
-    console.log('x');
-    console.log(x);
     newSpeed = initialSpeed.speed + x;
   }
   else if ((doConstAcceleration && !doIniAcceleration)   

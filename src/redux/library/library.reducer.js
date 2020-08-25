@@ -3,11 +3,23 @@ import LibraryActionTypes from './library.types.js';
 const INITIAL_STATE = {
    
   addingReading: false,
-  addReadingErrors: null
+  addReadingErrors: null, 
+
+  tags: [], 
+  fetchingTags: false,
+  fetchingTagsErrors: null,
+
+  readings: [], 
+  fetchingReadings: false, 
+  fetchingReadingsErrors: null, 
+
+  selectedReading: null, 
+  fetchingSelectedReading: false, 
+  fetchingSelectedReadingErrors: null
 
 }
 
-const LibraryLibReducer = (state = INITIAL_STATE, action) => {
+const LibraryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LibraryActionTypes.ADD_READING_START: 
       return {
@@ -28,9 +40,76 @@ const LibraryLibReducer = (state = INITIAL_STATE, action) => {
         addReadingErrors: action.payload
       }
 
+    case LibraryActionTypes.FETCH_TAGS_START: 
+      return {
+        ...state,
+        tags: [], 
+        fetchingTags: true,
+        fetchingTagsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TAGS_SUCCESS: 
+      return {
+        ...state,
+        tags: action.payload, 
+        fetchingTags: false,
+        fetchingTagsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TAGS_FAILURE: 
+      return {
+        ...state,
+        tags: [], 
+        fetchingTags: false,
+        fetchingTagsErrors: action.payload
+      }
+      
+    case LibraryActionTypes.FETCH_READINGS_START: 
+      return {
+        ...state,
+        readings: [], 
+        fetchingReadings: true, 
+        fetchingReadingsErrors: null
+      }
+    case LibraryActionTypes.FETCH_READINGS_SUCCESS: 
+      return {
+        ...state,
+        readings: action.payload, 
+        fetchingReadings: false, 
+        fetchingReadingsErrors: null
+      }
+    case LibraryActionTypes.FETCH_READINGS_FAILURE: 
+      return {
+        ...state,
+        readings: [], 
+        fetchingReadings: false, 
+        fetchingReadingsErrors: action.payload
+      }
+      
+    case LibraryActionTypes.FETCH_READING_START: 
+      return {
+        ...state,
+        selectedReading: null, 
+        fetchingSelectedReading: true, 
+        fetchingSelectedReadingErrors: null
+      }
+    case LibraryActionTypes.FETCH_READING_SUCCESS: 
+      return {
+        ...state,
+        selectedReading: action.payload, 
+        fetchingSelectedReading: false, 
+        fetchingSelectedReadingErrors: null
+      }
+    case LibraryActionTypes.FETCH_READING_FAILURE: 
+      return {
+        ...state,
+        selectedReading: null, 
+        fetchingSelectedReading: false, 
+        fetchingSelectedReadingErrors: action.payload
+      }
+
+
     default:
       return state;
   }
 }
 
-export default LibraryLibReducer;
+export default LibraryReducer;
