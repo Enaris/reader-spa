@@ -7,13 +7,8 @@ const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, res
 
   const isInRange = () => currentEnd >= start && currentEnd <= end;
   const handleResume = () => {
-    changeCurrentWord({ 
-      word: "", 
-      wordsIndexes: [ wIndex === 0 ? 0 : wIndex -1 ], 
-      end: start === 0 ? 0 : start - 1, 
-      lengthWithoutSpaces: 0 
-    });
-    resume();
+    
+    resume(wIndex, start);
   }
 
   return (
@@ -30,7 +25,7 @@ const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, res
 
 const mapDispatchToProps = dispatch => ({
   changeCurrentWord: wordInfo => dispatch(setPartInfoSuccess(wordInfo)),
-  resume: () => dispatch(resumeReadingStart())
+  resume: (resumeAt, wordStart) => dispatch(resumeReadingStart(resumeAt, wordStart))
 });
 
 export default connect(null, mapDispatchToProps)(ReaderTextWord);

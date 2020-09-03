@@ -3,7 +3,7 @@ import OfflineLibActionTypes from "./offline-lib.types";
 const INITIAL_STATE = {
    
   readings: [], 
-  tags: []
+  tags: [], 
 
 }
 
@@ -20,7 +20,6 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
         readings: [ ...state.readings, action.payload.data ],
         tags: [ ...state.tags, ...action.payload.newTags ]
       }
-
     default:
       return state;
   }

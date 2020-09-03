@@ -24,8 +24,10 @@ export const textToArray = text => {
   var wStart = 0;
   var wEnd = 0;
 
-  while (wEnd < text.length ) {
+  while (wEnd < text.length) {
     wStart = findFromIndex(ch => !isCharacter(ch, whitespaces), text, wEnd);
+    if (wStart === -1)
+      break;
     wEnd = findNextEnd(whitespaces, text, wStart);
 
     result.push({ start: wStart, end: wEnd, word: text.slice(wStart, wEnd) });

@@ -1,3 +1,12 @@
+@media (max-width: 480px) {
+  .reading-collectioin {
+    justify-content: center;
+  
+  }
+}
+
 .reading-collectioin {
   display: flex;
+  flex-wrap: wrap;
+  padding: 0 10px;
 }

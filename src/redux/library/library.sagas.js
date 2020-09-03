@@ -42,8 +42,14 @@ export function* fetchTagsStart({ payload }) {
 }
 
 export function* fetchReadingsStart({ payload }) {
+  const { aspUserId, filters } = payload;
+  console.log(filters);
   try {
-    var result = yield call(axios.get, fetchReadingsUrl(payload));
+    var result = yield call(axios.get, fetchReadingsUrl(aspUserId), {
+      params: {
+        ...filters
+      }
+    });
     yield put(fetchReadingsSuccess(result.data));
   }
   catch (e) {

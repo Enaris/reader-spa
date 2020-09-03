@@ -29,9 +29,9 @@ export const fetchTagsFailure = errors => ({
   payload: errors
 })
 
-export const fetchReadingsStart = aspUserId => ({
+export const fetchReadingsStart = (aspUserId, filters) => ({
   type: LibraryActionTypes.FETCH_READINGS_START, 
-  payload: aspUserId
+  payload: { aspUserId, filters }
 })
 
 export const fetchReadingsSuccess = readings => ({

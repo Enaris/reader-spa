@@ -1,13 +1,37 @@
+@media (max-width: 480px) {
+  .reading-card {
+    flex-direction: column;
+    max-height: 25em;
+  
+    .reading-card-desc-container {
+      height: 7.5em;
+    }
+  }
+}
+
+@media (min-width: 480px) {
+  .reading-card {
+    flex-direction: row; 
+    max-height: 20em;
+
+    .reading-card-desc-container {
+      height: 20em;
+    }
+  }
+}
+
 .reading-card {
   display: flex;
-  flex-direction: column;
   box-shadow: 0 0 2px white;
   background-color: black;
+  //height: 20em;
+  margin-bottom: 10px;
+  margin-right: 10px;
 
   .reading-card-image-container {
     display: flex;
-    width: 15em;
-    height: 24em;
+    width: 12.5em;
+    height: 20em;
 
     .reading-card-image {
       display: flex;
@@ -26,5 +50,20 @@
 
   .reading-card-desc-container { 
     padding: 1px 5px;
+    width: 12.5em;
+    //height: 20em;
+    overflow-y: auto;
+
+    .reading-card-desc-title {
+      text-decoration: none;
+      text-align: center;
+      margin-bottom: 5px;
+      
+      a {
+        text-decoration: none;
+        font-size: 1.4rem;
+      }
+    }
+
   }
 }

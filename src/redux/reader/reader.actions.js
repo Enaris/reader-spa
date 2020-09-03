@@ -4,8 +4,9 @@ export const pauseReading = () => ({
   type: ReaderActionTypes.PAUSE_READING
 })
 
-export const resumeReadingStart = () => ({
-  type: ReaderActionTypes.RESUME_READING_START
+export const resumeReadingStart = (resumeAtIndex, wordStart) => ({
+  type: ReaderActionTypes.RESUME_READING_START, 
+  payload: { resumeAtIndex, wordStart }
 })
 
 export const resumeReadingSucees = () => ({

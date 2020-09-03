@@ -22,6 +22,16 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
         readerPaused: true
       }
     
+    case ReaderActionTypes.RESUME_READING_START: 
+      const { resumeAtIndex, wordStart } = action.payload;
+      return {
+        ...state, 
+        readerPaused: true, 
+        currentPart: '', 
+        partIndexes: resumeAtIndex ? [ resumeAtIndex - 1 ] : [], 
+        partEnd: wordStart ? wordStart - 1 : 0, 
+        partLength: 0
+      }
     case ReaderActionTypes.RESUME_READING_SUCCESS: 
       return {
         ...state, 

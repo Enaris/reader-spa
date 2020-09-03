@@ -18,8 +18,9 @@ export const setTextArray = array => ({
   payload: array
 })
 
-export const processTextStart = () => ({
+export const processTextStart = text => ({
   type: ReadingActionTypes.PROCESS_TEXT_START,
+  payload: text
 })
 
 export const processTextSuccess = () => ({

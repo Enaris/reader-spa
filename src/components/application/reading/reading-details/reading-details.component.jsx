@@ -4,22 +4,18 @@ import { connect } from 'react-redux';
 import './reading-details.styles.scss';
 import { Chip, Button, FormControlLabel, Switch } from '@material-ui/core';
 import { imageUrl } from '../../../../utils/api-urls';
-import { setText } from '../../../../redux/reading/reading.actions';
-import { resetReader } from '../../../../redux/reader/reader.actions';
+import { processTextStart } from '../../../../redux/reading/reading.actions';
 
-const ReadingDetails = ({ reading, setText, resetReader }) => {
+const ReadingDetails = ({ reading, processText }) => {
 
   const { push } = useHistory();
 
   const [ expandText, setExpandText ] = useState(false);
 
   const handleReadBtn = () => {
-    resetReader();
-    setText(reading.text);
+    processText(reading.text);
     push('/reader');
   }
-
-  
 
   return (
     <div className='reading-details'>
@@ -94,8 +90,7 @@ const ReadingDetails = ({ reading, setText, resetReader }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setText: text => dispatch(setText(text)), 
-  resetReader: () => dispatch(resetReader()) 
+  processText: text => dispatch(processTextStart(text)), 
 })
 
 export default connect(null, mapDispatchToProps)(ReadingDetails);

@@ -20,8 +20,6 @@ export const findNextWord = (oldStart, oldLength, allText, options) => {
   if (wordStart !== 0 && !oldWordEnded)
     brokenWord = true;
 
-  // var wordEnd = findFromIndex(ch => isCharacter(ch, whitespaces), allText, wordStart);
-  // wordEnd = wordEnd === -1 ? allText.length : wordEnd;
   var wordEnd = findNextEnd(whitespaces, allText, wordStart)
   var wordLength = wordEnd - wordStart;
   var wordToAppendLength = wordLength;
@@ -35,7 +33,6 @@ export const findNextWord = (oldStart, oldLength, allText, options) => {
     nextStart = findFromIndex(ch => !isCharacter(ch, whitespaces), allText, wordEnd);    
     nextEnd = findNextEnd(whitespaces, allText, nextStart);
     wordToAppendLength = nextEnd - nextStart;
-    //wordEnd = nextEnd(whitespaces, allText, nextStart);
     
     wordEnd = nextEnd;
     wordLength = wordEnd - wordStart;
@@ -72,6 +69,7 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
   var oldLastWord = oldLastIndex === null ? null : wordsArray[oldLastIndex];
 
   var broken = oldLastWord !== null && oldLastWord.start !== 0 && oldLastWord.end !== oldEnd;
+
   if (oldEnd === arrayLast(wordsArray).end && !broken) {
     return { word: null, wordsIndexes: [], end: -1, lengthWithoutSpaces: -1 };
   }

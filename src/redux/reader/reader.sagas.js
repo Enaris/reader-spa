@@ -108,9 +108,9 @@ export function* changePart() {
 
 export function* resumeReading() {
   
-  yield put(resumeReadingSucees());
   const speed = yield select(selectInitialSpeed);
   yield put(setCurrentSpeed(speed));
+  yield put(resumeReadingSucees());
 
 }
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import './reader-app.styles.scss';
-import { selectTextProcessing, selectTextEnded, selectText } from '../../../redux/reading/reading.selectors';
+import { selectTextProcessing, selectTextEnded } from '../../../redux/reading/reading.selectors';
 import { selectReaderPaused } from '../../../redux/reader/reader.selectors';
 import ReaderText from '../reader-text/reader-text.component';
 import ReaderWord from '../reader-word/reader-word.component';
@@ -11,11 +11,13 @@ import { pauseReading } from '../../../redux/reader/reader.actions';
 import { processTextStart } from '../../../redux/reading/reading.actions';
 import { ReaderAppStyled } from './reader-app.styled';
 
-const ReaderApp = ({ text, textProcessing, textEnded, readerPaused, pauseReader, processText }) => {
+const ReaderApp = ({ textProcessing, textEnded, readerPaused, pauseReader, processText }) => {
 
-  useEffect(() => {
-    processText();
-  }, [processText, text]);
+  // useEffect(() => {
+  //   if (!textProcessing) {
+  //     processText();
+  //   }
+  // }, [processText]);
 
   const pause = () => {
     pauseReader();
@@ -41,7 +43,6 @@ const mapStateToProps = createStructuredSelector({
   textProcessing: selectTextProcessing,
   textEnded: selectTextEnded,
   readerPaused: selectReaderPaused, 
-  text: selectText 
 })
 
 const mapDispatchToProps = dispatch => ({

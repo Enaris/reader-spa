@@ -1,16 +1,17 @@
 import { call, all, put, select, takeLatest } from 'redux-saga/effects';
 
 import ReadingActionTypes from './reading.types';
-import { setTextArray, processTextSuccess } from './reading.actions';
+import { setTextArray, processTextSuccess, setText } from './reading.actions';
 import { textToArray } from '../../utils/text-helpers';
-import { selectText } from './reading.selectors';
+import { resetReader } from '../reader/reader.actions';
+//import { selectText } from './reading.selectors';
 
-export function* processText() {
+export function* processText({ payload }) {
 
-  const text = yield select(selectText);
-  
-  const textArray = yield call(textToArray, text);
-  
+  console.log(payload);
+  yield put(resetReader());
+  const textArray = yield call(textToArray, payload);
+  yield put(setText(payload));
   yield put(setTextArray(textArray));
   
   yield put(processTextSuccess());

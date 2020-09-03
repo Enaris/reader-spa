@@ -8,7 +8,6 @@ import { ReaderWordStyled } from './reader-word.styled';
 
 const ReaderWord = ({ part, partEnd, changePart }) => {
   
-
   useEffect(() => {
     changePart()
   }, [partEnd, changePart])
@@ -25,7 +24,7 @@ const ReaderWord = ({ part, partEnd, changePart }) => {
 
 const mapStateToProps = createStructuredSelector({
   part: selectPartStr, 
-  partEnd: selectPartEnd
+  partEnd: selectPartEnd, 
 })
 
 const mapDispatchToProps = dispatch => ({
