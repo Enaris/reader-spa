@@ -6,6 +6,8 @@ import './library-content.styles.scss';
 import ReadingCollection from '../../reading/reading-collection/reading-collection.component';
 import WSpinner from '../../../general/spinner/w-spinner/w-spinner.component';
 import ReadingSearchForm from '../../../forms/reading-search-form/reading-search-form.component';
+import ReadingCollectionWrapper from '../../reading/reading-collection/reading-collection.wrapper';
+import ReadingSearchFormWrapper from '../../../forms/reading-search-form/reading-search-form.wrapper';
 
 const LibraryPageContent = ({ readings, isLoading, tags }) => {
 
@@ -27,12 +29,15 @@ const LibraryPageContent = ({ readings, isLoading, tags }) => {
         control={<Switch color='primary' checked={ expandSearch } />} 
         label='Search'
       /> 
-      { expandSearch &&
-        <ReadingSearchForm 
-          tagsOptions={ tags }
-        />
-      }
-      <ReadingCollection readings={ readings } />
+      {/* { expandSearch &&
+        // <ReadingSearchForm 
+        //   tagsOptions={ tags }
+        // />
+        // <ReadingSearchFormWrapper />
+      } */}
+      <ReadingSearchFormWrapper />
+      {/* <ReadingCollection readings={ readings } /> */}
+      <ReadingCollectionWrapper />
     </div>
   )
 }

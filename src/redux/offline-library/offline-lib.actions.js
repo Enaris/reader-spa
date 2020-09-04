@@ -8,3 +8,7 @@ export const addReading = reading => ({
   type: OfflineLibActionTypes.ADD_READING, 
   payload: reading
 })
+export const setFilters = filters => ({
+  type: OfflineLibActionTypes.SET_FILTERS, 
+  payload: filters
+})

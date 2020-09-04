@@ -1,10 +1,25 @@
 import { createSelector } from 'reselect';
+import { filterOfflineReadings } from './offline-lib.utils';
 
 const selectOfflineLib = state => state.offlineLib;
 
 export const selectReadingsOffline = createSelector(
   [selectOfflineLib], 
   reader => reader.readings
+)
+
+export const selectFilters = createSelector(
+  [selectOfflineLib], 
+  lib => lib.filters
+)
+
+export const selectFilteredReadings = createSelector(
+  [ selectReadingsOffline, 
+    selectFilters
+  ], 
+  (readings, filters) => {
+    return filterOfflineReadings(readings, filters);
+  }
 )
 
 export const selectReadingOffline = id => createSelector(
