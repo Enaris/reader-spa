@@ -37,6 +37,12 @@ export const setSlow = slow => ({
   payload: slow
 })
 
+export const setNewText = newText => ({
+  type: ReaderActionTypes.SET_NEW_TEXT, 
+  payload: newText
+})
+
 export const resetReader = () => ({
   type: ReaderActionTypes.RESET_READER 
 })
+

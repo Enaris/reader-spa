@@ -30,11 +30,11 @@ const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoa
             : []
         }}
         onSubmit={ v => {
-          setFilters({ title: v.title, tags: v.tags.map(t => t.name) });
-          if (user) {
-            fetchReadings(user.aspUserId, { title: v.title, tags: v.tags.map(t => t.id) });
-          }
-          push({
+          // setFilters({ title: v.title, tags: v.tags.map(t => t.id) });
+          // if (user) {
+          //   fetchReadings(user.aspUserId, { title: v.title, tags: v.tags.map(t => t.id) });
+          // }
+          push ({
             pathname: location.pathname, 
             search: queryString.stringify(toQuerryData(v), { 
               arrayFormat: 'bracket', 
@@ -42,7 +42,6 @@ const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoa
               skipEmptyString: true 
             })
           })
-
         }}
       > 
         <Form>

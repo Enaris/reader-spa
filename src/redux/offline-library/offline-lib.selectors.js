@@ -10,7 +10,7 @@ export const selectReadingsOffline = createSelector(
 
 export const selectFilters = createSelector(
   [selectOfflineLib], 
-  lib => lib.filters
+  lib => ({ title: lib.filtersTitle, tags: lib.filtersTags })
 )
 
 export const selectFilteredReadings = createSelector(
@@ -18,6 +18,8 @@ export const selectFilteredReadings = createSelector(
     selectFilters
   ], 
   (readings, filters) => {
+    console.log('filters');
+    console.log(filters);
     return filterOfflineReadings(readings, filters);
   }
 )

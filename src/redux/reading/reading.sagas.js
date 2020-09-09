@@ -1,19 +1,20 @@
-import { call, all, put, select, takeLatest } from 'redux-saga/effects';
+import { call, all, put, takeLatest } from 'redux-saga/effects';
 
 import ReadingActionTypes from './reading.types';
-import { setTextArray, processTextSuccess, setText } from './reading.actions';
-import { textToArray } from '../../utils/text-helpers';
+import { setTextArray, processTextSuccess, setText, setTextArrayRowIndexes } from './reading.actions';
+import { textToArray, textArrayToArrayOfRows } from '../../utils/text-helpers';
 import { resetReader } from '../reader/reader.actions';
-//import { selectText } from './reading.selectors';
 
 export function* processText({ payload }) {
 
-  console.log(payload);
   yield put(resetReader());
   const textArray = yield call(textToArray, payload);
   yield put(setText(payload));
   yield put(setTextArray(textArray));
   
+  const rowIndexes = yield call(textArrayToArrayOfRows, textArray, 50);
+  yield put(setTextArrayRowIndexes(rowIndexes));
+
   yield put(processTextSuccess());
 
 }

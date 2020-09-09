@@ -15,12 +15,15 @@ import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { formToAddRequestData, formToOfflineText } from './text-add-form.utils';
 import { addReadingStart } from '../../../redux/library/library.actions';
 import { selectLastReadingIndex } from '../../../redux/offline-library/offline-lib.selectors';
+import { useHistory } from 'react-router-dom';
 
 const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
 
   const [ tagsAdded, setTagsAdded ] = useState([]);
   const [ coverImg, setCoverImg ] = useState(null);
   const [ addCover, setAddCover ] = useState(false);
+
+  const { location } = useHistory();
 
   const handleDropImg = img => {
     setCoverImg(img);
@@ -76,7 +79,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
       <Formik 
         initialValues={{
           title: '',
-          text: '',
+          text: location.state && location.state.newText && location.state.newText.length > 0 ? location.state.newText : '',
           description: '', 
           links: '', 
           tags: [], 

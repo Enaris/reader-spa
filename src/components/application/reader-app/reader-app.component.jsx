@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -12,12 +12,6 @@ import { processTextStart } from '../../../redux/reading/reading.actions';
 import { ReaderAppStyled } from './reader-app.styled';
 
 const ReaderApp = ({ textProcessing, textEnded, readerPaused, pauseReader, processText }) => {
-
-  // useEffect(() => {
-  //   if (!textProcessing) {
-  //     processText();
-  //   }
-  // }, [processText]);
 
   const pause = () => {
     pauseReader();

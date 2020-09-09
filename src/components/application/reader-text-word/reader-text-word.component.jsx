@@ -12,14 +12,14 @@ const ReaderTextWord = ({ wordObj: { start, end, word }, wIndex, currentEnd, res
   }
 
   return (
-    <div>
-      <span className={ `${isInRange() ? 'word-current' : ''} reader-text-word` } onClick={() => handleResume()} >
+    <>
+      <div className={ `${isInRange() ? 'word-current' : ''} reader-text-word` } onClick={handleResume} >
         {
           word
         }
-      </span>
+      </div>
       <span>&nbsp;</span>
-    </div>
+    </>
   )
 }
 

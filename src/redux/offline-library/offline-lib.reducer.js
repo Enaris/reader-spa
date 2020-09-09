@@ -5,10 +5,12 @@ const INITIAL_STATE = {
   readings: [], 
   tags: [], 
 
-  filters: {
-    title: '', 
-    tags: []
-  }
+  // filters: {
+  //   title: '', 
+  //   tags: []
+  // }
+  filtersTitle: '', 
+  filtersTags: []
 
 }
 
@@ -28,7 +30,8 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
     case OfflineLibActionTypes.SET_FILTERS: 
       return {
         ...state, 
-        filters: action.payload
+        filtersTitle: action.payload.title, 
+        filtersTags: action.payload.tags
       }
     default:
       return state;

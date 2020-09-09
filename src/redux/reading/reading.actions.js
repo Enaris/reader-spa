@@ -18,6 +18,11 @@ export const setTextArray = array => ({
   payload: array
 })
 
+export const setTextArrayRowIndexes = rowIndexes => ({
+  type: ReadingActionTypes.SET_TEXT_ARRAY_ROW_INDEXES, 
+  payload: rowIndexes
+})
+
 export const processTextStart = text => ({
   type: ReadingActionTypes.PROCESS_TEXT_START,
   payload: text

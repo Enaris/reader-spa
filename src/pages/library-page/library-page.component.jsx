@@ -1,47 +1,28 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import './library-page.styles.scss';
-import { selectOfflineTags, selectReadingsOffline, selectFilteredReadings, } from '../../redux/offline-library/offline-lib.selectors';
-import { createStructuredSelector } from 'reselect';
-import LibraryPageContent from '../../components/application/page-content-containers/library/library-content.component';
-import { selectCurrentUser } from '../../redux/auth/auth.selectors';
-import { selectReadingsOnline, selectReadingsFetching, selectOnlineTags, selectFetchingTags } from '../../redux/library/library.selectors';
-import { fetchReadingsStart, fetchTagsStart } from '../../redux/library/library.actions';
+import { Button } from '@material-ui/core';
+import ReadingSearchFormWrapper from '../../components/forms/reading-search-form/reading-search-form.wrapper';
+import ReadingCollectionWrapper from '../../components/application/reading/reading-collection/reading-collection.wrapper';
 import { useHistory } from 'react-router-dom';
-import queryString from 'query-string';
 
-const LibraryPage = ({ user, 
-  }) => {
-
+const LibraryPage = () => {
   const { location } = useHistory();
-  const filters = queryString.parse(location.search, { arrayFormat: 'bracket' });
-
-  useEffect(() => {
-    if (user) {
-      // fetchReadings(user.aspUserId, { 
-      //   title: filters.title ? filters.title : null, 
-      //   tags: filters.tags ? filters.tags : null
-      // });
-      //fetchTags(user.aspUserId)
-    }    
-  }, [user]);
-  
   return (
-    <LibraryPageContent 
-      // readings={ user ? readingsOnline : readingsOffline }
-      //tags={ user ? tagsOnline : tagsOffilne } 
-      //isLoading={ fetchingTags }
-    />
+    <div className='library-page flex_wh100 flex-column'>
+      <Link to='text/add'>
+        <Button 
+          variant='outlined'
+          color='primary'
+        > 
+          Add text
+        </Button>
+      </Link>
+      <ReadingSearchFormWrapper key={ `tags ${location.search}` } />
+      <ReadingCollectionWrapper key={ `readings ${location.search}` } />
+    </div>
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  user: selectCurrentUser,
-})
 
-const mapDispatchToProps = dispatch => ({
-  fetchReadings: (aspUserId, filters) => dispatch(fetchReadingsStart(aspUserId, filters)), 
-  fetchTags: aspUserId => dispatch(fetchTagsStart(aspUserId)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LibraryPage);
+export default LibraryPage;

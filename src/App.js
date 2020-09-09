@@ -19,6 +19,7 @@ import { selectCheckingToken } from './redux/auth/auth.selectors';
 import TextAddPage from './pages/text-add-page/text-add-page.component';
 import LoadingRoute from './components/general/route/loading-route/loading-route.component';
 import ReadingPage from './pages/reading-page/reading-page.component';
+import ReaderNewTextPage from './pages/reader-new-text-page/reader-new-text-page.component';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -42,6 +43,7 @@ function App({ theme, checkToken, checkingToken }) {
             <Route exact path='/lib/:readingId' component={ ReadingPage } />
             <LoadingRoute exact isLoading={ checkingToken } path='/lib' component={ LibraryPage } />
             <Route exact path='/reader' component={ ReaderPage } />
+            <Route exact path='/reader/new' component={ ReaderNewTextPage } />
             <LoadingRoute exact isLoading={ checkingToken } path='/text/add' component={ TextAddPage } />
             <NonAuthRoute exact isLoading={ checkingToken } path='/login' Component={ LoginPage } redirectTo='/' />
             <NonAuthRoute exact isLoading={ checkingToken } path='/register' Component={ RegisterPage } redirectTo='/' />

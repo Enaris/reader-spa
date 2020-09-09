@@ -11,7 +11,10 @@ const INITIAL_STATE = {
   // ----------
   currentSpeed: null, 
   readingTime: 0, 
-  slow: false
+  slow: false, 
+
+  // -----------
+  newText: ''
 }
 
 const ReaderReducer = (state = INITIAL_STATE, action) => {
@@ -68,6 +71,11 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
         ...INITIAL_STATE
       }
     
+    case ReaderActionTypes.SET_NEW_TEXT: 
+      return { 
+        ...state, 
+        newText: action.payload
+      }
     default:
         return state;
   }

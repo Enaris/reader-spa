@@ -1,11 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Tooltip, Chip } from '@material-ui/core';
 import './reading-card.styles.scss';
 import { imageUrl } from '../../../../utils/api-urls';
+import queryString from 'query-string';
+import { setFilters } from '../../../../redux/offline-library/offline-lib.actions';
 
-const ReadingCard = ({ imageCard, reading }) => {
+const ReadingCard = ({ imageCard, reading, setFilters }) => {
   
+  const { push, location } = useHistory();
   const coverSrc = reading.coverUrl ? imageUrl(reading.coverUrl) : 'no cover.jpg';
 
   return (
@@ -32,6 +37,16 @@ const ReadingCard = ({ imageCard, reading }) => {
                   size='small'
                   label={t.name} 
                   key={t.id} 
+                  clickable
+                  onClick={() => {
+                    //console.log('clicked this');
+                    //setFilters({ title: '', tags: [ t.id ] });
+                    push({
+                      pathname: location.pathname, 
+                      search: queryString.stringify({ tags: [ t.id ] }, { arrayFormat: 'bracket' })
+                    })
+                  }}
+                  //href={ queryString.stringify({ tags: [ t.id ] }, { arrayFormat: 'bracket' }) }
                 />
               })
             }
@@ -43,4 +58,8 @@ const ReadingCard = ({ imageCard, reading }) => {
   )
 }
 
-export default ReadingCard;
+const mapDispatchToProps = dispatch => ({
+  setFilters: filters => dispatch(setFilters(filters)) 
+})
+
+export default connect(null, mapDispatchToProps)(ReadingCard);

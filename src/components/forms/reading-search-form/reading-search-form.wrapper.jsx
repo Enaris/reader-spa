@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import ReadingSearchForm from './reading-search-form.component';
 import { selectFetchingTags, selectOnlineTags } from '../../../redux/library/library.selectors';
 import { selectOfflineTags } from '../../../redux/offline-library/offline-lib.selectors';
 import { fetchTagsStart } from '../../../redux/library/library.actions';
-import WSpinner from '../../general/spinner/w-spinner/w-spinner.component';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 
 const ReadingSearchWrapper = ({ user, 
@@ -15,7 +13,6 @@ const ReadingSearchWrapper = ({ user,
   fetchTags, 
   fetchingTags }) => {
   
-  console.log('wrapper rerender');
   useEffect(() => {
     if (user) {
       fetchTags(user.aspUserId)
