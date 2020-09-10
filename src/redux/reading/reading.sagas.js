@@ -12,8 +12,10 @@ export function* processText({ payload }) {
   yield put(setText(payload));
   yield put(setTextArray(textArray));
   
-  const rowIndexes = yield call(textArrayToArrayOfRows, textArray, 50);
-  yield put(setTextArrayRowIndexes(rowIndexes));
+  const l = yield call(textArrayToArrayOfRows, textArray, 50);
+  const m = yield call(textArrayToArrayOfRows, textArray, 44);
+  const s = yield call(textArrayToArrayOfRows, textArray, 35);
+  yield put(setTextArrayRowIndexes({ l, m, s }));
 
   yield put(processTextSuccess());
 }

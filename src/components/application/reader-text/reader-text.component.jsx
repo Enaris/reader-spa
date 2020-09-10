@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './reader-text.styles.scss';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexes, selectReadingId } from '../../../redux/reading/reading.selectors';
+import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexesAll, selectReadingId } from '../../../redux/reading/reading.selectors';
 import { createStructuredSelector } from 'reselect';
-import { selectPartEnd, selectReaderPaused, selectCurrentRow, selectPartIndexes } from '../../../redux/reader/reader.selectors';
+import { selectPartEnd, selectReaderPaused, selectPartIndexes } from '../../../redux/reader/reader.selectors';
 import { resumeReadingStart } from '../../../redux/reader/reader.actions';
 import { FixedSizeList } from 'react-window';
 import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause-save-form.component';
 import { setReadingPosition } from '../../../redux/offline-library/offline-lib.actions';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 const ReaderText = ({ textArray, 
-  textRowsIndexes, 
+  textRowsIndexesAll, 
   currentEnd, 
   textProcessing, 
   resume, 
@@ -19,8 +20,18 @@ const ReaderText = ({ textArray,
   readerPaused,
   readingId,
   currentPartIndexes,
-  currentRow }) => {
+  }) => {
 
+  var tWidth = 630;
+  var textRowsIndexes = textRowsIndexesAll.l
+  if (useMediaQuery('(max-width: 640px)')) {
+    tWidth = 450;
+    textRowsIndexes = textRowsIndexesAll.m;
+  }
+  if (useMediaQuery('(max-width: 480px)')) {
+    tWidth = 300;
+    textRowsIndexes = textRowsIndexesAll.s;
+  }
   const textRef = React.createRef();
   const isInRange = (currentEnd, start, end) => currentEnd >= start && currentEnd <= end;
   const handleResume = (wIndex, start) => {
@@ -28,9 +39,12 @@ const ReaderText = ({ textArray,
   }
   useEffect(() => {
     if (readerPaused) {
-      textRef.current.scrollToItem(currentRow, 'smart');
+      const stWordIndex = currentPartIndexes[0];
+      const currentRowIndex = textRowsIndexes.findIndex(row => row.some(index => index === stWordIndex));
+      console.log(window.innerHeight);
+      textRef.current.scrollToItem(currentRowIndex, 'smart');
     }
-  }, [readerPaused, currentRow, textRef])
+  }, [readerPaused, currentPartIndexes, textRowsIndexes, textRef])
 
   const TextRow = ({ index, style }) => {
     return (
@@ -54,11 +68,7 @@ const ReaderText = ({ textArray,
     )
   }
 
-  var tWidth = 600;
-  if (useMediaQuery('(max-width: 630px)')) 
-    tWidth = 450;
-  if (useMediaQuery('(max-width: 480px)'))
-    tWidth = 300;
+  
 
   const handleSaveSession = () => {
     saveReadingPosOffline(readingId, currentEnd);
@@ -81,7 +91,7 @@ const ReaderText = ({ textArray,
             ref={ textRef }
             itemCount={ textRowsIndexes.length }
             itemSize={ 20 }
-            height={ 400 }
+            height={ window.innerHeight * 0.8 }
             width={ tWidth }
           >
             { TextRow }
@@ -101,9 +111,8 @@ const mapStateToProps = createStructuredSelector({
   textArray: selectTextArray, 
   currentEnd: selectPartEnd, 
   textProcessing: selectTextProcessing, 
-  textRowsIndexes: selectTextArrayRowIndexes, 
+  textRowsIndexesAll: selectTextArrayRowIndexesAll, 
   readerPaused: selectReaderPaused, 
-  currentRow: selectCurrentRow, 
   readingId: selectReadingId, 
   currentPartIndexes: selectPartIndexes
 })
