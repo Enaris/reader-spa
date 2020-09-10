@@ -16,7 +16,6 @@ export function* processText({ payload }) {
   yield put(setTextArrayRowIndexes(rowIndexes));
 
   yield put(processTextSuccess());
-
 }
 
 export function* onProcessTextStart() {

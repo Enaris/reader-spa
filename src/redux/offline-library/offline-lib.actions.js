@@ -12,3 +12,11 @@ export const setFilters = filters => ({
   type: OfflineLibActionTypes.SET_FILTERS, 
   payload: filters
 })
+export const setReadingPosition = (readingId, position) => ({
+  type: OfflineLibActionTypes.SET_READING_POSITION, 
+  payload: { readingId, position }
+})
+export const setReadingPositions = positions => ({
+  type: OfflineLibActionTypes.SET_READING_POSITIONS, 
+  payload: positions
+})

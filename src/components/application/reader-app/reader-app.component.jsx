@@ -8,10 +8,9 @@ import { selectReaderPaused } from '../../../redux/reader/reader.selectors';
 import ReaderText from '../reader-text/reader-text.component';
 import ReaderWord from '../reader-word/reader-word.component';
 import { pauseReading } from '../../../redux/reader/reader.actions';
-import { processTextStart } from '../../../redux/reading/reading.actions';
 import { ReaderAppStyled } from './reader-app.styled';
 
-const ReaderApp = ({ textProcessing, textEnded, readerPaused, pauseReader, processText }) => {
+const ReaderApp = ({ textProcessing, textEnded, readerPaused, pauseReader }) => {
 
   const pause = () => {
     pauseReader();
@@ -41,7 +40,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   pauseReader: () => dispatch(pauseReading()),
-  processText: () => dispatch(processTextStart())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderApp);

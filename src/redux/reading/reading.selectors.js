@@ -26,3 +26,8 @@ export const selectTextArrayRowIndexes = createSelector(
   [selectReading], 
   reading => reading.textArrayRowIndexes
 )
+
+export const selectReadingId = createSelector(
+  [selectReading], 
+  reading => reading.readingId
+)

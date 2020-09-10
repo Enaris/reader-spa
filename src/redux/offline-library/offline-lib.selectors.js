@@ -13,13 +13,21 @@ export const selectFilters = createSelector(
   lib => ({ title: lib.filtersTitle, tags: lib.filtersTags })
 )
 
+export const selectReadingsPositions = createSelector(
+  [selectOfflineLib], 
+  lib => lib.readingsPositions
+)
+
+export const selectReadingPosition = readingId => createSelector(
+  [selectReadingsPositions], 
+  pos => pos.find(p => p.readingId === readingId)
+)
+
 export const selectFilteredReadings = createSelector(
   [ selectReadingsOffline, 
     selectFilters
   ], 
   (readings, filters) => {
-    console.log('filters');
-    console.log(filters);
     return filterOfflineReadings(readings, filters);
   }
 )

@@ -1,14 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import './reader-text.styles.scss';
-import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexes } from '../../../redux/reading/reading.selectors';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexes, selectReadingId } from '../../../redux/reading/reading.selectors';
 import { createStructuredSelector } from 'reselect';
-import ReaderTextWord from '../reader-text-word/reader-text-word.component';
-import { selectPartEnd, selectReaderPaused, selectCurrentRow } from '../../../redux/reader/reader.selectors';
+import { selectPartEnd, selectReaderPaused, selectCurrentRow, selectPartIndexes } from '../../../redux/reader/reader.selectors';
 import { resumeReadingStart } from '../../../redux/reader/reader.actions';
 import { FixedSizeList } from 'react-window';
+import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause-save-form.component';
+import { setReadingPosition } from '../../../redux/offline-library/offline-lib.actions';
 
-const ReaderText = ({ textArray, textRowsIndexes, currentEnd, textProcessing, resume, readerPaused, currentRow }) => {
+const ReaderText = ({ textArray, 
+  textRowsIndexes, 
+  currentEnd, 
+  textProcessing, 
+  resume, 
+  saveReadingPosOffline,
+  readerPaused,
+  readingId,
+  currentPartIndexes,
+  currentRow }) => {
 
   const textRef = React.createRef();
   const isInRange = (currentEnd, start, end) => currentEnd >= start && currentEnd <= end;
@@ -42,21 +53,45 @@ const ReaderText = ({ textArray, textRowsIndexes, currentEnd, textProcessing, re
       </div>
     )
   }
+
+  var tWidth = 600;
+  if (useMediaQuery('(max-width: 630px)')) 
+    tWidth = 450;
+  if (useMediaQuery('(max-width: 480px)'))
+    tWidth = 300;
+
+  const handleSaveSession = () => {
+    saveReadingPosOffline(readingId, currentEnd);
+  }
+
+  const resumeAtPausedPosition = alsoSaveSession => {
+    if (alsoSaveSession) {
+      handleSaveSession();
+    }
+    const index = currentPartIndexes.length === 0 ? 0 : currentPartIndexes[0];
+    const start = textArray[index].start;
+    resume(index, start);
+  }
   
   return (
-    <div className='reader-text'>
-     
-      { !textProcessing && 
-        <FixedSizeList 
-          ref={ textRef }
-          itemCount={ textRowsIndexes.length }
-          itemSize={ 20 }
-          height={ 400 }
-          width={ 700 }
-        >
-          { TextRow }
-        </FixedSizeList>
-      }
+    <div className='reader-text-container'>
+      <div className='reader-text'>
+        { !textProcessing && 
+          <FixedSizeList 
+            ref={ textRef }
+            itemCount={ textRowsIndexes.length }
+            itemSize={ 20 }
+            height={ 400 }
+            width={ tWidth }
+          >
+            { TextRow }
+          </FixedSizeList>
+        }
+      </div>
+      <ReaderPauseSaveForm 
+        onSave={ handleSaveSession }
+        onResume={ resumeAtPausedPosition }
+      />
       
     </div>
   )
@@ -68,11 +103,14 @@ const mapStateToProps = createStructuredSelector({
   textProcessing: selectTextProcessing, 
   textRowsIndexes: selectTextArrayRowIndexes, 
   readerPaused: selectReaderPaused, 
-  currentRow: selectCurrentRow
+  currentRow: selectCurrentRow, 
+  readingId: selectReadingId, 
+  currentPartIndexes: selectPartIndexes
 })
 
 const mapDispatchToProps = dispatch => ({
-  resume: (resumeAt, wordStart) => dispatch(resumeReadingStart(resumeAt, wordStart))
+  resume: (resumeAt, wordStart) => dispatch(resumeReadingStart(resumeAt, wordStart)),
+  saveReadingPosOffline: (readingId, position) => dispatch(setReadingPosition(readingId, position))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderText);

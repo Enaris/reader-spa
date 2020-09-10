@@ -1,6 +1,14 @@
-.reader-text {
-  display: flex;
-  font-size: 20px;
-  margin: auto;
-  font-family: 'Roboto Mono', monospace;
+.reader-text-container {
+  .reader-text {
+    display: flex;
+    font-size: 20px;
+    margin: auto;
+    font-family: 'Roboto Mono', monospace;
+
+    .word-current {
+      color: white;
+      background-color: black;
+    }
+  }
 }
+

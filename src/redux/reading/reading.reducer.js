@@ -5,7 +5,9 @@ const INITIAL_STATE = {
   textArray: [],
   textArrayRowIndexes: [],
   textProcessing: false,
-  textEnded: false,  
+  textEnded: false, 
+  
+  readingId: null
 }
 
 const ReadingReducer = (state = INITIAL_STATE, action) => {
@@ -51,6 +53,11 @@ const ReadingReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         textProcessing: false
+      }
+    case ReadingActionTypes.SET_READING_ID: 
+      return {
+        ...state, 
+        readingId: action.payload.toString()
       }
     default:
       return state;

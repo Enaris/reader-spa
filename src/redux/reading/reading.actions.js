@@ -31,3 +31,8 @@ export const processTextStart = text => ({
 export const processTextSuccess = () => ({
   type: ReadingActionTypes.PROCESS_TEXT_SUCCESS
 })
+
+export const setReadingId = readingId => ({
+  type: ReadingActionTypes.SET_READING_ID, 
+  payload: readingId
+})
