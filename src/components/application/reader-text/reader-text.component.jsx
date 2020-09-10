@@ -9,7 +9,6 @@ import { resumeReadingStart } from '../../../redux/reader/reader.actions';
 import { FixedSizeList } from 'react-window';
 import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause-save-form.component';
 import { setReadingPosition } from '../../../redux/offline-library/offline-lib.actions';
-import AutoSizer from 'react-virtualized-auto-sizer';
 
 const ReaderText = ({ textArray, 
   textRowsIndexesAll, 
@@ -41,7 +40,6 @@ const ReaderText = ({ textArray,
     if (readerPaused) {
       const stWordIndex = currentPartIndexes[0];
       const currentRowIndex = textRowsIndexes.findIndex(row => row.some(index => index === stWordIndex));
-      console.log(window.innerHeight);
       textRef.current.scrollToItem(currentRowIndex, 'smart');
     }
   }, [readerPaused, currentPartIndexes, textRowsIndexes, textRef])
@@ -71,7 +69,7 @@ const ReaderText = ({ textArray,
   
 
   const handleSaveSession = () => {
-    saveReadingPosOffline(readingId, currentEnd);
+    saveReadingPosOffline(readingId, currentPartIndexes.length === 0 ? 0 : currentPartIndexes[0]);
   }
 
   const resumeAtPausedPosition = alsoSaveSession => {

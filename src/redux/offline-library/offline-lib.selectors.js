@@ -25,18 +25,32 @@ export const selectReadingPosition = readingId => createSelector(
 
 export const selectFilteredReadings = createSelector(
   [ selectReadingsOffline, 
-    selectFilters
+    selectFilters, 
+    selectReadingsPositions
   ], 
-  (readings, filters) => {
-    return filterOfflineReadings(readings, filters);
+  (readings, filters, positions) => {
+    var filteredReadings = filterOfflineReadings(readings, filters);
+    filteredReadings.forEach(r => r.savedLocation = positions.find(p => +p.readingId === +r.id));
+    // for (const r in filteredReadings) {
+    //   const x = positions.find(p => +p.readingId === +r.id).position;
+    //   r.savedLocation = x;
+    // }
+    return filteredReadings;
   }
 )
 
 export const selectReadingOffline = id => createSelector(
-  [selectOfflineLib], 
-  reader => reader.readings.length > 0 
-  ? reader.readings.find(r => +r.id === +id)
-  : null
+  [ selectOfflineLib ], 
+  lib => {
+    if (lib.readings.length === 0)
+      return null;
+    var reading = lib.readings.find(r => +r.id === +id);
+    if (reading === null) {
+      return null;
+    }
+    reading.savedLocation = lib.readingsPositions.find(p => +p.readingId === +reading.id).position;
+    return reading;
+  }
 )
 
 export const selectFilteredReadingsOffline = filters => createSelector(

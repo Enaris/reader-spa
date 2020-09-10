@@ -46,3 +46,7 @@ export const resetReader = () => ({
   type: ReaderActionTypes.RESET_READER 
 })
 
+export const setCurrentPartByIndex = wIndex => ({
+  type: ReaderActionTypes.SET_CURRENT_PART_BY_INDEX, 
+  payload: wIndex
+})

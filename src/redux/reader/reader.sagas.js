@@ -114,6 +114,17 @@ export function* resumeReading() {
 
 }
 
+export function* setCurrentPartByIndex({ payload }) {
+  const textArray = yield select(selectTextArray);
+  const word = textArray[payload];
+  yield put(setPartInfoSuccess({ 
+    word: word, 
+    wordsIndexes: [payload], 
+    end: word.end, 
+    lengthWithoutSpaces: word.end - word.start })
+  );
+}
+
 export function* onChangePart() {
   yield takeLatest(ReaderActionTypes.SET_PART_INFO_START, changePart);
 }
@@ -122,9 +133,15 @@ export function* onResumeReading() {
   yield takeLatest(ReaderActionTypes.RESUME_READING_START, resumeReading);
 }
 
+export function* onSetCurrentPartByIndex() {
+  yield takeLatest(ReaderActionTypes.SET_CURRENT_PART_BY_INDEX, setCurrentPartByIndex);
+}
+
+
 export default function* ReaderSagas() {
   yield all([
     call(onChangePart), 
-    call(onResumeReading)
+    call(onResumeReading), 
+    call(onSetCurrentPartByIndex) 
   ])
 }

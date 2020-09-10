@@ -20,6 +20,7 @@ export function* processText({ payload }) {
   yield put(processTextSuccess());
 }
 
+
 export function* onProcessTextStart() {
   yield takeLatest(ReadingActionTypes.PROCESS_TEXT_START, processText);
 }

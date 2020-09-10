@@ -37,7 +37,9 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state, 
         readingsPositions: 
-          state.readingsPositions.map(rp => +rp.readingId === +readingId ? { ...rp, position: position} : rp)
+          state.readingsPositions.map(rp => {
+            return +rp.readingId === +readingId ? { ...rp, position: position} : rp
+          })
       }
     case OfflineLibActionTypes.SET_READING_POSITIONS: 
       return {
