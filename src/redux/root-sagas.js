@@ -4,6 +4,7 @@ import ReaderSagas from './reader/reader.sagas';
 import ReadingSagas from './reading/reading.sagas';
 import AuthSagas from './auth/auth.sagas';
 import LibrarySagas from './library/library.sagas';
+import ReadingSessionSagas from './reading-session/reading-session.sagas';
 // import ReaderOptionsReducer from './reader-options/reader-options.reducer';
 
 export default function* RootSagas() {
@@ -11,7 +12,8 @@ export default function* RootSagas() {
     call(ReadingSagas),
     call(ReaderSagas),
     call(AuthSagas), 
-    call(LibrarySagas)
+    call(LibrarySagas), 
+    call(ReadingSessionSagas)
     // call(ReaderOptionsReducer)
   ])
 }

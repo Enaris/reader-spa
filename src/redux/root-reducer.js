@@ -8,6 +8,7 @@ import { connectRouter } from 'connected-react-router';
 import AuthReducer from './auth/auth.reducer';
 import OfflineLibReducer from './offline-library/offline-lib.reducer';
 import LibraryReducer from './library/library.reducer';
+import ReadingSessionReducer from './reading-session/reading-session.reducer';
 
 const RootReducer = history => combineReducers({
   router: connectRouter(history),
@@ -17,7 +18,8 @@ const RootReducer = history => combineReducers({
   readerTheme: ReaderThemeReducer, 
   auth: AuthReducer, 
   offlineLib: OfflineLibReducer,
-  library: LibraryReducer
+  library: LibraryReducer, 
+  readingSession: ReadingSessionReducer
 });
 
 export default RootReducer;

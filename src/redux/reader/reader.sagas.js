@@ -3,13 +3,14 @@ import { getNextPart } from '../../utils/reader-helpers';
 
 import ReaderActionTypes from './reader.types';
 import { selectPartLength, selectReaderPaused, selectPartEnd, selectPartIndexes, selectCurrentSpeed, selectReadingTime, selectSlow } from './reader.selectors';
-import { selectTextEnded, selectTextArray } from '../reading/reading.selectors';
+import { selectTextEnded, selectTextArray, selectReadingId } from '../reading/reading.selectors';
 import { setTextEnded } from '../reading/reading.actions';
 import { selectWordOptions, selectSpeedOptions, selectInitialSpeed } from '../reader-options/reader-options.selectors';
 import { setPartInfoSuccess, setCurrentSpeed, setReadingTime, setSlow, resumeReadingSucees } from './reader.actions';
 import { timeoutWToken } from '../../utils/w-delay';
 import { wpmToWaitMs, cpmToWaitMs } from '../../utils/wpm-cmp-helpers';
 import { getSpeedIncreaseByTarget, getSpeedIncrease, doSlowDown } from '../../utils/read-speed-helpers';
+import { beginSession, endSession } from '../reading-session/reading-session.actions';
 
 export function* changePart() {
   const textEnded = yield select(selectTextEnded);
@@ -110,6 +111,11 @@ export function* resumeReading() {
   
   const speed = yield select(selectInitialSpeed);
   yield put(setCurrentSpeed(speed));
+
+  const currentIndexes = yield select(selectPartIndexes);
+  const readingId = yield select(selectReadingId);
+  yield put(beginSession(currentIndexes[0] ? currentIndexes[0] : 0, readingId));
+
   yield put(resumeReadingSucees());
 
 }
@@ -125,6 +131,12 @@ export function* setCurrentPartByIndex({ payload }) {
   );
 }
 
+export function* pauseReading() {
+
+  const currentIndexes = yield select(selectPartIndexes);
+  yield put(endSession(currentIndexes[0] ? currentIndexes[0] : 0));
+}
+
 export function* onChangePart() {
   yield takeLatest(ReaderActionTypes.SET_PART_INFO_START, changePart);
 }
@@ -137,11 +149,15 @@ export function* onSetCurrentPartByIndex() {
   yield takeLatest(ReaderActionTypes.SET_CURRENT_PART_BY_INDEX, setCurrentPartByIndex);
 }
 
+export function* onPauseReading() {
+  yield takeLatest(ReaderActionTypes.PAUSE_READING, pauseReading);
+}
 
 export default function* ReaderSagas() {
   yield all([
     call(onChangePart), 
     call(onResumeReading), 
-    call(onSetCurrentPartByIndex) 
+    call(onSetCurrentPartByIndex), 
+    call(onPauseReading)
   ])
 }

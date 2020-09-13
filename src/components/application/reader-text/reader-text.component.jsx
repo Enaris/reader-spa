@@ -9,6 +9,8 @@ import { resumeReadingStart } from '../../../redux/reader/reader.actions';
 import { FixedSizeList } from 'react-window';
 import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause-save-form.component';
 import { setReadingPosition } from '../../../redux/offline-library/offline-lib.actions';
+import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
+import { saveSessionStart } from '../../../redux/reading-session/reading-session.actions';
 
 const ReaderText = ({ textArray, 
   textRowsIndexesAll, 
@@ -19,6 +21,8 @@ const ReaderText = ({ textArray,
   readerPaused,
   readingId,
   currentPartIndexes,
+  saveSession, 
+  user
   }) => {
 
   var tWidth = 630;
@@ -65,11 +69,11 @@ const ReaderText = ({ textArray,
       </div>
     )
   }
-
   
-
   const handleSaveSession = () => {
-    saveReadingPosOffline(readingId, currentPartIndexes.length === 0 ? 0 : currentPartIndexes[0]);
+    user 
+    ? saveSession(user.aspUserId)
+    : saveReadingPosOffline(readingId, currentPartIndexes.length === 0 ? 0 : currentPartIndexes[0]);
   }
 
   const resumeAtPausedPosition = alsoSaveSession => {
@@ -112,12 +116,14 @@ const mapStateToProps = createStructuredSelector({
   textRowsIndexesAll: selectTextArrayRowIndexesAll, 
   readerPaused: selectReaderPaused, 
   readingId: selectReadingId, 
-  currentPartIndexes: selectPartIndexes
+  currentPartIndexes: selectPartIndexes, 
+  user: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({
   resume: (resumeAt, wordStart) => dispatch(resumeReadingStart(resumeAt, wordStart)),
-  saveReadingPosOffline: (readingId, position) => dispatch(setReadingPosition(readingId, position))
+  saveReadingPosOffline: (readingId, position) => dispatch(setReadingPosition(readingId, position)), 
+  saveSession: aspUserId => dispatch(saveSessionStart(aspUserId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderText);

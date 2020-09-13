@@ -18,6 +18,11 @@ export const addReadingUrl = `${readingUrl}/addReading`;
 export const fetchReadingsUrl = aspUserId => `${readingUrl}/user/${aspUserId}`;
 export const fetchReadingUrl = (aspUserId, readingId) => `${readingUrl}/user/${aspUserId}/reading/${readingId}`;
 
+// ------------------- READING SESSION ------------------- 
+export const readingSessionUrl = `${apiUrl}/readingSession`;
+
+export const saveSessionUrl = aspUserId => `${readingSessionUrl}/${aspUserId}/saveSession`;
+
 // ------------------- TAGS -------------------
 export const tagsUrl = `${apiUrl}/tags`;
 
