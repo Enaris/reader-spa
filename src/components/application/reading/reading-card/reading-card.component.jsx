@@ -39,14 +39,11 @@ const ReadingCard = ({ imageCard, reading, setFilters }) => {
                   key={t.id} 
                   clickable
                   onClick={() => {
-                    //console.log('clicked this');
-                    //setFilters({ title: '', tags: [ t.id ] });
                     push({
                       pathname: location.pathname, 
                       search: queryString.stringify({ tags: [ t.id ] }, { arrayFormat: 'bracket' })
                     })
                   }}
-                  //href={ queryString.stringify({ tags: [ t.id ] }, { arrayFormat: 'bracket' }) }
                 />
               })
             }
