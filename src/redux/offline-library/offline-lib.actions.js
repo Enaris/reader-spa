@@ -20,3 +20,15 @@ export const setReadingPositions = positions => ({
   type: OfflineLibActionTypes.SET_READING_POSITIONS, 
   payload: positions
 })
+export const addTags = tags => ({
+  type: OfflineLibActionTypes.ADD_TAGS, 
+  payload: tags
+})
+export const updateReadingOfflineStart = ( updateData, changeText ) => ({
+  type: OfflineLibActionTypes.UPDATE_READING_START, 
+  payload: { updateData, changeText }
+})
+export const updateReadingOfflineSuccess = ( updatedReading, changeText ) => ({
+  type: OfflineLibActionTypes.UPDATE_READING_SUCCESS, 
+  payload: { updatedReading, changeText }
+})

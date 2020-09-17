@@ -9,8 +9,8 @@ import { setCurrentPartByIndex } from '../../../../redux/reader/reader.actions';
 
 const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadingId }) => {
 
-  const { push } = useHistory();
-
+  const { location, push } = useHistory();
+  
   const [ expandText, setExpandText ] = useState(false);
 
   const handleReadBtn = () => {
@@ -67,6 +67,7 @@ const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadin
               <Button
                 variant='outlined'
                 color='primary'
+                onClick={() => push(`${location.pathname}/edit`)}
               >
                 EDIT
               </Button>

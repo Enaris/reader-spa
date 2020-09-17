@@ -46,6 +46,27 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         readingsPositions: action.paylod
       }
+    case OfflineLibActionTypes.ADD_TAGS: 
+      return {
+        ...state, 
+        tags: [ ...state.tags, ...action.payload ]
+      }
+    
+    case OfflineLibActionTypes.UPDATE_READING_SUCCESS: 
+      const { updatedReading, changeText } = action.payload;
+      return {
+        ...state, 
+        readings: 
+          state.readings.map(r => 
+            +r.id === +updatedReading.id 
+            ? {
+              ...updatedReading,
+              text: changeText ? updatedReading.text : r.text, 
+              savedLocation: changeText ? 0 : r.savedLocation
+            } 
+            : r
+          )
+      }
     default:
       return state;
   }
