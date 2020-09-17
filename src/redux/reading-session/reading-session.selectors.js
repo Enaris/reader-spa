@@ -13,3 +13,13 @@ export const selectSessionToSave = createSelector(
     readingId: session.readingId
   })
 )
+
+export const selectSessionSaved = createSelector(
+  [selectReadingSession], 
+  session => session.sessionSaved
+)
+
+export const selectSavingSession = createSelector(
+  [selectReadingSession], 
+  session => session.savingSession
+)

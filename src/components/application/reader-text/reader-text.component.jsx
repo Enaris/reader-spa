@@ -11,6 +11,7 @@ import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause
 import { setReadingPosition } from '../../../redux/offline-library/offline-lib.actions';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { saveSessionStart } from '../../../redux/reading-session/reading-session.actions';
+import { selectSavingSession } from '../../../redux/reading-session/reading-session.selectors';
 
 const ReaderText = ({ textArray, 
   textRowsIndexesAll, 
@@ -22,7 +23,8 @@ const ReaderText = ({ textArray,
   readingId,
   currentPartIndexes,
   saveSession, 
-  user
+  user, 
+  savingSession
   }) => {
 
   var tWidth = 630;
@@ -103,6 +105,7 @@ const ReaderText = ({ textArray,
       <ReaderPauseSaveForm 
         onSave={ handleSaveSession }
         onResume={ resumeAtPausedPosition }
+        isLoading={ savingSession }
       />
       
     </div>
@@ -117,7 +120,8 @@ const mapStateToProps = createStructuredSelector({
   readerPaused: selectReaderPaused, 
   readingId: selectReadingId, 
   currentPartIndexes: selectPartIndexes, 
-  user: selectCurrentUser
+  user: selectCurrentUser,
+  savingSession: selectSavingSession 
 })
 
 const mapDispatchToProps = dispatch => ({

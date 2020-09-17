@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   readingId: null, 
 
   savingSession: false, 
+  sessionSaved: true
   
 }
 
@@ -24,12 +25,14 @@ const ReadingSessionReducer = (state = INITIAL_STATE, action) => {
         startTime: new Date(),
         endTime: null, 
         readingId: readingId, 
+        sessionSaved: false
       }
     case ReadingSessionActionTypes.END_SESSION:
       return {
         ...state, 
         endLocation: action.payload,
         endTime: new Date(), 
+        sessionSaved: false
       }
     case ReadingSessionActionTypes.SAVE_SESSION_START: 
       return {
@@ -39,7 +42,8 @@ const ReadingSessionReducer = (state = INITIAL_STATE, action) => {
     case ReadingSessionActionTypes.SAVE_SESSION_SUCCESS: 
       return {
         ...state, 
-        savingSession: false
+        savingSession: false, 
+        sessionSaved: true
       }
     case ReadingSessionActionTypes.SET_OPTIONS_LOG: 
       return {

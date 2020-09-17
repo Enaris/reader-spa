@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import './reader-pause-save-form.styles.scss';
 import { FormControlLabel, Switch, Button } from '@material-ui/core';
+import { createStructuredSelector } from 'reselect';
+import { selectSessionSaved } from '../../../redux/reading-session/reading-session.selectors';
+import WSpinner from '../../general/spinner/w-spinner/w-spinner.component';
 
-const ReaderPauseSaveForm = ({ onSave, onResume }) => {
+const ReaderPauseSaveForm = ({ onSave, onResume, sessionSaved }) => {
 
   const [saveSessionResumingReading, setSaveSessionResumingReading] = useState(false);
 
   return (
     <div className='reader-pause-save-form'>
       <Button
-        onClick={() => onSave()}
+        onClick={() => {
+          if (!sessionSaved) {
+            onSave();
+          }
+        }}
+        disabled={ sessionSaved }
       >
-        SAVE SESSION
+        { sessionSaved ? 'Session saved' : 'Save session' }
       </Button>
       <Button
         onClick={() => onResume(saveSessionResumingReading)}
@@ -28,4 +38,12 @@ const ReaderPauseSaveForm = ({ onSave, onResume }) => {
   )
 }
 
-export default ReaderPauseSaveForm;
+const mapStateToProps = createStructuredSelector({
+  sessionSaved: selectSessionSaved, 
+})
+
+// export default connect(mapStateToProps)(ReaderPauseSaveForm);
+export default compose(
+  connect(mapStateToProps), 
+  WSpinner
+)(ReaderPauseSaveForm);
