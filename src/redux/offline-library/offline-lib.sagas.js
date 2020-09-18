@@ -20,7 +20,7 @@ export function* updateReadingOffline({ payload }) {
 
 
 export function* onUpdateReadingOffline() {
-  yield takeLatest(OfflineLibActionTypes.UPDATE_READING_START, updateReadingOffline);
+  yield takeLatest(OfflineLibActionTypes.UPDATE_READING_OFFLINE_START, updateReadingOffline);
 }
 
 export default function* OfflineLibSagas() {

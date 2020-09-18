@@ -1,7 +1,7 @@
 import { call, all, takeLatest, put } from 'redux-saga/effects';
 import LibraryActionTypes from './library.types.js';
-import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl } from '../../utils/api-urls.js';
-import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure } from './library.actions.js';
+import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl, updateReadingUrl } from '../../utils/api-urls.js';
+import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure, updateReadingOnlineSuccess, updateReadingOnlineFailure } from './library.actions.js';
 import { dataFormConfig } from '../../utils/axios-helpers.js';
 import axios from 'axios';
 
@@ -68,6 +68,40 @@ export function* fetchReadingStart({ payload }) {
   }
 }
 
+export function* updateReadingStart({ payload }) {
+  var formData = new FormData();
+
+  formData.append('title', payload.title);
+  formData.append('text', payload.text);
+  formData.append('links', payload.links);
+  formData.append('description', payload.description);
+  formData.append('aspUserId', payload.aspUserId);
+  formData.append('readingId', payload.readingId);
+  formData.append('changeText', payload.changeText);
+  formData.append('removeCover', payload.removeCover)
+  formData.append('newCoverImage', payload.newCoverImage);
+
+  if (payload.tagsToAdd && payload.tagsToAdd.length > 0 ) {
+    payload.tagsToAdd.forEach(t => formData.append('tagsToAdd', t));
+  }
+
+  if (payload.tagsToAssign && payload.tagsToAssign.length > 0 ) {
+    payload.tagsToAssign.forEach(t => formData.append('tagsToAssign', t));
+  }
+  
+  if (payload.tagsToRemove && payload.tagsToRemove.length > 0 ) {
+    payload.tagsToRemove.forEach(t => formData.append('tagsToRemove', t));
+  }
+  
+  try {
+    yield call(axios.post, updateReadingUrl, formData, dataFormConfig)
+    yield put(updateReadingOnlineSuccess());
+  }
+  catch (e) {
+    yield put(updateReadingOnlineFailure(e.response.data));
+  }
+}
+
 export function* onAddReadingStart() {
   yield takeLatest(LibraryActionTypes.ADD_READING_START, addReadingStart);
 }
@@ -84,12 +118,17 @@ export function* onFetchReadingStart() {
   yield takeLatest(LibraryActionTypes.FETCH_READING_START, fetchReadingStart);
 }
 
+export function* onUpdateReadingStart() {
+  yield takeLatest(LibraryActionTypes.UPDATE_READING_ONLINE_START, updateReadingStart);
+}
+
 export default function* LibrarySagas() {
   yield all([
     call(onAddReadingStart), 
     call(onFetchTagsStart), 
     call(onFetchReadingsStart), 
-    call(onFetchReadingStart)
+    call(onFetchReadingStart), 
+    call(onUpdateReadingStart) 
     
   ])
 }

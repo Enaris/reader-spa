@@ -17,6 +17,7 @@ export const readingUrl = `${apiUrl}/reading`;
 export const addReadingUrl = `${readingUrl}/addReading`;
 export const fetchReadingsUrl = aspUserId => `${readingUrl}/user/${aspUserId}`;
 export const fetchReadingUrl = (aspUserId, readingId) => `${readingUrl}/user/${aspUserId}/reading/${readingId}`;
+export const updateReadingUrl = `${readingUrl}/updateReading`;
 
 // ------------------- READING SESSION ------------------- 
 export const readingSessionUrl = `${apiUrl}/readingSession`;

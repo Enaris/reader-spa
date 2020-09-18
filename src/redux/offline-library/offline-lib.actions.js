@@ -25,10 +25,10 @@ export const addTags = tags => ({
   payload: tags
 })
 export const updateReadingOfflineStart = ( updateData, changeText ) => ({
-  type: OfflineLibActionTypes.UPDATE_READING_START, 
+  type: OfflineLibActionTypes.UPDATE_READING_OFFLINE_START, 
   payload: { updateData, changeText }
 })
 export const updateReadingOfflineSuccess = ( updatedReading, changeText ) => ({
-  type: OfflineLibActionTypes.UPDATE_READING_SUCCESS, 
+  type: OfflineLibActionTypes.UPDATE_READING_OFFLINE_SUCCESS, 
   payload: { updatedReading, changeText }
 })

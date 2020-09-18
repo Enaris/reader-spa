@@ -14,10 +14,11 @@ import WSpinner from '../../general/spinner/w-spinner/w-spinner.component';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { createStructuredSelector } from 'reselect';
 import { imageUrl } from '../../../utils/api-urls';
-import { toOfflineUpdateData } from './reading-edit-form.utils';
+import { toOfflineUpdateData, toOnlineUpdateData } from './reading-edit-form.utils';
 import { updateReadingOfflineStart } from '../../../redux/offline-library/offline-lib.actions';
+import { updateReadingOnlineStart } from '../../../redux/library/library.actions';
 
-const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingOffline }) => {
+const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingOffline, updateReadingOnline }) => {
 
   const [newCover, setNewCover] = useState(null);
   const [tagsAdded, setTagsAdded] = useState([]);
@@ -33,10 +34,22 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
     setNewCover(img);
   }
   const handleSubmit = v => {
-    var x = toOfflineUpdateData(v, readingId, tagsRemoved, v.tags, tagsAdded, readingTags);
-    user 
-    ? console.log(x)
-    : updateReadingOffline( x, changeText );
+    if (user) {
+      const updateData = toOnlineUpdateData(v, 
+        user.aspUserId, 
+        readingId, 
+        tagsRemoved, 
+        v.tags, 
+        tagsAdded, 
+        changeText, 
+        newCover, 
+        removeOldCover);
+      updateReadingOnline(updateData);
+    }
+    else {
+      var data = toOfflineUpdateData(v, readingId, tagsRemoved, v.tags, tagsAdded, readingTags);
+      updateReadingOffline( data, changeText );
+    }
   }
   const handleRemoveNewTag = tag => {
     setTagsAdded(tagsAdded.filter(item => tag.id !== item.id)); 
@@ -57,7 +70,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
   }
 
   return (
-    <div className='reading-edit-form'>
+    <div className='reading-edit-form min-vw50'>
       { user &&
         <div className='added-image-container mb5'>
           <div className='added-image'>
@@ -92,28 +105,31 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               variant='outlined' 
               color='primary' 
             />
-
-            <FormControlLabel 
-              value={ changeText }
-              onChange={ e => setChangeText(e.target.checked) }
-              control={<Switch color='primary' checked={ changeText } />} 
-              label='Change text'
-            />
+            
+            <div className='reading-edit-form-change-text'>
+              <FormControlLabel 
+                value={ changeText }
+                onChange={ e => setChangeText(e.target.checked) }
+                control={<Switch color='primary' checked={ changeText } />} 
+                label='Change text'
+              />
+              <div className={ changeText ? 'errors' : '' }>
+                Changing text will void reading sessions and saved position.
+              </div>
+            </div>
+            
             { changeText &&
-              <React.Fragment>
-                <div className='errors'>Changing text will void reading ressions and saved position.</div>
-                <RField 
-                  containerClass='mb5' 
-                  fullWidth 
-                  name='text' 
-                  label='Text' 
-                  multiline 
-                  rows={10} 
-                  rowsMax={10} 
-                  variant='outlined' 
-                  color='primary' 
-                />
-              </React.Fragment>
+              <RField 
+                containerClass='mb5' 
+                fullWidth 
+                name='text' 
+                label='Text' 
+                multiline 
+                rows={10} 
+                rowsMax={10} 
+                variant='outlined' 
+                color='primary' 
+              />
             }
             
             <RField 
@@ -138,17 +154,22 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               variant='outlined' 
               color='primary' 
             />
-            { 
-              readingTags.map(t => {
-                return <Chip 
-                  className='mr5px'
-                  size='small'
-                  label={ t.name } 
-                  key={ t.id }
-                  deleteIcon={ <CancelIcon/> }
-                  onDelete={() => handleRemoveOldTag(t)}
-                />
-              })
+            { readingTags && 
+              <div className='mb5'>
+                Tags:
+                {
+                  readingTags.map(t => {
+                    return <Chip 
+                      className='mr5px'
+                      size='small'
+                      label={ t.name } 
+                      key={ t.id }
+                      deleteIcon={ <CancelIcon/> }
+                      onDelete={() => handleRemoveOldTag(t)}
+                    />
+                  })
+                }
+              </div>
             }
             
             { tagsOptions && tagsOptions.length > 0 &&
@@ -215,7 +236,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateReadingOffline: ( updateData, changeText ) => dispatch(updateReadingOfflineStart(updateData, changeText))
+  updateReadingOffline: ( updateData, changeText ) => dispatch(updateReadingOfflineStart(updateData, changeText)),
+  updateReadingOnline: updateData => dispatch(updateReadingOnlineStart(updateData))
 })
 
 export default compose(

@@ -7,7 +7,7 @@ const ReadingEditPage = () => {
 
   const { params: { readingId }} = useRouteMatch(); 
   return (
-    <div className='reading-edit-page'>
+    <div className='flex_wh100 flex-column reading-edit-page'>
       <ReadingEditFormWrapper 
         readingId={ readingId }
       />

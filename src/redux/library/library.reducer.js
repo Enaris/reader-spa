@@ -15,8 +15,10 @@ const INITIAL_STATE = {
 
   selectedReading: null, 
   fetchingSelectedReading: false, 
-  fetchingSelectedReadingErrors: null
+  fetchingSelectedReadingErrors: null,
 
+  updatingReading: false, 
+  updatingErrors: null
 }
 
 const LibraryReducer = (state = INITIAL_STATE, action) => {
@@ -106,6 +108,24 @@ const LibraryReducer = (state = INITIAL_STATE, action) => {
         fetchingSelectedReadingErrors: action.payload
       }
 
+    case LibraryActionTypes.UPDATE_READING_ONLINE_START: 
+      return {
+        ...state,
+        updatingReading: true, 
+        updatingErrors: null
+      }
+    case LibraryActionTypes.UPDATE_READING_ONLINE_SUCCESS: 
+      return {
+        ...state,
+        updatingReading: false, 
+        updatingErrors: null
+      }
+    case LibraryActionTypes.UPDATE_READING_ONLINE_FAILURE: 
+      return {
+        ...state,
+        updatingReading: false, 
+        updatingErrors: action.payload
+      }
 
     default:
       return state;

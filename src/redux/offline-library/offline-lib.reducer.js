@@ -52,7 +52,7 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
         tags: [ ...state.tags, ...action.payload ]
       }
     
-    case OfflineLibActionTypes.UPDATE_READING_SUCCESS: 
+    case OfflineLibActionTypes.UPDATE_READING_OFFLINE_SUCCESS: 
       const { updatedReading, changeText } = action.payload;
       return {
         ...state, 

@@ -1,4 +1,6 @@
 .reading-edit-form {
+  padding: 1rem 0;
+
   .added-image-container {
     display: flex;
     width: 100%;
@@ -7,6 +9,11 @@
       width: 15em;
       height: 24em;
     }
+  }
+  .reading-edit-form-change-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
 

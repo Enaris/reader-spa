@@ -58,3 +58,17 @@ export const fetchReadingFailure = errors => ({
   type: LibraryActionTypes.FETCH_READING_FAILURE, 
   payload: errors
 })
+
+export const updateReadingOnlineStart = updateData => ({
+  type: LibraryActionTypes.UPDATE_READING_ONLINE_START, 
+  payload: updateData
+})
+
+export const updateReadingOnlineSuccess = () => ({
+  type: LibraryActionTypes.UPDATE_READING_ONLINE_SUCCESS, 
+})
+
+export const updateReadingOnlineFailure = errors => ({
+  type: LibraryActionTypes.UPDATE_READING_ONLINE_FAILURE, 
+  payload: errors
+})
