@@ -9,19 +9,23 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import NewTag from '../../general/new-tag/new-tag.component';
 import RDropPreview from '../../general/RDropzone/RDropPreview/RDropPreview.component';
 import { addReading } from '../../../redux/offline-library/offline-lib.actions';
-import { isNullOrWhitespace } from '../../../utils/string-helpers';
+import { isNullOrWhitespace, getExtension } from '../../../utils/string-helpers';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { formToAddRequestData, formToOfflineText } from './text-add-form.utils';
 import { addReadingStart } from '../../../redux/library/library.actions';
 import { selectLastReadingIndex } from '../../../redux/offline-library/offline-lib.selectors';
 import { useHistory } from 'react-router-dom';
+import RDrop from '../../general/RDropzone/RDrop/RDrop.component';
+import { getPDFText } from '../../../utils/pdf-to-text';
+import { mbToBytes } from '../../../utils/file-size-helpers';
 
 const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
 
   const [ tagsAdded, setTagsAdded ] = useState([]);
   const [ coverImg, setCoverImg ] = useState(null);
   const [ addCover, setAddCover ] = useState(false);
+  const [ useTextFile, setUseTextFile ] = useState(false);
 
   const { location } = useHistory();
 
@@ -73,8 +77,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
             </div>
           }
         </div>
-      }
-      
+      }      
 
       <Formik 
         initialValues={{
@@ -84,7 +87,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
           links: '', 
           tags: [], 
         }}
-        onSubmit={v => handleSubmit(v) }
+        onSubmit={ v => handleSubmit(v) }
       >
         { props => {
           return (
@@ -97,6 +100,38 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               variant='outlined' 
               color='primary' 
             />
+            <FormControlLabel 
+              value={ useTextFile }
+              onChange={ e => setUseTextFile(e.target.checked) }
+              control={<Switch color='primary' checked={ useTextFile } />} 
+              label='Text from file .pdf or .txt'
+            />
+            { useTextFile &&
+              <RDrop 
+                containerClass='mb5'
+                label='Drop or click to select your text file.'
+                multiple={ false } 
+                maxSize={ mbToBytes(10) }
+                acceptTypes={[ '.txt', '.pdf' ]} 
+                handleAccepted={ file => {
+                  const extension = getExtension(file.name);
+                  var fileReader = new FileReader();
+                  fileReader.onloadend = async () => {
+                    const text = extension === '.pdf' 
+                      ? await getPDFText(fileReader.result)
+                      : fileReader.result;
+                    props.setFieldValue('text', text);
+                  }
+                  if (extension === '.pdf') {
+                    fileReader.readAsDataURL(file);
+                  }
+                  else {
+                    fileReader.readAsText(file);
+                  }
+                }} 
+                errorsInside={ true }
+              />
+            } 
             <RField 
               containerClass='mb5' 
               fullWidth 
@@ -107,7 +142,9 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               rowsMax={10} 
               variant='outlined' 
               color='primary' 
+              disabled={ useTextFile }
             />
+            
             <RField 
               containerClass='mb5' 
               fullWidth 
@@ -163,8 +200,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
                     }
                   </div>
                 </div>
-              }
-            
+              }            
             
             <NewTag 
               label='New tags'

@@ -49,9 +49,8 @@ const RDropPreview = ({ maxSize, label, initImage, onRemove, handleDrop, errorsI
         :
         <RDrop 
           label={ label }
-          maxSize={ maxSize }
           multiple={ false } 
-          acceptType='image/*' 
+          acceptTypes={[ 'image/*' ]} 
           handleAccepted={ onDrop } 
           handleRejected={ () => setImage(null) }
           errorsInside={ errorsInside }
