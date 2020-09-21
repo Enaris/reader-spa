@@ -32,3 +32,7 @@ export const updateReadingOfflineSuccess = ( updatedReading, changeText ) => ({
   type: OfflineLibActionTypes.UPDATE_READING_OFFLINE_SUCCESS, 
   payload: { updatedReading, changeText }
 })
+export const removeReadingOffline = readingId => ({
+  type: OfflineLibActionTypes.REMOVE_READING, 
+  payload: readingId
+})

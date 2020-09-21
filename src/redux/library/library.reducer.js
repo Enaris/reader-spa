@@ -18,7 +18,10 @@ const INITIAL_STATE = {
   fetchingSelectedReadingErrors: null,
 
   updatingReading: false, 
-  updatingErrors: null
+  updatingErrors: null, 
+
+  deletingReading: false, 
+  deletingErrors: null
 }
 
 const LibraryReducer = (state = INITIAL_STATE, action) => {
@@ -125,6 +128,25 @@ const LibraryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         updatingReading: false, 
         updatingErrors: action.payload
+      }
+
+    case LibraryActionTypes.DELETE_READING_ONLINE_START: 
+      return {
+        ...state,
+        deletingReading: true, 
+        deletingErrors: null
+      }
+    case LibraryActionTypes.DELETE_READING_ONLINE_SUCCESS: 
+      return {
+        ...state,
+        deletingReading: false, 
+        deletingErrors: null
+      }
+    case LibraryActionTypes.DELETE_READING_ONLINE_FAILURE: 
+      return {
+        ...state,
+        deletingReading: false, 
+        deletingErrors: action.payload
       }
 
     default:

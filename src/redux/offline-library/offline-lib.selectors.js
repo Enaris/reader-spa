@@ -31,10 +31,6 @@ export const selectFilteredReadings = createSelector(
   (readings, filters, positions) => {
     var filteredReadings = filterOfflineReadings(readings, filters);
     filteredReadings.forEach(r => r.savedLocation = positions.find(p => +p.readingId === +r.id));
-    // for (const r in filteredReadings) {
-    //   const x = positions.find(p => +p.readingId === +r.id).position;
-    //   r.savedLocation = x;
-    // }
     return filteredReadings;
   }
 )
@@ -45,7 +41,7 @@ export const selectReadingOffline = id => createSelector(
     if (lib.readings.length === 0)
       return null;
     var reading = lib.readings.find(r => +r.id === +id);
-    if (reading === null) {
+    if (!reading || reading === null) {
       return null;
     }
     reading.savedLocation = lib.readingsPositions.find(p => +p.readingId === +reading.id).position;

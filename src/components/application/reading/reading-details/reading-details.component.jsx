@@ -6,12 +6,24 @@ import { Chip, Button, FormControlLabel, Switch } from '@material-ui/core';
 import { imageUrl } from '../../../../utils/api-urls';
 import { processTextStart, setReadingId } from '../../../../redux/reading/reading.actions';
 import { setCurrentPartByIndex } from '../../../../redux/reader/reader.actions';
+import YNModal from '../../../general/y-n-modal/y-n-modal.component';
+import { removeReadingOffline } from '../../../../redux/offline-library/offline-lib.actions';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../../../redux/auth/auth.selectors';
+import { deleteReadingOnlineStart } from '../../../../redux/library/library.actions';
 
-const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadingId }) => {
+const ReadingDetails = ({ reading, 
+  user,
+  processText, 
+  setCurrentPartByIndex, 
+  setReadingId, 
+  removeReadingOnline,
+  removeReadingOffline }) => {
 
   const { location, push } = useHistory();
   
   const [ expandText, setExpandText ] = useState(false);
+  const [ openConfirmDelete, setOpenConfirmDelete ] = useState(false);
 
   const handleReadBtn = () => {
     setReadingId(reading.id);
@@ -20,6 +32,20 @@ const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadin
       setCurrentPartByIndex(reading.savedLocation);
     }
     push('/reader');
+  }
+
+  const handleConfirmDelete = () => {
+    if (user) {
+      removeReadingOnline(user.aspUserId, reading.id);
+    }
+    else {
+      push('/lib');
+      removeReadingOffline(reading.id);
+    }
+    setOpenConfirmDelete(false);
+  }
+  const handleDoNotDelete = () => {
+    setOpenConfirmDelete(false);
   }
 
   return (
@@ -71,7 +97,23 @@ const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadin
               >
                 EDIT
               </Button>
+              
             </div>
+            <div className='mr5px'>
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => setOpenConfirmDelete(true) }
+              >
+                DELETE
+              </Button>
+            </div>
+            <YNModal 
+              open={ openConfirmDelete }
+              onYes={ handleConfirmDelete }
+              onNo={ handleDoNotDelete }
+              onClose={ () => setOpenConfirmDelete(false) }
+            />
           </div>
         </div>
         
@@ -95,10 +137,16 @@ const ReadingDetails = ({ reading, processText, setCurrentPartByIndex, setReadin
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser
+})
+
 const mapDispatchToProps = dispatch => ({
   processText: text => dispatch(processTextStart(text)), 
   setCurrentPartByIndex: index => dispatch(setCurrentPartByIndex(index)), 
-  setReadingId: id => dispatch(setReadingId(id))
+  setReadingId: id => dispatch(setReadingId(id)), 
+  removeReadingOffline: readingId => dispatch(removeReadingOffline(readingId)), 
+  removeReadingOnline: (aspUserId, readingId) => dispatch(deleteReadingOnlineStart({ aspUserId, readingId }))
 })
 
-export default connect(null, mapDispatchToProps)(ReadingDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ReadingDetails);

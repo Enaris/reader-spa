@@ -1,10 +1,10 @@
 import { call, all, takeLatest, put } from 'redux-saga/effects';
 import LibraryActionTypes from './library.types.js';
-import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl, updateReadingUrl } from '../../utils/api-urls.js';
-import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure, updateReadingOnlineSuccess, updateReadingOnlineFailure } from './library.actions.js';
+import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl, updateReadingUrl, deleteReadingUrl } from '../../utils/api-urls.js';
+import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure, updateReadingOnlineSuccess, updateReadingOnlineFailure, deleteReadingOnlineSuccess, deleteReadingOnlineFailure } from './library.actions.js';
 import { dataFormConfig } from '../../utils/axios-helpers.js';
 import axios from 'axios';
-
+import { push } from 'connected-react-router';
 
 export function* addReadingStart({ payload }) {
   var formData = new FormData();
@@ -102,6 +102,18 @@ export function* updateReadingStart({ payload }) {
   }
 }
 
+export function* deleteReadingStart({ payload }) {
+  const { aspUserId, readingId } = payload;
+  try {
+    var result = yield call(axios.post, deleteReadingUrl(aspUserId, readingId));
+    yield put(deleteReadingOnlineSuccess(result.data));
+    yield put(push('/lib'));
+  }
+  catch (e) {
+    yield put(deleteReadingOnlineFailure(e.response.data));
+  }
+}
+
 export function* onAddReadingStart() {
   yield takeLatest(LibraryActionTypes.ADD_READING_START, addReadingStart);
 }
@@ -122,13 +134,17 @@ export function* onUpdateReadingStart() {
   yield takeLatest(LibraryActionTypes.UPDATE_READING_ONLINE_START, updateReadingStart);
 }
 
+export function* onDeleteReadingStart() {
+  yield takeLatest(LibraryActionTypes.DELETE_READING_ONLINE_START, deleteReadingStart);
+}
+
 export default function* LibrarySagas() {
   yield all([
     call(onAddReadingStart), 
     call(onFetchTagsStart), 
     call(onFetchReadingsStart), 
     call(onFetchReadingStart), 
-    call(onUpdateReadingStart) 
-    
+    call(onUpdateReadingStart), 
+    call(onDeleteReadingStart) 
   ])
 }

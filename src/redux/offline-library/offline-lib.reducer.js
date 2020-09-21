@@ -67,6 +67,13 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
             : r
           )
       }
+
+    case OfflineLibActionTypes.REMOVE_READING: 
+      return {
+        ...state,
+        readings: state.readings.filter(r => +r.id !== +action.payload), 
+        readingsPositions: state.readingsPositions.filter(p => +p.readingId !== +action.payload)
+      }
     default:
       return state;
   }

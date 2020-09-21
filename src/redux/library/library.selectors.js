@@ -51,3 +51,8 @@ export const selectSeletedReadingFetchingErrors = createSelector(
   [selectLibrary], 
   library => library.fetchingSelectedReadingErrors
 )
+
+export const selectDeletingReadingOnline = createSelector(
+  [selectLibrary], 
+  library => library.deletingReading
+)

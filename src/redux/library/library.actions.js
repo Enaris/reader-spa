@@ -72,3 +72,18 @@ export const updateReadingOnlineFailure = errors => ({
   type: LibraryActionTypes.UPDATE_READING_ONLINE_FAILURE, 
   payload: errors
 })
+
+
+export const deleteReadingOnlineStart = deleteData => ({
+  type: LibraryActionTypes.DELETE_READING_ONLINE_START, 
+  payload: deleteData
+})
+
+export const deleteReadingOnlineSuccess = () => ({
+  type: LibraryActionTypes.DELETE_READING_ONLINE_SUCCESS, 
+})
+
+export const deleteReadingOnlineFailure = errors => ({
+  type: LibraryActionTypes.DELETE_READING_ONLINE_FAILURE, 
+  payload: errors
+})
