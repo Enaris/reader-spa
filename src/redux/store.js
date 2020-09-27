@@ -10,7 +10,7 @@ import { DO_NOT_LOG_ACTIONS } from '../utils/r-logger-helpers';
 export const history = createBrowserHistory();
 
 const logger = createLogger({
-  // predicate: (getState, action) => !DO_NOT_LOG_ACTIONS.some(a => a === action.type)
+  predicate: (getState, action) => !DO_NOT_LOG_ACTIONS.some(a => a === action.type)
 });
 
 const sagaMiddleware = createSagaMiddleware();

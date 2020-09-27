@@ -55,6 +55,8 @@ export function* changePart() {
     yield put(setSlow(false));
   }
   
+  console.log(usedSpeed);
+  console.log(`len: ${length}`);
   var wait = useWPM ? wpmToWaitMs(usedSpeed) : cpmToWaitMs(usedSpeed, length);
   const readingTime = yield select(selectReadingTime);
 
@@ -64,6 +66,7 @@ export function* changePart() {
   var cancelToken = {};
 
   yield call(timeoutWToken, wait, cancelToken);
+  console.log(wait);
   
   const paused = yield select(selectReaderPaused);
   if (paused) {
@@ -73,14 +76,18 @@ export function* changePart() {
   
   yield put(setPartInfoSuccess({ word, wordsIndexes, end, lengthWithoutSpaces }));
   const newReadingTime = readingTime + wait;
+  console.log(newReadingTime);
   yield put(setReadingTime(newReadingTime));
 
   var newSpeed = currentSpeed.speed;
-  if (doIniAcceleration && newReadingTime / 1000 < speedOptions.initialAccelerationTimeSecs) {
+  var targetSpeed = useWPM ? speedOptions.targetWPM : speedOptions.targetCPM
+  if (doIniAcceleration && 
+      ((newReadingTime / 1000.0 < speedOptions.initialAccelerationTimeSecs) 
+       || newSpeed < targetSpeed)) {
     const x = getSpeedIncreaseByTarget({ 
       options: {
         initialSpeed: initialSpeed.speed, 
-        targetSpeed: useWPM ? speedOptions.targetWPM : speedOptions.targetCPM, 
+        targetSpeed: targetSpeed, 
         accTimeSecs: speedOptions.initialAccelerationTimeSecs
       }, timeMs: newReadingTime
     });
@@ -88,7 +95,7 @@ export function* changePart() {
   }
   else if ((doConstAcceleration && !doIniAcceleration)   
     || (doConstAcceleration && doIniAcceleration && readingTime / 1000 > speedOptions.initialAccelerationTimeSecs)) {
-      newSpeed = initialSpeed.speed + getSpeedIncrease({ accelerationPerMin: speedOptions.addPerMin, timeMs: newReadingTime});
+      newSpeed += getSpeedIncrease({ accelerationPerMin: speedOptions.addPerMin, timeMs: wait});
   }
 
   const doSlow = doSlowDown(speedOptions.slowIfLonger, lengthWithoutSpaces);
@@ -110,11 +117,12 @@ export function* changePart() {
 export function* resumeReading() {
   
   const speed = yield select(selectInitialSpeed);
+  yield put(setReadingTime(0));
   yield put(setCurrentSpeed(speed));
 
   const currentIndexes = yield select(selectPartIndexes);
   const readingId = yield select(selectReadingId);
-  yield put(beginSession(currentIndexes[0] ? currentIndexes[0] : 0, readingId));
+  yield put(beginSession(!currentIndexes.length ? 0 : currentIndexes[0] + 1, readingId));
 
   yield put(resumeReadingSucees());
 

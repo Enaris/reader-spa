@@ -47,10 +47,15 @@ export const textArrayToArrayOfRows = (textArray, maxCharsInRow) => {
       row.push(i);
       currentRowChars += len + 1;
     }
-    if (currentRowChars + len >= maxCharsInRow || i + 1 >= textArray.length ) {
+    else if (currentRowChars + len >= maxCharsInRow) {
       result.push(row);
       row = [];
-      currentRowChars = 0;
+      row.push(i);
+      currentRowChars = len + 1;
+    }
+    if (i + 1 >= textArray.length) {
+      result.push(row);
+      row = [];
     }
   }
   return result;

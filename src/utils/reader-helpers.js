@@ -68,7 +68,7 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
   var oldLastIndex = arrayLast(oldIndexes);
   var oldLastWord = oldLastIndex === null ? null : wordsArray[oldLastIndex];
 
-  var broken = oldLastWord !== null && oldLastWord.start !== 0 && oldLastWord.end !== oldEnd;
+  var broken = oldLastWord !== null && oldLastWord.end !== 0 && oldLastWord.end !== oldEnd;
 
   if (oldEnd === arrayLast(wordsArray).end && !broken) {
     return { word: null, wordsIndexes: [], end: -1, lengthWithoutSpaces: -1 };
@@ -104,6 +104,9 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
     && appended < maxAppend
     && len < appendIfShorter) {
     ++currentWordIndex;
+    if (currentWordIndex >= wordsArray.length) {
+      break;
+    }
     currentWord = wordsArray[currentWordIndex];
 
     len = currentWord.end - currentWord.start;
@@ -114,6 +117,7 @@ export const getNextPart = (oldIndexes, oldEnd, wordsArray, options) => {
     result.end = wordObj.end;
     result.lengthWithoutSpaces += wordObj.length;
     ++appended;
+    
 
     if ((breakIfLonger > -1 && breakIfLonger <= result.lengthWithoutSpaces) ||
       result.end !== currentWord.end)

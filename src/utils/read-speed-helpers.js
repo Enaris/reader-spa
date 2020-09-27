@@ -9,7 +9,8 @@ export const getSpeedIncreaseByTarget = ({
   const maxIncrease = targetSpeed - initialSpeed;
   const iniAccTimeToMs = accTimeSecs * 1000;
   const riseLow = maxIncrease/iniAccTimeToMs;
-  return riseLow * timeMs;
+  const result = riseLow * timeMs;
+  return result > maxIncrease ? maxIncrease : result;
 }
 
 export const doSlowDown = (slowIfLonger, wordLength ) => 
