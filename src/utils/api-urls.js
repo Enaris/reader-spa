@@ -24,6 +24,12 @@ export const deleteReadingUrl = (aspUserId, readingId) => `${readingUrl}/user/${
 export const readingSessionUrl = `${apiUrl}/readingSession`;
 
 export const saveSessionUrl = aspUserId => `${readingSessionUrl}/${aspUserId}/saveSession`;
+export const getSessionGraphUrl = (aspUserId, sessionId, readingId) => 
+  `${readingSessionUrl}/user/${aspUserId}/reading/${readingId}/session/${sessionId}/graph`;
+export const getReadingGraphUrl = (aspUserId, readingId) => 
+  `${readingSessionUrl}/user/${aspUserId}/reading/${readingId}/graph`;
+export const getSessionsForDropdownUrl = (aspUserId, readingId) => 
+  `${readingSessionUrl}/user/${aspUserId}/reading/${readingId}/dropdown`;
 
 // ------------------- TAGS -------------------
 export const tagsUrl = `${apiUrl}/tags`;

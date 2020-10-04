@@ -28,3 +28,49 @@ export const saveSessionFailure = errors => ({
   type: ReadingSessionActionTypes.SAVE_SESSION_FAILURE,
   payload: errors 
 })
+
+export const fetchDropdownSessionsStart = (aspUserId, readingId) => ({
+  type: ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_START,
+  payload: { aspUserId, readingId }
+})
+
+export const fetchDropdownSessionsSuccess = sessions => ({
+  type: ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_SUCCESS,
+  payload: sessions
+})
+
+export const fetchDropdownSessionsFailure = errors => ({
+  type: ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_FAILURE, 
+  payload: errors
+})
+
+export const fetchSessionGraphStart = (aspUserId, sessionId, readingId) => ({
+  type: ReadingSessionActionTypes.FETCH_SESSION_GRAPH_START,
+  payload: { aspUserId, sessionId, readingId }
+})
+
+export const fetchSessionGraphSuccess = graphData => ({
+  type: ReadingSessionActionTypes.FETCH_SESSION_GRAPH_SUCCESS,
+  payload: graphData
+})
+
+export const fetchSessionGraphFailure = errors => ({
+  type: ReadingSessionActionTypes.FETCH_SESSION_GRAPH_FAILURE, 
+  payload: errors
+})
+
+export const fetchReadingGraphStart = (aspUserId, readingId) => ({
+  type: ReadingSessionActionTypes.FETCH_READING_GRAPH_START,
+  payload: { aspUserId, readingId }
+})
+
+export const fetchReadingGraphSuccess = graphData => ({
+  type: ReadingSessionActionTypes.FETCH_READING_GRAPH_SUCCESS,
+  payload: graphData
+})
+
+export const fetchReadingGraphFailure = errors => ({
+  type: ReadingSessionActionTypes.FETCH_READING_GRAPH_FAILURE, 
+  payload: errors
+})
+

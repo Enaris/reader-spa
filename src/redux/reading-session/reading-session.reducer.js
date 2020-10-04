@@ -9,8 +9,19 @@ const INITIAL_STATE = {
   readingId: null, 
 
   savingSession: false, 
-  sessionSaved: true
-  
+  sessionSaved: true, 
+
+  dropdownSessions: [],
+  fetchingDropdownSessions: false,
+  fetchingDropdownSessionsErrors: null,
+
+  sessionGraphData: null, 
+  fetchingSessionGraphData: true,
+  fetchingSessionGraphDataErrors: null, 
+
+  readingGraphData: null, 
+  fetchingReadingGraphData: true, 
+  fetchingReadingGraphDataErrors: null
 }
 
 
@@ -50,6 +61,73 @@ const ReadingSessionReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         optionsLog: action.payload
       }
+
+    case ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_START: 
+      return {
+        ...state,
+        fetchingDropdownSessions: true,
+        fetchingDropdownSessionsErrors: null,
+        dropdownSessions: []
+      }
+    case ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_SUCCESS: 
+      return {
+        ...state,
+        fetchingDropdownSessions: false,
+        fetchingDropdownSessionsErrors: null,
+        dropdownSessions: action.payload
+      }
+    case ReadingSessionActionTypes.FETCH_DROPDOWN_SESSIONS_FAILURE: 
+      return {
+        ...state,
+        fetchingDropdownSessions: false,
+        fetchingDropdownSessionsErrors: action.payload,
+        dropdownSessions: []
+      }
+    
+    case ReadingSessionActionTypes.FETCH_SESSION_GRAPH_START: 
+      return {
+        ...state,
+        sessionGraphData: null,
+        fetchingSessionGraphDataErrors: null,
+        fetchingSessionGraphData: true
+      }
+    case ReadingSessionActionTypes.FETCH_SESSION_GRAPH_SUCCESS: 
+      return {
+        ...state,
+        sessionGraphData: action.payload,
+        fetchingSessionGraphDataErrors: null,
+        fetchingSessionGraphData: false
+      }
+    case ReadingSessionActionTypes.FETCH_SESSION_GRAPH_FAILURE: 
+      return {
+        ...state,
+        sessionGraphData: null,
+        fetchingSessionGraphDataErrors: action.payload,
+        fetchingSessionGraphData: false
+      }
+    
+    case ReadingSessionActionTypes.FETCH_READING_GRAPH_START: 
+      return {
+        ...state,
+        readingGraphData: null,
+        fetchingReadingGraphDataErrors: null,
+        fetchingReadingGraphData: true
+      }
+    case ReadingSessionActionTypes.FETCH_READING_GRAPH_SUCCESS: 
+      return {
+        ...state,
+        readingGraphData: action.payload,
+        fetchingReadingGraphDataErrors: null,
+        fetchingReadingGraphData: false
+      }
+    case ReadingSessionActionTypes.FETCH_READING_GRAPH_FAILURE: 
+      return {
+        ...state,
+        readingGraphData: null,
+        fetchingReadingGraphDataErrors: action.payload,
+        fetchingReadingGraphData: false
+      }
+
     default:
       return state;
   }
