@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './reading-details.styles.scss';
-import { Chip, Button, FormControlLabel, Switch } from '@material-ui/core';
+import { Chip, Button, FormControlLabel, Switch, Tabs, Tab } from '@material-ui/core';
 import { imageUrl } from '../../../../utils/api-urls';
 import { processTextStart, setReadingId } from '../../../../redux/reading/reading.actions';
 import { setCurrentPartByIndex } from '../../../../redux/reader/reader.actions';
@@ -11,6 +11,10 @@ import { removeReadingOffline } from '../../../../redux/offline-library/offline-
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../../../redux/auth/auth.selectors';
 import { deleteReadingOnlineStart } from '../../../../redux/library/library.actions';
+import ReadingSessionTab from '../../charts/reading-session-chart/tab/reading-session-tab.component';
+import { a11yProps } from '../../../../utils/material-ui-helpers';
+import TabPanel from '../../../general/tab-panel/tab-panel.component';
+import AllSessionsTab from '../../charts/all-sessions-chart/tab/all-sessions-tab.component';
 
 const ReadingDetails = ({ reading, 
   user,
@@ -24,6 +28,8 @@ const ReadingDetails = ({ reading,
   
   const [ expandText, setExpandText ] = useState(false);
   const [ openConfirmDelete, setOpenConfirmDelete ] = useState(false);
+
+  const [ tabIndex, setTabIndex ] = useState(0);
 
   const handleReadBtn = () => {
     setReadingId(reading.id);
@@ -72,8 +78,8 @@ const ReadingDetails = ({ reading,
                 {
                   reading.tags.map(t => <Chip 
                     className='mr5px'
-                    label={t.name} 
-                    key={t.id} 
+                    label={ t.name } 
+                    key={ t.id } 
                   />)
                 }
               </div>
@@ -131,7 +137,30 @@ const ReadingDetails = ({ reading,
           <div className='reading-details-text'>{ reading.text }</div>
         }
         <div className='reading-details-speed'> SPEED TODO </div>
-        <div className='reading-details-stats'> STATS TODO </div>
+        { user && 
+          <>
+            <Tabs value={ tabIndex } onChange={ (e, v) => setTabIndex(v) } aria-label="simple tabs example">
+              <Tab label="Sessions charts" { ...a11yProps(0) } />
+              <Tab label="Overall chart" { ...a11yProps(1) } />
+              <Tab label="Text" { ...a11yProps(2) } />
+            </Tabs>
+            <TabPanel value={ tabIndex } index={0}>
+              <ReadingSessionTab 
+                readingId={ reading.id }
+              />
+            </TabPanel>
+            <TabPanel value={ tabIndex } index={1}>
+              <AllSessionsTab 
+                readingId={ reading.id }
+              />
+            </TabPanel>
+            <TabPanel value={ tabIndex } index={2}>
+              Item Three
+            </TabPanel>
+          
+            
+          </>
+        }
       </div>
     </div>
   )
