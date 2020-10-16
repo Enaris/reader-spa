@@ -69,3 +69,27 @@ export const xMoreOrMax = ( value, percentMore, max = null ) => {
     result = result > max ? max : result;
   return result;
 }
+
+export const graphDataToFlatPoints = graphData => {
+  var pointsArray = [];
+
+  for (const set of graphData.sets) {
+    for (const point of set.points) {
+      pointsArray.push(point);
+    }
+  }
+
+  return pointsArray;  
+}
+
+// export const ticksToTicksWithoutGaps = ( ticks, flatPoints, overAllLength, minGapPercent ) => {
+  
+//   var gaps = [];
+
+//   for (var i = 0, j = 1; j < flatPoints.length; ++i, ++j) {
+//     var prev = flatPoints[i].startPos / ;
+//     var next = flatPoints[j];
+
+    
+//   }
+// }

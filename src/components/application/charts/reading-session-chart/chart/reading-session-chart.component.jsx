@@ -23,7 +23,6 @@ const ReadingSessionChart = ({ chartData, isLoading }) => {
             value={ speedType }
             onChange={ (e, v) => setSpeedType(v) }
             row
-            name='actionIfLonger' 
           >
             <div className='cpm-wpm-radio-btns'>
               <div> Show as: </div>
