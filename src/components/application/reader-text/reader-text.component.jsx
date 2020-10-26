@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './reader-text.styles.scss';
+import { useHistory } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexesAll, selectReadingId } from '../../../redux/reading/reading.selectors';
 import { createStructuredSelector } from 'reselect';
@@ -12,6 +13,7 @@ import { setReadingPosition } from '../../../redux/offline-library/offline-lib.a
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { saveSessionStart } from '../../../redux/reading-session/reading-session.actions';
 import { selectSavingSession } from '../../../redux/reading-session/reading-session.selectors';
+
 
 const ReaderText = ({ textArray, 
   textRowsIndexesAll, 
@@ -26,6 +28,11 @@ const ReaderText = ({ textArray,
   user, 
   savingSession
   }) => {
+
+  const { push } = useHistory();
+  if (textArray === null || textArray.length === 0) {
+    push('/lib');
+  }
 
   var tWidth = 630;
   var textRowsIndexes = textRowsIndexesAll.l
@@ -106,6 +113,7 @@ const ReaderText = ({ textArray,
         onSave={ handleSaveSession }
         onResume={ resumeAtPausedPosition }
         isLoading={ savingSession }
+        resumeOnly={ readingId === null }
       />
       
     </div>

@@ -5,7 +5,7 @@ import ReaderNewTextForm from '../../components/forms/reader-new-text-form/reade
 const ReaderNewTextPage = () => {
 
   return (
-    <div className='reader-new-text-page'>
+    <div className='reader-new-text-page flex_wh100'>
       <ReaderNewTextForm />
     </div>
   )

@@ -16,7 +16,7 @@ const HomePage = () => {
           Library
         </Button>
       </Link>
-      <Link to='reader'>
+      <Link to='/reader/new'>
         <Button
           variant='outlined'
           startIcon={<LibraryBooks />}
