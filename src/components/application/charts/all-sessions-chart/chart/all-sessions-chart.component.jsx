@@ -27,17 +27,19 @@ const AllSessionsChart = ({ isLoading, chartData }) => {
   const yDomain = speedType === "wpm" ? [ maxMinSpeeds.minWpm, maxMinSpeeds.maxWpm ] : [ maxMinSpeeds.minCpm, maxMinSpeeds.maxCpm ];
 
   if (showSets !== "all") {
-    setsToUse = chartData.sets.filter(s => s.speedType.toLowerCase() === showSets);
+    setsToUse = chartData.empty ? [] : chartData.sets.filter(s => s.speedType.toLowerCase() === showSets);
   }
   else {
-    setsToUse = chartData.sets;
+    setsToUse = chartData.empty ? [] : chartData.sets;
   }
   
   var colors = randomColor({ count: setsToUse.length });
   return (
     <div className='all-sessions-chart'>
-      {
-        <>
+      { chartData.empty ?
+        <div> No to data to display. </div>
+        :
+        <React.Fragment>
           <RadioGroup
             value={ showSets }
             onChange={ (e, v) => setShowSets(v) }
@@ -138,7 +140,7 @@ const AllSessionsChart = ({ isLoading, chartData }) => {
             />)
             }
           </VictoryChart>
-        </>
+        </React.Fragment>
       }
     </div>
   )

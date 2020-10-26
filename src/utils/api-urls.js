@@ -35,3 +35,6 @@ export const getSessionsForDropdownUrl = (aspUserId, readingId) =>
 export const tagsUrl = `${apiUrl}/tags`;
 
 export const fetchTagsUrl = aspUserId => `${tagsUrl}/${aspUserId}`;
+export const fetchTableTagsUrl = aspUserId => `${tagsUrl}/${aspUserId}/table`;
+export const deleteTagUrl = (aspUserId, tagId) => `${tagsUrl}/${aspUserId}/delete/${tagId}`;
+export const fetchTagDetailsUrl = (aspUserId, tagId) => `${tagsUrl}/${aspUserId}/tag/${tagId}`;

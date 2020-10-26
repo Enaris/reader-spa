@@ -1,11 +1,16 @@
 import { createSelector } from 'reselect';
 import { filterOfflineReadings } from './offline-lib.utils';
 
-const selectOfflineLib = state => state.offlineLib;
+export const selectOfflineLib = state => state.offlineLib;
 
 export const selectReadingsOffline = createSelector(
   [selectOfflineLib], 
   reader => reader.readings
+)
+
+export const selectReadingsOfflineAny = createSelector(
+  [selectReadingsOffline], 
+  readings => readings && readings.length > 0
 )
 
 export const selectFilters = createSelector(
@@ -68,9 +73,37 @@ export const selectOfflineTags = createSelector(
   reader => reader.tags
 )
 
+export const selectOfflineTagDetails = tagId => createSelector(
+  [selectOfflineLib], 
+  reader => {
+    if (reader.tags.length === 0) {
+      return null;
+    }
+    var tag = reader.tags.find(t => t.id === tagId)
+    if (!tag || tag === null) {
+      return null;
+    }
+    tag.readings = reader.readings
+      .filter(r => r.tags.some(rt => rt.id === tagId))
+      .map(r => ({ id: r.id, title: r.title }))
+    return tag;
+  }
+)
+
 export const selectLastReadingIndex = createSelector(
   [selectOfflineLib], 
   reader => !reader.readings || reader.readings.length === 0 
     ? -1
     : Math.max( ...reader.readings.map(r => +r.id) ) 
+)
+
+export const selectOfflineTagsForTable = createSelector(
+  [selectOfflineLib], 
+  reader => reader.tags.map(t => { 
+    const count = reader.readings.filter(r => r.tags.some(rt => rt.id === t.id)).length;
+    return {
+    id: t.id, 
+    name: t.name, 
+    tagedCount: count
+  }})
 )

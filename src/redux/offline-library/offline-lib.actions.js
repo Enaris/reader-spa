@@ -1,5 +1,9 @@
 import OfflineLibActionTypes from './offline-lib.types';
 
+export const setOfflineLib = lib => ({
+  type: OfflineLibActionTypes.SET_OFFLINE_LIB, 
+  payload: lib 
+});
 export const setReadings = readings => ({
   type: OfflineLibActionTypes.SET_READINGS, 
   payload: readings
@@ -35,4 +39,8 @@ export const updateReadingOfflineSuccess = ( updatedReading, changeText ) => ({
 export const removeReadingOffline = readingId => ({
   type: OfflineLibActionTypes.REMOVE_READING, 
   payload: readingId
+})
+export const removeTagOffline = tagId => ({
+  type: OfflineLibActionTypes.REMOVE_TAG, 
+  payload: tagId
 })

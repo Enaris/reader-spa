@@ -14,6 +14,10 @@ const INITIAL_STATE = {
 
 const OfflineLibReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case OfflineLibActionTypes.SET_OFFLINE_LIB: 
+      return {
+        ...action.payload
+      }
     case OfflineLibActionTypes.SET_READINGS: 
       return {
         ...state,
@@ -73,6 +77,15 @@ const OfflineLibReducer = (state = INITIAL_STATE, action) => {
         ...state,
         readings: state.readings.filter(r => +r.id !== +action.payload), 
         readingsPositions: state.readingsPositions.filter(p => +p.readingId !== +action.payload)
+      }
+    case OfflineLibActionTypes.REMOVE_TAG:
+      return {
+        ...state, 
+        tags: state.tags.filter(t => t.id !== action.payload),
+        readings: state.readings.map(r => ({
+          ...r, 
+          tags: r.tags.filter(t => t.id !== action.payload)
+        }))
       }
     default:
       return state;

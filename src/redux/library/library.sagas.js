@@ -1,7 +1,7 @@
 import { call, all, takeLatest, put } from 'redux-saga/effects';
 import LibraryActionTypes from './library.types.js';
-import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl, updateReadingUrl, deleteReadingUrl } from '../../utils/api-urls.js';
-import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure, updateReadingOnlineSuccess, updateReadingOnlineFailure, deleteReadingOnlineSuccess, deleteReadingOnlineFailure } from './library.actions.js';
+import { addReadingUrl, fetchTagsUrl, fetchReadingsUrl, fetchReadingUrl, updateReadingUrl, deleteReadingUrl, fetchTableTagsUrl, fetchTagDetailsUrl, deleteTagUrl } from '../../utils/api-urls.js';
+import { addReadingSuccess, addReadingFailure, fetchTagsSuccess, fetchTagsFailure, fetchReadingSuccess, fetchReadingFailure, fetchReadingsSuccess, fetchReadingsFailure, updateReadingOnlineSuccess, updateReadingOnlineFailure, deleteReadingOnlineSuccess, deleteReadingOnlineFailure, fetchTableTagsFailure, fetchTableTagsSuccess, fetchTagDetailsSuccess, fetchTagDetailsFailure, deleteTagOnlineSuccess, deleteTagOnlineFailure } from './library.actions.js';
 import { dataFormConfig } from '../../utils/axios-helpers.js';
 import axios from 'axios';
 import { push } from 'connected-react-router';
@@ -12,6 +12,7 @@ export function* addReadingStart({ payload }) {
   formData.append('title', payload.title);
   formData.append('text', payload.text);
   formData.append('description', payload.description);
+  formData.append('links', payload.links);
   formData.append('aspUserId', payload.aspUserId);
   formData.append('coverImage', payload.coverImage);
 
@@ -43,7 +44,6 @@ export function* fetchTagsStart({ payload }) {
 
 export function* fetchReadingsStart({ payload }) {
   const { aspUserId, filters } = payload;
-  console.log(filters);
   try {
     var result = yield call(axios.get, fetchReadingsUrl(aspUserId), {
       params: {
@@ -65,6 +65,27 @@ export function* fetchReadingStart({ payload }) {
   }
   catch (e) {
     yield put(fetchReadingFailure(e.response.data));
+  }
+}
+
+export function* fetchTableTagsStart({ payload }) {
+  try {
+    var result = yield call(axios.get, fetchTableTagsUrl(payload));
+    yield put(fetchTableTagsSuccess(result.data));
+  }
+  catch (e) {
+    yield put(fetchTableTagsFailure(e.response.data));
+  }
+}
+
+export function* fetchTagDetailsStart({ payload }) {
+  const { aspUserId, tagId } = payload;
+  try {
+    var result = yield call(axios.get, fetchTagDetailsUrl(aspUserId, tagId));
+    yield put(fetchTagDetailsSuccess(result.data));
+  }
+  catch (e) {
+    yield put(fetchTagDetailsFailure(e.response.data));
   }
 }
 
@@ -114,6 +135,19 @@ export function* deleteReadingStart({ payload }) {
   }
 }
 
+export function* deleteTagStart({ payload }) {
+  const { aspUserId, tagId } = payload;
+  try {
+    yield call(axios.post, deleteTagUrl(aspUserId, tagId));
+    yield put(deleteTagOnlineSuccess());
+    yield put(push('/lib'));
+  }
+  catch (e) {
+    yield put(deleteTagOnlineFailure(e.response.data));
+  }
+}
+
+
 export function* onAddReadingStart() {
   yield takeLatest(LibraryActionTypes.ADD_READING_START, addReadingStart);
 }
@@ -130,12 +164,24 @@ export function* onFetchReadingStart() {
   yield takeLatest(LibraryActionTypes.FETCH_READING_START, fetchReadingStart);
 }
 
+export function* onFetchTableTagsStart() {
+  yield takeLatest(LibraryActionTypes.FETCH_TABLE_TAGS_START, fetchTableTagsStart); 
+}
+
+export function* onFetchTagDetailsStart() {
+  yield takeLatest(LibraryActionTypes.FETCH_TAG_DETAILS_START, fetchTagDetailsStart); 
+}
+
 export function* onUpdateReadingStart() {
   yield takeLatest(LibraryActionTypes.UPDATE_READING_ONLINE_START, updateReadingStart);
 }
 
 export function* onDeleteReadingStart() {
   yield takeLatest(LibraryActionTypes.DELETE_READING_ONLINE_START, deleteReadingStart);
+}
+
+export function* onDeleteTagStart() {
+  yield takeLatest(LibraryActionTypes.DELETE_TAG_ONLINE_START, deleteTagStart);
 }
 
 export default function* LibrarySagas() {
@@ -145,6 +191,9 @@ export default function* LibrarySagas() {
     call(onFetchReadingsStart), 
     call(onFetchReadingStart), 
     call(onUpdateReadingStart), 
-    call(onDeleteReadingStart) 
+    call(onDeleteReadingStart), 
+    call(onFetchTableTagsStart),
+    call(onFetchTagDetailsStart), 
+    call(onDeleteTagStart), 
   ])
 }

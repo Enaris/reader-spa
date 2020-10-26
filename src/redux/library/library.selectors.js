@@ -22,6 +22,36 @@ export const selectFetchingTagsErros = createSelector(
   library => library.fetchingTagsErrors
 )
 
+export const selectOnlineTagDetails = createSelector(
+  [selectLibrary], 
+  library => library.tagDetails
+)
+
+export const selectFetchingTagDetails = createSelector(
+  [selectLibrary], 
+  library => library.fetchingTagDetails
+)
+
+export const selectFetchingTagDetailsErros = createSelector(
+  [selectLibrary], 
+  library => library.fetchingTagDetailsErrors
+)
+
+export const selectOnlineTableTags = createSelector(
+  [selectLibrary], 
+  library => library.tableTags
+)
+
+export const selectFetchingOnlineTableTags = createSelector(
+  [selectLibrary], 
+  library => library.fetchingTableTags
+)
+
+export const selectFetchingOnlineTableErros = createSelector(
+  [selectLibrary], 
+  library => library.fetchingTableTagsErrors
+)
+
 export const selectReadingsOnline = createSelector(
   [selectLibrary], 
   library => library.readings

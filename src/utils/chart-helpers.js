@@ -30,6 +30,10 @@ export const graphDataToSpeedArray = (data, wpm = true) => {
 
 export const minMaxSpeedsFromGraphData = data => {
   
+  if (data.empty) {
+    return { minWpm: -1, maxWpm: -1, minCpm: -1, maxCpm: -1 };
+  }
+
   var minWpm = data.sets[0].points[0].wpm;
   var maxWpm = data.sets[0].points[0].wpm;
   var minCpm = data.sets[0].points[0].cpm;

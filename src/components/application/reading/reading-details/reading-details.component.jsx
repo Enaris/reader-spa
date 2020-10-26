@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './reading-details.styles.scss';
-import { Chip, Button, FormControlLabel, Switch, Tabs, Tab } from '@material-ui/core';
+import { Chip, Button, Tabs, Tab } from '@material-ui/core';
 import { imageUrl } from '../../../../utils/api-urls';
 import { processTextStart, setReadingId } from '../../../../redux/reading/reading.actions';
 import { setCurrentPartByIndex } from '../../../../redux/reader/reader.actions';
@@ -26,7 +26,6 @@ const ReadingDetails = ({ reading,
 
   const { location, push } = useHistory();
   
-  const [ expandText, setExpandText ] = useState(false);
   const [ openConfirmDelete, setOpenConfirmDelete ] = useState(false);
 
   const [ tabIndex, setTabIndex ] = useState(0);
@@ -125,18 +124,12 @@ const ReadingDetails = ({ reading,
         
       </div>
       <div className='reading-details-bot-section'>
-        <div className='reading-details-desc'>{ reading.description }</div>
-        <div className='reading-details-links'>{ reading.links }</div>
-        <FormControlLabel
-          value={expandText}
-          onChange={(e, v) => setExpandText(v)}
-          control={<Switch color='primary' checked={expandText} />} 
-          label='Expand reading text'
-        />
-        { expandText &&
-          <div className='reading-details-text'>{ reading.text }</div>
-        }
-        <div className='reading-details-speed'> SPEED TODO </div>
+        <div className='reading-details-desc'>
+          { reading.description && `Description: ${reading.description}` }
+        </div>
+        <div className='reading-details-links'>
+          { reading.links && `Links: ${reading.links}` }
+        </div>
         { user && 
           <>
             <Tabs value={ tabIndex } onChange={ (e, v) => setTabIndex(v) } aria-label="simple tabs example">
@@ -155,10 +148,8 @@ const ReadingDetails = ({ reading,
               />
             </TabPanel>
             <TabPanel value={ tabIndex } index={2}>
-              Item Three
+              { reading.text }
             </TabPanel>
-          
-            
           </>
         }
       </div>

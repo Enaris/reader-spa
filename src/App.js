@@ -21,6 +21,8 @@ import LoadingRoute from './components/general/route/loading-route/loading-route
 import ReadingPage from './pages/reading-page/reading-page.component';
 import ReaderNewTextPage from './pages/reader-new-text-page/reader-new-text-page.component';
 import ReadingEditPage from './pages/reading-edit-page/reading-edit-page.component';
+import TagsPage from './pages/tags-page/tags-page.component';
+import TagDetailsPage from './pages/tag-details-page/tag-details-page.component';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -43,6 +45,8 @@ function App({ theme, checkToken, checkingToken }) {
             <Route exact path='/' component={ HomePage } />
             <Route exact path='/lib/:readingId/edit' component={ ReadingEditPage } />
             <Route exact path='/lib/:readingId' component={ ReadingPage } />
+            <Route exact path='/tags/:tagId' component={ TagDetailsPage } />
+            <Route exact path='/tags' component={ TagsPage } />
             <LoadingRoute exact isLoading={ checkingToken } path='/lib' component={ LibraryPage } />
             <Route exact path='/reader' component={ ReaderPage } />
             <Route exact path='/reader/new' component={ ReaderNewTextPage } />

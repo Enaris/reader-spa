@@ -29,6 +29,36 @@ export const fetchTagsFailure = errors => ({
   payload: errors
 })
 
+export const fetchTableTagsStart = aspUserId => ({
+  type: LibraryActionTypes.FETCH_TABLE_TAGS_START, 
+  payload: aspUserId
+})
+
+export const fetchTableTagsSuccess = tags => ({
+  type: LibraryActionTypes.FETCH_TABLE_TAGS_SUCCESS, 
+  payload: tags
+})
+
+export const fetchTableTagsFailure = errors => ({
+  type: LibraryActionTypes.FETCH_TABLE_TAGS_FAILURE, 
+  payload: errors
+})
+
+export const fetchTagDetailsStart = (aspUserId, tagId) => ({
+  type: LibraryActionTypes.FETCH_TAG_DETAILS_START, 
+  payload: { aspUserId, tagId }
+})
+
+export const fetchTagDetailsSuccess = tag => ({
+  type: LibraryActionTypes.FETCH_TAG_DETAILS_SUCCESS, 
+  payload: tag
+})
+
+export const fetchTagDetailsFailure = errors => ({
+  type: LibraryActionTypes.FETCH_TAG_DETAILS_FAILURE, 
+  payload: errors
+})
+
 export const fetchReadingsStart = (aspUserId, filters) => ({
   type: LibraryActionTypes.FETCH_READINGS_START, 
   payload: { aspUserId, filters }
@@ -85,5 +115,19 @@ export const deleteReadingOnlineSuccess = () => ({
 
 export const deleteReadingOnlineFailure = errors => ({
   type: LibraryActionTypes.DELETE_READING_ONLINE_FAILURE, 
+  payload: errors
+})
+
+export const deleteTagOnlineStart = (aspUserId, tagId) => ({
+  type: LibraryActionTypes.DELETE_TAG_ONLINE_START, 
+  payload: { aspUserId, tagId }
+})
+
+export const deleteTagOnlineSuccess = () => ({
+  type: LibraryActionTypes.DELETE_TAG_ONLINE_SUCCESS, 
+})
+
+export const deleteTagOnlineFailure = errors => ({
+  type: LibraryActionTypes.DELETE_TAG_ONLINE_FAILURE, 
   payload: errors
 })

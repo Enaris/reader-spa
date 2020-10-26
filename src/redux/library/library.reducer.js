@@ -9,6 +9,14 @@ const INITIAL_STATE = {
   fetchingTags: false,
   fetchingTagsErrors: null,
 
+  tagDetails: null, 
+  fetchingTagDetails: false,
+  fetchingTagDetailsErrors: null,
+
+  tableTags: [], 
+  fetchingTableTags: false,
+  fetchingTableTagsErrors: null,
+
   readings: [], 
   fetchingReadings: false, 
   fetchingReadingsErrors: null, 
@@ -21,7 +29,10 @@ const INITIAL_STATE = {
   updatingErrors: null, 
 
   deletingReading: false, 
-  deletingErrors: null
+  deletingErrors: null, 
+
+  deletingTag: false, 
+  deletingTagErrors: null
 }
 
 const LibraryReducer = (state = INITIAL_STATE, action) => {
@@ -67,6 +78,50 @@ const LibraryReducer = (state = INITIAL_STATE, action) => {
         fetchingTagsErrors: action.payload
       }
       
+    case LibraryActionTypes.FETCH_TAG_DETAILS_START: 
+      return {
+        ...state,
+        tagDetails: null, 
+        fetchingTagDetails: true,
+        fetchingTagDetailsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TAG_DETAILS_SUCCESS: 
+      return {
+        ...state,
+        tagDetails: action.payload, 
+        fetchingTagDetails: false,
+        fetchingTagDetailsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TAG_DETAILS_FAILURE: 
+      return {
+        ...state,
+        tagDetails: null, 
+        fetchingTagDetails: false,
+        fetchingTagDetailsErrors: action.payload
+      }
+
+    case LibraryActionTypes.FETCH_TABLE_TAGS_START: 
+      return {
+        ...state,
+        tableTags: [], 
+        fetchingTableTags: true,
+        fetchingTableTagsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TABLE_TAGS_SUCCESS: 
+      return {
+        ...state,
+        tableTags: action.payload, 
+        fetchingTableTags: false,
+        fetchingTableTagsErrors: null
+      }
+    case LibraryActionTypes.FETCH_TABLE_TAGS_FAILURE: 
+      return {
+        ...state,
+        tableTags: [], 
+        fetchingTableTags: false,
+        fetchingTableTagsErrors: action.payload
+      }
+    
     case LibraryActionTypes.FETCH_READINGS_START: 
       return {
         ...state,
@@ -149,6 +204,18 @@ const LibraryReducer = (state = INITIAL_STATE, action) => {
         deletingErrors: action.payload
       }
 
+    case LibraryActionTypes.DELETE_TAG_ONLINE_SUCCESS: 
+      return {
+        ...state,
+        deletingTag: false, 
+        deletingTagErrors: null
+      }
+    case LibraryActionTypes.DELETE_TAG_ONLINE_FAILURE: 
+      return {
+        ...state,
+        deletingTag: false, 
+        deletingTagErrors: action.payload
+      }
     default:
       return state;
   }
