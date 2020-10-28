@@ -15,6 +15,9 @@ const ReaderNewTextForm = ({ processText, testMode }) => {
   return (
     <div className='reader-new-text-form p5'>
       <h3 className='mb5'>Insert text to read: </h3>
+      { testMode &&
+        <h5 className='mb5'>Use long text to better test yourself: </h5>
+      }
       <div className='min-vw50'>
         <TextField 
           value={ newText }

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import AuthActionTypes from './auth.types';
 
 const INITIAL_STATE = {
@@ -56,6 +57,19 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         ...state, 
         loggingIn: false, 
         loginErrors: action.payload
+      }
+
+    case AuthActionTypes.LOGOUT:
+      sessionStorage.removeItem("token");
+      axios.defaults.headers.common = {
+        'Authorization': ''
+      };
+      return {
+        ...state, 
+        loggingIn: false, 
+        user: null,
+        token: null, 
+        loginErrors: []
       }
 
     case AuthActionTypes.CHECK_TOKEN_START: 

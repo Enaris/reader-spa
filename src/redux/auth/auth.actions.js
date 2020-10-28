@@ -43,3 +43,7 @@ export const checkTokenSuccess = loginResult => ({
 export const checkTokenFailure = () => ({
   type: AuthActionTypes.CHECK_TOKEN_FAILURE
 })
+
+export const logout = () => ({
+  type: AuthActionTypes.LOGOUT
+})

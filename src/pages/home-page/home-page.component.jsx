@@ -1,73 +1,84 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './home-page.styles.scss';
 import { Button } from '@material-ui/core';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import { setTestMode } from '../../redux/reader/reader.actions';
-import { setSpeedOptions } from '../../redux/reader-options/reader-options.actions';
+import LocalLibrary from '@material-ui/icons/LocalLibrary';
+import Speed from '@material-ui/icons/Speed';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../redux/auth/auth.selectors';
+import { logout } from '../../redux/auth/auth.actions';
 
+const HomePage = ({ user, logout }) => {
 
-const HomePage = ({ setTestMode, setSpeedOptions }) => {
-
-  const { push } = useHistory();
   return (
     <div className='home-page'>
-      <Link to='lib'>
-        <Button
-          variant='outlined'
-          startIcon={<LibraryBooks />}
-        >
-          Library
-        </Button>
-      </Link>
-      <Link to='/reader/new'>
-        <Button
-          variant='outlined'
-          startIcon={<LibraryBooks />}
-        >
-          Read text
-        </Button>
-      </Link>
-      <Link to='/reader/new/test'>
-        <Button
-          variant='outlined'
-          startIcon={<LibraryBooks />}
-        >
-          Speed test
-        </Button>
-      </Link>
-      {/* <Button
-        variant='outlined'
-        startIcon={<LibraryBooks />}
-        onClick={() => {
-          setTestMode(true);
-          push('/reader/new');
-          setSpeedOptions({
-            initialCPM: -1, 
-            initialWPM: 300, 
-            targetWPM: -1, 
-            targetCPM: -1, 
-            breakIfLonger: -1, 
-            slowIfLonger: -1, 
-            appendIfShorter: -1, 
-            maxAppend: -1, 
-            initialAccelerationTimeSecs: -1, 
-            addPerMin: 340, 
-            slowTo: -1 
-          });
-        }}
-      >
-        Speed test
-      </Button> */}
+      <div className='home-page-btns'>
+        <Link to='lib' className='home-btn-link mb5'>
+          <Button
+            fullWidth
+            variant='outlined'
+            startIcon={<LibraryBooks />}
+          >
+            Library
+          </Button>
+        </Link>
+        <Link to='/reader/new' className='home-btn-link mb5'>
+          <Button
+            fullWidth
+            variant='outlined'
+            startIcon={<LocalLibrary />}
+          >
+            Read text
+          </Button>
+        </Link>
+        <Link to='/reader/new/test' className='home-btn-link mb5'>
+          <Button
+            fullWidth
+            variant='outlined'
+            startIcon={<Speed />}
+          >
+            Speed test
+          </Button>
+        </Link>
+        
+        { user ?
+          <div className='home-btn-link'>
+            <Button
+              fullWidth
+              variant='outlined'
+              startIcon={<ExitToApp />}
+              onClick={() => logout()}
+            >
+              Logout
+            </Button>
+          </div>
+          :
+          <Link to='/login' className='home-btn-link'>
+            <Button
+              fullWidth
+              variant='outlined'
+              startIcon={<AccountCircle />}
+            >
+              Login
+            </Button>
+          </Link>
+        }
+        
+      </div>
     </div>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  setTestMode: val => dispatch(setTestMode(val)),
-  setSpeedOptions: opt => dispatch(setSpeedOptions(opt))
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser
 })
 
-export default connect(null, mapDispatchToProps)(HomePage);
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
