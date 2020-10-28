@@ -13,6 +13,7 @@ const RegisterForm = ({ register, registerErrors }) => {
 
   return (
     <div >
+      <h1>Register</h1>
       <Formik 
         initialValues={{
           email: '',
@@ -20,7 +21,7 @@ const RegisterForm = ({ register, registerErrors }) => {
           confirmPassword: ''
         }}
         validationSchema={validationSchema}
-        onSubmit={v => {console.log(v); register({email: v.email, password: v.password});}}
+        onSubmit={v => {register({email: v.email, password: v.password});}}
       >
         <Form className='register-form min-vw50'>
           { registerErrors &&
@@ -36,7 +37,7 @@ const RegisterForm = ({ register, registerErrors }) => {
           <RField containerClass='mb5' fullWidth name='email' label='Email' variant='outlined' />
           <RField containerClass='mb5' fullWidth name='password' label='Password' type='password' variant='outlined' />
           <RField containerClass='mb5' fullWidth name='confirmPassword' label='Confirm Password' type='password' variant='outlined' />
-          <Button type='submit' variant='outlined'> Login </Button>
+          <Button type='submit' variant='outlined'> Register </Button>
         </Form>
       </Formik>
     </div>

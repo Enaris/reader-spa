@@ -90,6 +90,16 @@ body, html, #root {
   min-width: 50vw;
 }
 
+.simple-link {
+  font-size: 1em;
+  text-decoration: none;
+  color: lightblue;
+
+  &:hover {
+    color: rgb(117, 198, 224)
+  }
+}
+
 .icon-link-active {
   color: lightblue;
 }

@@ -10,10 +10,11 @@ import { loginStart } from '../../../redux/auth/auth.actions';
 import { selectLoginErrors } from '../../../redux/auth/auth.selectors';
 import { createStructuredSelector } from 'reselect';
 
-const LoginForm = ({ login, loginErrors }) => {
+const LoginForm = ({ login, loginErrors, containerClass }) => {
 
   return (
-    <div >
+    <div className={ `${containerClass ? containerClass : ''}` }>
+      <h1>Login</h1>
       <Formik 
         initialValues={{
           email: '',
