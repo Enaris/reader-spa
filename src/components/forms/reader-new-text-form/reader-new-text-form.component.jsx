@@ -4,8 +4,10 @@ import { TextField, Button } from '@material-ui/core';
 import './reader-new-text-form.styles.scss'
 import { processTextStart, setReadingId } from '../../../redux/reading/reading.actions';
 import { useHistory } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { selectTestMode } from '../../../redux/reader/reader.selectors';
 
-const ReaderNewTextForm = ({ processText }) => {
+const ReaderNewTextForm = ({ processText, testMode }) => {
 
   const { push } = useHistory();
   const [ newText, setNewText ] = useState();
@@ -32,19 +34,21 @@ const ReaderNewTextForm = ({ processText }) => {
           if (newText) {
             setReadingId(null);
             processText(newText);
-            push( '/reader' );
+            push( testMode ? '/reader/test' : '/reader' );
           } 
         }}
       >
         READ
       </Button>
-      <Button
-        onClick={ () => {
-          push('/text/add', { newText: newText });
-        }}
-      >
-        SAVE
-      </Button>
+      { !testMode &&
+        <Button
+          onClick={ () => {
+            push('/text/add', { newText: newText });
+          }}
+        >
+          SAVE
+        </Button>
+      }
     </div>
   )
 }
@@ -54,4 +58,8 @@ const mapDispatchToProps = dispatch => ({
   setReadingId: readingId => dispatch(setReadingId(readingId)) 
 })
 
-export default connect(null, mapDispatchToProps)(ReaderNewTextForm);
+const mapStateToProps = createStructuredSelector({
+  testMode: selectTestMode
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReaderNewTextForm);

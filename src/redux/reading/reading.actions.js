@@ -9,8 +9,9 @@ export const nullText = () => ({
   type: ReadingActionTypes.NULL_TEXT
 })
 
-export const setTextEnded = () => ({
-  type: ReadingActionTypes.SET_TEXT_ENDED
+export const setTextEnded = (val = true) => ({
+  type: ReadingActionTypes.SET_TEXT_ENDED,
+  payload: val
 })
 
 export const setTextArray = array => ({

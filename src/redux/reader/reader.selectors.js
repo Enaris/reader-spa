@@ -46,3 +46,8 @@ export const selectNewText = createSelector(
   [selectReader], 
   reader => reader.newText
 )
+
+export const selectTestMode = createSelector(
+  [selectReader], 
+  reader => reader.testMode
+)

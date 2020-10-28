@@ -14,7 +14,10 @@ const INITIAL_STATE = {
   slow: false, 
 
   // -----------
-  newText: ''
+  newText: '', 
+
+  // -----------
+  testMode: false
 }
 
 const ReaderReducer = (state = INITIAL_STATE, action) => {
@@ -68,13 +71,20 @@ const ReaderReducer = (state = INITIAL_STATE, action) => {
     
     case ReaderActionTypes.RESET_READER: 
       return {
-        ...INITIAL_STATE
+        ...INITIAL_STATE, 
+        testMode: state.testMode
       }
     
     case ReaderActionTypes.SET_NEW_TEXT: 
       return { 
         ...state, 
         newText: action.payload
+      }
+
+    case ReaderActionTypes.SET_TEST_MODE:
+      return {
+        ...state, 
+        testMode: action.payload
       }
     default:
         return state;

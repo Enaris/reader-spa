@@ -34,7 +34,7 @@ const ReadingReducer = (state = INITIAL_STATE, action) => {
     case ReadingActionTypes.SET_TEXT_ENDED: 
       return {
         ...state, 
-        textEnded: true
+        textEnded: action.payload
       }
     case ReadingActionTypes.SET_TEXT_ARRAY_ROW_INDEXES: 
       const { l, m, s } = action.payload;

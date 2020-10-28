@@ -50,3 +50,8 @@ export const setCurrentPartByIndex = wIndex => ({
   type: ReaderActionTypes.SET_CURRENT_PART_BY_INDEX, 
   payload: wIndex
 })
+
+export const setTestMode = val => ({
+  type: ReaderActionTypes.SET_TEST_MODE, 
+  payload: val
+})

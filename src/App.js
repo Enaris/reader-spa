@@ -48,8 +48,10 @@ function App({ theme, checkToken, checkingToken }) {
             <Route exact path='/tags/:tagId' component={ TagDetailsPage } />
             <Route exact path='/tags' component={ TagsPage } />
             <LoadingRoute exact isLoading={ checkingToken } path='/lib' component={ LibraryPage } />
-            <Route exact path='/reader' component={ ReaderPage } />
+            <Route exact path='/reader/test' component={ ReaderPage } />
+            <Route exact path='/reader/new/test' component={ ReaderNewTextPage } />
             <Route exact path='/reader/new' component={ ReaderNewTextPage } />
+            <Route exact path='/reader' component={ ReaderPage } />
             <LoadingRoute exact isLoading={ checkingToken } path='/text/add' component={ TextAddPage } />
             <NonAuthRoute exact isLoading={ checkingToken } path='/login' Component={ LoginPage } redirectTo='/' />
             <NonAuthRoute exact isLoading={ checkingToken } path='/register' Component={ RegisterPage } redirectTo='/' />

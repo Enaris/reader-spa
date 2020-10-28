@@ -14,6 +14,7 @@ const ReaderActionTypes = {
   SET_CURRENT_PART_BY_INDEX: 'SET_CURRENT_PART_BY_INDEX', 
 
   RESET_READER: 'RESET_READER', 
+  SET_TEST_MODE: 'SET_TEST_MODE'
 }
 
 export default ReaderActionTypes;

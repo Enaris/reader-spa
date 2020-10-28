@@ -6,7 +6,7 @@ import { selectPartLength, selectReaderPaused, selectPartEnd, selectPartIndexes,
 import { selectTextEnded, selectTextArray, selectReadingId } from '../reading/reading.selectors';
 import { setTextEnded } from '../reading/reading.actions';
 import { selectWordOptions, selectSpeedOptions, selectInitialSpeed } from '../reader-options/reader-options.selectors';
-import { setPartInfoSuccess, setCurrentSpeed, setReadingTime, setSlow, resumeReadingSucees } from './reader.actions';
+import { setPartInfoSuccess, setCurrentSpeed, setReadingTime, setSlow, resumeReadingSucees, pauseReading } from './reader.actions';
 import { timeoutWToken } from '../../utils/w-delay';
 import { wpmToWaitMs, cpmToWaitMs } from '../../utils/wpm-cmp-helpers';
 import { getSpeedIncreaseByTarget, getSpeedIncrease, doSlowDown } from '../../utils/read-speed-helpers';
@@ -15,8 +15,10 @@ import { beginSession, endSession } from '../reading-session/reading-session.act
 export function* changePart() {
   const textEnded = yield select(selectTextEnded);
   
-  if (textEnded)
+  if (textEnded) {
+    yield put(pauseReading());
     return;
+  }
 
   var oldEnd = yield select(selectPartEnd);
   if (oldEnd === -1) {
@@ -116,6 +118,11 @@ export function* changePart() {
 
 export function* resumeReading() {
   
+  var textEnded = yield select(selectTextEnded);
+  if (textEnded) {
+    yield put(setTextEnded(false));
+  }
+
   const speed = yield select(selectInitialSpeed);
   yield put(setReadingTime(0));
   yield put(setCurrentSpeed(speed));
@@ -139,7 +146,7 @@ export function* setCurrentPartByIndex({ payload }) {
   );
 }
 
-export function* pauseReading() {
+export function* pauseReader() {
 
   const currentIndexes = yield select(selectPartIndexes);
   yield put(endSession(currentIndexes[0] ? currentIndexes[0] : 0));
@@ -157,8 +164,8 @@ export function* onSetCurrentPartByIndex() {
   yield takeLatest(ReaderActionTypes.SET_CURRENT_PART_BY_INDEX, setCurrentPartByIndex);
 }
 
-export function* onPauseReading() {
-  yield takeLatest(ReaderActionTypes.PAUSE_READING, pauseReading);
+export function* onPauseReader() {
+  yield takeLatest(ReaderActionTypes.PAUSE_READING, pauseReader);
 }
 
 export default function* ReaderSagas() {
@@ -166,6 +173,6 @@ export default function* ReaderSagas() {
     call(onChangePart), 
     call(onResumeReading), 
     call(onSetCurrentPartByIndex), 
-    call(onPauseReading)
+    call(onPauseReader)
   ])
 }

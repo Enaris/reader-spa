@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectTextArray, selectTextProcessing, selectTextArrayRowIndexesAll, selectReadingId } from '../../../redux/reading/reading.selectors';
 import { createStructuredSelector } from 'reselect';
-import { selectPartEnd, selectReaderPaused, selectPartIndexes } from '../../../redux/reader/reader.selectors';
+import { selectPartEnd, selectReaderPaused, selectPartIndexes, selectTestMode, selectCurrentSpeed } from '../../../redux/reader/reader.selectors';
 import { resumeReadingStart } from '../../../redux/reader/reader.actions';
 import { FixedSizeList } from 'react-window';
 import ReaderPauseSaveForm from '../../forms/reader-pause-save-form/reader-pause-save-form.component';
@@ -26,7 +26,9 @@ const ReaderText = ({ textArray,
   currentPartIndexes,
   saveSession, 
   user, 
-  savingSession
+  savingSession,
+  testMode,
+  currentSpeed
   }) => {
 
   const { push } = useHistory();
@@ -96,6 +98,9 @@ const ReaderText = ({ textArray,
   
   return (
     <div className='reader-text-container'>
+      { testMode &&
+        <div> Pause reader when speed feels comfortable. </div>
+      }
       <div className='reader-text'>
         { !textProcessing && 
           <FixedSizeList 
@@ -109,13 +114,19 @@ const ReaderText = ({ textArray,
           </FixedSizeList>
         }
       </div>
-      <ReaderPauseSaveForm 
-        onSave={ handleSaveSession }
-        onResume={ resumeAtPausedPosition }
-        isLoading={ savingSession }
-        resumeOnly={ readingId === null }
-      />
-      
+      { !testMode ?
+        <ReaderPauseSaveForm 
+          onSave={ handleSaveSession }
+          onResume={ resumeAtPausedPosition }
+          isLoading={ savingSession }
+          resumeOnly={ readingId === null }
+          testMode={ testMode }
+        />
+        :
+        <div>
+          { currentSpeed && `Your speed was: ${currentSpeed.speed.toFixed(2)}.`}
+        </div>
+      }
     </div>
   )
 }
@@ -129,7 +140,9 @@ const mapStateToProps = createStructuredSelector({
   readingId: selectReadingId, 
   currentPartIndexes: selectPartIndexes, 
   user: selectCurrentUser,
-  savingSession: selectSavingSession 
+  savingSession: selectSavingSession,
+  testMode: selectTestMode, 
+  currentSpeed: selectCurrentSpeed
 })
 
 const mapDispatchToProps = dispatch => ({
