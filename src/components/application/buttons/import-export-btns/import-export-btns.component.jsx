@@ -7,13 +7,13 @@ import ExportLibBtn from '../export-lib-btn/export-lib-btn.component';
 import ImportLibBtn from '../import-lib-btn/import-lib-btn.component';
 import './import-export-btns.styles.scss';
 
-const ImportExportBtns = ({ user, readingsExists }) => {
+const ImportExportBtns = ({ user, readingsExists, containerClass }) => {
   return (
     <React.Fragment>
       { !user &&
-        <div className='import-export'>
+        <div className={ `${containerClass ? containerClass : ''} import-export` }>
           { readingsExists && 
-            <ExportLibBtn />
+            <ExportLibBtn containerClass='mr5px'/>
           }
           <ImportLibBtn />
         </div>

@@ -9,19 +9,17 @@ import { Formik, Form } from 'formik';
 import { TextField, Button } from '@material-ui/core';
 import { toQuerryData } from './reading-search-form.utils';
 import queryString from 'query-string';
-import { setFilters } from '../../../redux/offline-library/offline-lib.actions';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
-import { fetchReadingsStart } from '../../../redux/library/library.actions';
 import { createStructuredSelector } from 'reselect';
 import WSpinner from '../../general/spinner/w-spinner/w-spinner.component';
 
-const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoading }) => {
+const ReadingSearchForm = ({ tagsOptions, isLoading, containerClass }) => {
   
   const { push, location } = useHistory();
   const searchData = queryString.parse(location.search, {arrayFormat: 'bracket'});
 
   return (
-    <div className='reading-search-form'>
+    <div className={ `${containerClass ? containerClass : ''} reading-search-form`}>
       <Formik
         initialValues={{
           title: searchData.title ? searchData.title : '', 
@@ -30,10 +28,6 @@ const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoa
             : []
         }}
         onSubmit={ v => {
-          // setFilters({ title: v.title, tags: v.tags.map(t => t.id) });
-          // if (user) {
-          //   fetchReadings(user.aspUserId, { title: v.title, tags: v.tags.map(t => t.id) });
-          // }
           push ({
             pathname: location.pathname, 
             search: queryString.stringify(toQuerryData(v), { 
@@ -45,11 +39,17 @@ const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoa
         }}
       > 
         <Form>
+          <div className='mb5px'>Search for readings: </div>
           <RField 
+            color='primary' 
+            variant="outlined"
             name='title'
             label='Title'
+            containerClass='mb5px width3rem'
+            fullWidth
           />
           <RAutocomplete
+            containerClass='mb5px width3rem'
             disabled={ !tagsOptions || tagsOptions.length === 0 }
             multiple
             name='tags'
@@ -58,10 +58,14 @@ const ReadingSearchForm = ({ tagsOptions, setFilters, user, fetchReadings, isLoa
             filterSelectedOptions
             getOptionLabel={ t => t.name }
             renderInput={(params) => (
-              <TextField {...params} fullWidth color='primary' variant="outlined" label="Tags" placeholder="Tags" />
+              <TextField {...params} color='primary' variant="outlined" label="Tags" placeholder="Tags" />
             )}
           />
-          <Button type='submit'>
+          <Button 
+            type='submit'
+            color='primary' 
+            variant="outlined"
+          >
             Search
           </Button>
         </Form>
@@ -74,13 +78,7 @@ const mapStateToProps = createStructuredSelector({
   user: selectCurrentUser
 })
 
-const mapDispatchToProps = dispatch => ({
-  setFilters: filters => dispatch(setFilters(filters)), 
-  fetchReadings: (aspUserId, filters) => dispatch(fetchReadingsStart(aspUserId, filters))
-});
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ReadingSearchForm);
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps), 
+  connect(mapStateToProps), 
   WSpinner
 )(ReadingSearchForm);

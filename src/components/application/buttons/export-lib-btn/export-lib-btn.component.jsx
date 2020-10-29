@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import { createStructuredSelector } from 'reselect';
 import { selectOfflineLib } from '../../../../redux/offline-library/offline-lib.selectors';
 
-const ExportLibBtn = ({ offlineLib }) => {
+const ExportLibBtn = ({ offlineLib, containerClass }) => {
 
   var exportedLib;
   const handleClick = () => {
@@ -20,7 +20,7 @@ const ExportLibBtn = ({ offlineLib }) => {
   }
 
   return (
-    <div className='export-lib-btn-container'>
+    <div className={ `${containerClass ? containerClass : ''} export-lib-btn-container` }>
       <Button 
         variant='outlined'
         color='primary'

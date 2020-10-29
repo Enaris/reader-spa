@@ -11,7 +11,8 @@ const ReadingSearchWrapper = ({ user,
   tagsOffilne, 
   tagsOnline, 
   fetchTags, 
-  fetchingTags }) => {
+  fetchingTags,
+  containerClass }) => {
   
   useEffect(() => {
     if (user) {
@@ -23,6 +24,7 @@ const ReadingSearchWrapper = ({ user,
     <ReadingSearchForm
       tagsOptions={ user ? tagsOnline : tagsOffilne }
       isLoading={ fetchingTags }
+      containerClass={ containerClass }
     />
   )
 }

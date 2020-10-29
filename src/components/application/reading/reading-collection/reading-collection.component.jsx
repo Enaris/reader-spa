@@ -10,7 +10,7 @@ import WSpinner from '../../../general/spinner/w-spinner/w-spinner.component';
 const ReadingCollection = ({ readings, user, isLoading }) => {
   
   return (
-    <div className='reading-collectioin'>
+    <div className='reading-collection'>
       { readings && readings.length > 0 &&
         readings.map(r => <ReadingCard key={r.id} reading={ r } imageCard={ user ? true : false } />)
       }

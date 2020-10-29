@@ -10,9 +10,9 @@ import ImportExportBtns from '../../components/application/buttons/import-export
 const LibraryPage = () => {
   const { location } = useHistory();
   return (
-    <div className='library-page flex_wh100 flex-column'>
-      <ImportExportBtns />
-      <Link to='text/add'>
+    <div className='library-page flex_wh100 flex-column p5'>
+      <ImportExportBtns containerClass='mb5px' />
+      <Link to='text/add' className='mb5px'>
         <Button 
           variant='outlined'
           color='primary'
@@ -20,7 +20,7 @@ const LibraryPage = () => {
           Add text
         </Button>
       </Link>
-      <Link to='tags/'>
+      <Link to='tags/' className='mb5'>
         <Button 
           variant='outlined'
           color='primary'
@@ -28,7 +28,7 @@ const LibraryPage = () => {
           Tags
         </Button>
       </Link>
-      <ReadingSearchFormWrapper key={ `tags ${location.search}` } />
+      <ReadingSearchFormWrapper key={ `tags ${location.search}` } containerClass='mb5' />
       <ReadingCollectionWrapper key={ `readings ${location.search}` } />
       
     </div>
