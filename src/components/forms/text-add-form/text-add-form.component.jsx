@@ -42,9 +42,6 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
   const handleAddNewTag = addedTag => {
     if (isNullOrWhitespace(addedTag))
       return;
-    if ((tags && tags.some(tag => tag.name === addedTag)) || (tagsAdded && tagsAdded.some(tag => tag.name === addedTag))) {
-      return;
-    }
     setTagsAdded([...tagsAdded, {id: addedTag, name: addedTag}]); 
   }
   const handleSubmit = data => {
@@ -207,7 +204,9 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               variant='outlined'
               color='primary'
               containerClass='mb5'
-              onTagAdd={handleAddNewTag}
+              maxLen={ 7 }
+              alreadyAdded={[ ...tags, ...tagsAdded ]}
+              onTagAdd={ handleAddNewTag }
             />
             
             <Button type='submit' variant='outlined' fullWidth> Add </Button>

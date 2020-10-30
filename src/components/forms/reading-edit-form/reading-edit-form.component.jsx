@@ -57,11 +57,11 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
   const handleAddNewTag = addedTag => {
     if (isNullOrWhitespace(addedTag))
       return;
-    if ((tagsOptions && tagsOptions.some(tag => tag.name === addedTag)) 
-      || (tagsAdded && tagsAdded.some(tag => tag.name === addedTag))
-      || (readingTags.some(tag => tag.name === addedTag))) {
-      return;
-    }
+    // if ((tagsOptions && tagsOptions.some(tag => tag.name === addedTag)) 
+    //   || (tagsAdded && tagsAdded.some(tag => tag.name === addedTag))
+    //   || (readingTags.some(tag => tag.name === addedTag))) {
+    //   return;
+    // }
     setTagsAdded([...tagsAdded, {id: addedTag, name: addedTag}]); 
   }
   const handleRemoveOldTag = tag => {
@@ -220,6 +220,8 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               color='primary'
               containerClass='mb5'
               onTagAdd={ handleAddNewTag }
+              maxLen={ 7 }
+              alreadyAdded={[ ...tagsOptions, ...tagsAdded, ...readingTags ]}
             />
             
             <Button type='submit' variant='outlined' fullWidth> Save </Button>
