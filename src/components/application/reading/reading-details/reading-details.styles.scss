@@ -17,6 +17,16 @@
   .reading-details-top-section {
     display: flex;
 
+    .reading-details-btns {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      button {
+        margin-bottom: 0.75rem;
+      }
+    }
+
     .reading-details-cover {
       display: flex;
       width: 15em;
@@ -41,7 +51,8 @@
     .reading-details-top-info {
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
+      width: 100%;
+      //flex-grow: 1;
       
       @media (min-width: 480px) {
         padding-left: 0.5rem;

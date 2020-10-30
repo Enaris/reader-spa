@@ -110,10 +110,10 @@ const AllSessionsChart = ({ isLoading, chartData }) => {
                   y={ 45 } 
                   angle={ 0 }
                 /> }
-              style={{
-                axisLabels: { fontSize: 10 },
-                tickLabels: { fontSize: 7 }
-              }}
+              // style={{
+              //   axisLabels: { fontSize: 10 },
+              //   tickLabels: { fontSize: 7 }
+              // }}
             />
             <VictoryAxis 
               tickFormat={ t => toPercent(t, chartData.allCharactersCount) }
@@ -122,10 +122,10 @@ const AllSessionsChart = ({ isLoading, chartData }) => {
                 <VictoryLabel 
                   dy={ 20 }              
                 /> }
-              style={{
-                axisLabels: { fontSize: 10 },
-                tickLabels: { fontSize: 7 }
-              }}
+              // style={{
+              //   axisLabels: { fontSize: 10 },
+              //   tickLabels: { fontSize: 7 }
+              // }}
             />
             { setsToUse.map((s, i) => <VictoryLine 
               key={ i }

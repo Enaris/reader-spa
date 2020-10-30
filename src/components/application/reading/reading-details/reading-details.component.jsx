@@ -55,7 +55,7 @@ const ReadingDetails = ({ reading,
 
   return (
     <div className='reading-details'>
-      <div className='reading-details-top-section'>
+      <div className='reading-details-top-section mb5px'>
         <div className='reading-details-cover'>
           <div className='reading-details-cover-container'>
             <img 
@@ -67,12 +67,13 @@ const ReadingDetails = ({ reading,
         </div>
         
         <div className='reading-details-top-info'>
-          <h3 className='reading-details-title'>{ reading.title }</h3>
-          <div className='reading-details-author'> Author todo </div>
-          <div className='reading-details-position'>{ reading.savedLocation }</div>
+          <h2 className='reading-details-title mb5'>{ reading.title }</h2>
+          <div className='reading-details-position mb5px'>
+            { `Last session saved at word: ${reading.savedLocation} of ${reading.totalWords}.` }
+          </div>
           { reading.tags && reading.tags.length > 0 &&
-            <div className='reading-details-tags-container'>
-              <span>Tags: </span>
+            <div className='reading-details-tags-container mb5px'>
+              <span className='mb5px'>Reading tags: </span>
               <div className='reading-details-tags'>
                 {
                   reading.tags.map(t => <Chip 
@@ -84,50 +85,46 @@ const ReadingDetails = ({ reading,
               </div>
             </div>
           }
-          <div>
-            <div className='mr5px'>
-              <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => handleReadBtn()}
-              >
-                READ
-              </Button>
-            </div>
-            <div className='mr5px'>
-              <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => push(`${location.pathname}/edit`)}
-              >
-                EDIT
-              </Button>
-              
-            </div>
-            <div className='mr5px'>
-              <Button
-                variant='outlined'
-                color='primary'
-                onClick={() => setOpenConfirmDelete(true) }
-              >
-                DELETE
-              </Button>
-            </div>
-            <YNModal 
-              open={ openConfirmDelete }
-              onYes={ handleConfirmDelete }
-              onNo={ handleDoNotDelete }
-              onClose={ () => setOpenConfirmDelete(false) }
-            />
+          <div className='reading-details-btns'>
+            <Button
+              fullWidth
+              variant='outlined'
+              color='primary'
+              onClick={() => handleReadBtn()}
+            >
+              READ
+            </Button>
+            <Button
+              fullWidth
+              variant='outlined'
+              color='primary'
+              onClick={() => push(`${location.pathname}/edit`)}
+            >
+              EDIT
+            </Button>
+            <Button
+              fullWidth
+              variant='outlined'
+              color='primary'
+              onClick={() => setOpenConfirmDelete(true) }
+            >
+              DELETE
+            </Button>
           </div>
+          <YNModal 
+            open={ openConfirmDelete }
+            onYes={ handleConfirmDelete }
+            onNo={ handleDoNotDelete }
+            onClose={ () => setOpenConfirmDelete(false) }
+          />
         </div>
         
       </div>
       <div className='reading-details-bot-section'>
-        <div className='reading-details-desc'>
+        <div className='reading-details-desc mb5px'>
           { reading.description && `Description: ${reading.description}` }
         </div>
-        <div className='reading-details-links'>
+        <div className='reading-details-links mb5px'>
           { reading.links && `Links: ${reading.links}` }
         </div>
         { user && 

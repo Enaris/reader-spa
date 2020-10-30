@@ -56,10 +56,10 @@ const ReadingSessionChart = ({ chartData, isLoading }) => {
                     y={ 45 } 
                     angle={ 0 }
                   /> }
-                style={{
-                  axisLabels: { fontSize: 10 },
-                  tickLabels: { fontSize: 7 }
-                }}
+                // style={{
+                //   axisLabels: { fontSize: 12 },
+                //   tickLabels: { fontSize: 10 }
+                // }}
               />
               <VictoryAxis 
                 tickFormat={ t => msToTimeLabel(t, true) }
@@ -73,10 +73,10 @@ const ReadingSessionChart = ({ chartData, isLoading }) => {
                     dy={ 20 }
                     
                   /> }
-                style={{
-                  axisLabels: { fontSize: 10 },
-                  tickLabels: { fontSize: 7 }
-                }}
+                // style={{
+                //   axisLabels: { fontSize: 12 },
+                //   tickLabels: { fontSize: 10 }
+                // }}
               />
               <VictoryLine
                 style={{
