@@ -69,7 +69,7 @@ const ReadingDetails = ({ reading,
         <div className='reading-details-top-info'>
           <h2 className='reading-details-title mb5'>{ reading.title }</h2>
           <div className='reading-details-position mb5px'>
-            { `Last session saved at word: ${reading.savedLocation} of ${reading.totalWords}.` }
+            { `Last session saved at word: ${reading.savedLocation}${user ? ' of ' + reading.totalWords + '.' : '.' }` }
           </div>
           { reading.tags && reading.tags.length > 0 &&
             <div className='reading-details-tags-container mb5px'>
