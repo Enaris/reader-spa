@@ -5,7 +5,7 @@ import './tags-page.syles.scss';
 const TagsPage = () => {
 
   return (
-    <div className='page-flex flex-center flex-column p5'>
+    <div className='tags-page w100 p5'>
       <TagsTableWrapper />
     </div>
   )

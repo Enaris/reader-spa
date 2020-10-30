@@ -34,6 +34,7 @@ const TagDetails = ({ tag, user, removeTagOnline, removeTagOffline, isLoading })
           <ul className='mb5'>
             { tag.readings.map(r => <li key={ r.id }>
               <Link 
+                className='simple-link'
                 to={ `/lib/${r.id}` }
               >
                 { r.title }

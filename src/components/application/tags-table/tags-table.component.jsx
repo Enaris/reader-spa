@@ -30,7 +30,7 @@ const TagsTable = ({ tags, user, isLoading }) => {
               { tags.map((tag) => (
                 <TableRow key={ tag.id }>
                   <TableCell component="th" scope="row">
-                    <Link to={ `/tags/${tag.id}` }>
+                    <Link to={ `/tags/${tag.id}` } className='simple-link'>
                       { tag.name }
                     </Link>
                   </TableCell>
