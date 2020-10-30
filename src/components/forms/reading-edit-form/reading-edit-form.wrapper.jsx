@@ -27,12 +27,16 @@ const ReadingEditFormWrapper = ({ user,
   }, [user, fetchTags, fetchReading, readingId]);
 
   return (
-    <ReadingEditForm
-      tagsOptions={ user ? tagsOnline : tagsOffilne }
-      isLoading={ fetchingTags || fetchingReading }
-      reading={ user ? readingOnline : readingOffline }
-      readingId={ readingId }
-    />
+    <React.Fragment>
+      { (readingOnline || readingOffline) &&
+        <ReadingEditForm
+          tagsOptions={ user ? tagsOnline : tagsOffilne }
+          isLoading={ fetchingTags || fetchingReading }
+          reading={ user ? readingOnline : readingOffline }
+          readingId={ readingId }
+        />
+      }
+    </React.Fragment>
   )
 }
 

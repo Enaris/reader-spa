@@ -106,7 +106,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               color='primary' 
             />
             
-            <div className='reading-edit-form-change-text'>
+            <div className='reading-edit-form-change-text mb5px'>
               <FormControlLabel 
                 value={ changeText }
                 onChange={ e => setChangeText(e.target.checked) }
