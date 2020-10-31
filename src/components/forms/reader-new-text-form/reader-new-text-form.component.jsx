@@ -49,7 +49,7 @@ const ReaderNewTextForm = ({ processText, testMode }) => {
             push('/text/add', { newText: newText });
           }}
         >
-          SAVE
+          ADD NEW
         </Button>
       }
     </div>
