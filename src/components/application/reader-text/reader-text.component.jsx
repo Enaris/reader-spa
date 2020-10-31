@@ -99,7 +99,9 @@ const ReaderText = ({ textArray,
   return (
     <div className='reader-text-container'>
       { testMode &&
-        <div> Pause reader when speed feels comfortable. </div>
+        <div className='reader-text-test'> 
+          Pause reader when speed feels comfortable. 
+        </div>
       }
       <div className='reader-text'>
         { !textProcessing && 
@@ -123,7 +125,7 @@ const ReaderText = ({ textArray,
           testMode={ testMode }
         />
         :
-        <div>
+        <div className='reader-text-test'>
           { currentSpeed && `Your speed was: ${currentSpeed.speed.toFixed(2)}.`}
         </div>
       }
