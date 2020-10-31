@@ -7,9 +7,9 @@ import OptionBar from '../../components/general/option-bar/option-bar.component'
 import { ReaderPageStyled } from './reader-page.styled';
 import { createStructuredSelector } from 'reselect';
 import { setTestMode } from '../../redux/reader/reader.actions';
-import { selectTestMode } from '../../redux/reader/reader.selectors';
+import { selectReaderPaused, selectTestMode } from '../../redux/reader/reader.selectors';
 
-const ReaderPage = ({ testMode, setTestMode }) => {
+const ReaderPage = ({ testMode, readerPaused, setTestMode }) => {
 
   const { location } = useHistory();
   useEffect(() => {
@@ -19,7 +19,7 @@ const ReaderPage = ({ testMode, setTestMode }) => {
   return (
     <ReaderPageStyled>
       <ReaderApp /> 
-      { !testMode &&
+      { !testMode && readerPaused &&
         <OptionBar />
       }
     </ReaderPageStyled>
@@ -27,7 +27,9 @@ const ReaderPage = ({ testMode, setTestMode }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-  testMode: selectTestMode
+  testMode: selectTestMode,
+  readerPaused: selectReaderPaused
+
 })
 const mapDispatchToProps = dispatch => ({
   setTestMode: val => dispatch(setTestMode(val))

@@ -23,6 +23,7 @@ import ReaderNewTextPage from './pages/reader-new-text-page/reader-new-text-page
 import ReadingEditPage from './pages/reading-edit-page/reading-edit-page.component';
 import TagsPage from './pages/tags-page/tags-page.component';
 import TagDetailsPage from './pages/tag-details-page/tag-details-page.component';
+import { selectReaderPaused } from './redux/reader/reader.selectors';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -30,7 +31,7 @@ const muiTheme = createMuiTheme({
   },
 });
 
-function App({ theme, checkToken, checkingToken }) {
+function App({ theme, checkToken, checkingToken, readerPaused }) {
   useEffect(() => {
     checkToken(sessionStorage.getItem('token'));
   }, [checkToken])
@@ -40,7 +41,9 @@ function App({ theme, checkToken, checkingToken }) {
       <MuiThemeProvider theme={ muiTheme }>
         <CssBaseline />
         <div className="App">
-          <NavBar />
+          { readerPaused &&
+            <NavBar />
+          }
           <Switch className='flex_wh100'>
             <Route exact path='/' component={ HomePage } />
             <Route exact path='/lib/:readingId/edit' component={ ReadingEditPage } />
@@ -64,7 +67,8 @@ function App({ theme, checkToken, checkingToken }) {
 
 const mapStateToProps = createStructuredSelector({
   theme: selectTheme, 
-  checkingToken: selectCheckingToken
+  checkingToken: selectCheckingToken, 
+  readerPaused: selectReaderPaused
 });
 
 const mapDispatchToProps = dispatch => ({
