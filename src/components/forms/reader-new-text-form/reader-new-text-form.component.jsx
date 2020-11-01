@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { TextField, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import './reader-new-text-form.styles.scss'
 import { processTextStart, setReadingId } from '../../../redux/reading/reading.actions';
 import { useHistory } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { selectTestMode } from '../../../redux/reader/reader.selectors';
+import { Form, Formik } from 'formik';
+import RField from '../../general/formik/RField/RField.component';
+import validationSchema from './reader-new-text-form.validation';
 
 const ReaderNewTextForm = ({ processText, testMode }) => {
 
   const { push } = useHistory();
-  const [ newText, setNewText ] = useState();
+
+  const handleSubmit = values => {
+    const { newText } = values;
+    if (newText) {
+      setReadingId(null);
+      processText(newText);
+      push( testMode ? '/reader/test' : '/reader' );
+    } 
+  }
 
   return (
     <div className='reader-new-text-form p5'>
@@ -18,40 +29,46 @@ const ReaderNewTextForm = ({ processText, testMode }) => {
       { testMode &&
         <h5 className='mb5'>Use long text to better test yourself: </h5>
       }
-      <div className='min-vw50'>
-        <TextField 
-          value={ newText }
-          onChange={ (e) => setNewText(e.target.value) }
-          fullWidth 
-          label='Text' 
-          multiline 
-          rows={10} 
-          rowsMax={10} 
-          variant='outlined' 
-          color='primary'
-        />
-      </div>
-      <Button
-        disabled={ !newText }
-        onClick={ () => {
-          if (newText) {
-            setReadingId(null);
-            processText(newText);
-            push( testMode ? '/reader/test' : '/reader' );
-          } 
+      <Formik
+        initialValues={{
+          newText: ''
         }}
+        validationSchema={ validationSchema }
+        onSubmit={v => handleSubmit(v)}
       >
-        READ
-      </Button>
-      { !testMode &&
-        <Button
-          onClick={ () => {
-            push('/text/add', { newText: newText });
-          }}
-        >
-          ADD NEW
-        </Button>
-      }
+        { props => (
+          <Form>
+            <div className='min-vw50'>
+            <RField 
+              name='newText'
+              fullWidth 
+              label='Text' 
+              multiline 
+              rows={10} 
+              rowsMax={10} 
+              variant='outlined' 
+              color='primary'
+            />
+          </div>
+          <Button
+            type='submit'
+          >
+            READ
+          </Button>
+          { !testMode &&
+            <Button
+              onClick={ () => {
+                push('/text/add', { newText: props.values.newText });
+              }}
+            >
+              ADD NEW
+            </Button>
+          }
+          </Form>
+          
+        )}
+      </Formik>
+      
     </div>
   )
 }

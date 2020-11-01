@@ -21,7 +21,7 @@ const LoginForm = ({ login, loginErrors, containerClass }) => {
           password: ''
         }}
         validationSchema={validationSchema}
-        onSubmit={v => {console.log(v); login(v);}}
+        onSubmit={v => login(v)}
       >
         <Form className='login-form min-vw50'>
         { loginErrors &&
