@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 import RDrop from '../../general/RDropzone/RDrop/RDrop.component';
 import { getPDFText } from '../../../utils/pdf-to-text';
 import { mbToBytes } from '../../../utils/file-size-helpers';
+import validationSchema from './text-add-form.validation';
 
 const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
 
@@ -84,6 +85,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
           links: '', 
           tags: [], 
         }}
+        validationSchema={ validationSchema }
         onSubmit={ v => handleSubmit(v) }
       >
         { props => {
@@ -146,7 +148,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               containerClass='mb5' 
               fullWidth 
               name='description' 
-              label='Text description' 
+              label='Description' 
               multiline 
               rows={3} 
               rowsMax={3} 
@@ -157,7 +159,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               containerClass='mb5' 
               fullWidth 
               name='links' 
-              label='Text links' 
+              label='Links' 
               multiline 
               rows={3} 
               rowsMax={3} 

@@ -18,20 +18,19 @@ export const toOnlineUpdateData = (formData,
   readingId, 
   removedTags, 
   assignedTags, 
-  addedTags, 
-  changeText, 
+  addedTags,
   newCoverImage, 
   removeCover
   ) => ({
   aspUserId: aspUserId, 
   readingId: readingId, 
   title: formData.title, 
-  text: changeText ? formData.text : null, 
+  text: formData.changeText ? formData.text : null, 
   newCoverImage: newCoverImage, 
   description: formData.description, 
   links: formData.links, 
 
-  changeText: changeText, 
+  changeText: formData.changeText, 
   removeCover: removeCover, 
 
   // if tag was removed and added again do not remove it 

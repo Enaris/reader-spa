@@ -5,7 +5,7 @@ import './reading-edit-form.styles.scss';
 import RDropPreview from '../../general/RDropzone/RDropPreview/RDropPreview.component';
 import RField from '../../general/formik/RField/RField.component';
 import RAutocomplete from '../../general/formik/RAutocomplete/RAutocomplete.component';
-import { TextField, Chip, Button, FormControlLabel, Switch } from '@material-ui/core';
+import { TextField, Chip, Button, Switch } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { Formik, Form } from 'formik';
 import NewTag from '../../general/new-tag/new-tag.component';
@@ -17,6 +17,8 @@ import { imageUrl } from '../../../utils/api-urls';
 import { toOfflineUpdateData, toOnlineUpdateData } from './reading-edit-form.utils';
 import { updateReadingOfflineStart } from '../../../redux/offline-library/offline-lib.actions';
 import { updateReadingOnlineStart } from '../../../redux/library/library.actions';
+import RFormControlLabel from '../../general/formik/RFormControlLabel/RFormControlLabel.component';
+import validationSchema from './reading-edit-form.validation';
 
 const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingOffline, updateReadingOnline }) => {
 
@@ -25,7 +27,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
   const [tagsRemoved, setTagsRemoved] = useState([]);
   const [readingTags, setReadingTags] = useState(reading && reading.tags ? reading.tags : []);
   const [removeOldCover, setRemoveOldCover] = useState(false);
-  const [changeText, setChangeText] = useState(false);
+  //const [changeText, setChangeText] = useState(false);
 
   const handleRemoveImg = () => {
     setRemoveOldCover(true);
@@ -41,14 +43,13 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
         tagsRemoved, 
         v.tags, 
         tagsAdded, 
-        changeText, 
         newCover, 
         removeOldCover);
       updateReadingOnline(updateData);
     }
     else {
       var data = toOfflineUpdateData(v, readingId, tagsRemoved, v.tags, tagsAdded, readingTags);
-      updateReadingOffline( data, changeText );
+      updateReadingOffline( data, v.changeText );
     }
   }
   const handleRemoveNewTag = tag => {
@@ -57,11 +58,6 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
   const handleAddNewTag = addedTag => {
     if (isNullOrWhitespace(addedTag))
       return;
-    // if ((tagsOptions && tagsOptions.some(tag => tag.name === addedTag)) 
-    //   || (tagsAdded && tagsAdded.some(tag => tag.name === addedTag))
-    //   || (readingTags.some(tag => tag.name === addedTag))) {
-    //   return;
-    // }
     setTagsAdded([...tagsAdded, {id: addedTag, name: addedTag}]); 
   }
   const handleRemoveOldTag = tag => {
@@ -90,7 +86,9 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
           description: reading.description ? reading.description : '', 
           links: reading.links ? reading.links : '', 
           tags: [], 
+          changeText: false
         }}
+        validationSchema={ validationSchema }
         onSubmit={ v => handleSubmit(v) }
       >
         { props => {
@@ -107,18 +105,17 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
             />
             
             <div className='reading-edit-form-change-text mb5px'>
-              <FormControlLabel 
-                value={ changeText }
-                onChange={ e => setChangeText(e.target.checked) }
-                control={<Switch color='primary' checked={ changeText } />} 
+              <RFormControlLabel 
+                name='changeText'
+                control={<Switch color='primary' checked={ props.values.changeText } />} 
                 label='Change text'
               />
-              <div className={ changeText ? 'errors' : '' }>
+              <div className={ props.values.changeText ? 'errors' : '' }>
                 Changing text will void reading sessions and saved position.
               </div>
             </div>
             
-            { changeText &&
+            { props.values.changeText &&
               <RField 
                 containerClass='mb5' 
                 fullWidth 
@@ -136,7 +133,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               containerClass='mb5' 
               fullWidth 
               name='description' 
-              label='Text description' 
+              label='Description' 
               multiline 
               rows={3} 
               rowsMax={3} 
@@ -147,7 +144,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               containerClass='mb5' 
               fullWidth 
               name='links' 
-              label='Text links' 
+              label='Links' 
               multiline 
               rows={3} 
               rowsMax={3} 
