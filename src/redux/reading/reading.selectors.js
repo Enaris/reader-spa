@@ -22,6 +22,11 @@ export const selectTextArray = createSelector(
   reading => reading.textArray
 )
 
+export const selectTextArrayLen = createSelector(
+  [selectTextArray], 
+  array => !array ? -1 : array.length
+)
+
 export const selectTextArrayRowIndexesAll = createSelector(
   [selectReading], 
   reading => ({

@@ -33,9 +33,10 @@ const ReadingDetails = ({ reading,
   const handleReadBtn = () => {
     setReadingId(reading.id);
     processText(reading.text);
-    if (reading.savedLocation !== 0) {
-      setCurrentPartByIndex(reading.savedLocation);
-    }
+    setCurrentPartByIndex(reading.savedLocation === 0 ? 0 : reading.savedLocation - 1);
+    // if (reading.savedLocation !== 0) {
+    //   setCurrentPartByIndex(reading.savedLocation -);
+    // }
     push('/reader');
   }
 

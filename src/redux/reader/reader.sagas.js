@@ -3,7 +3,7 @@ import { getNextPart } from '../../utils/reader-helpers';
 
 import ReaderActionTypes from './reader.types';
 import { selectPartLength, selectReaderPaused, selectPartEnd, selectPartIndexes, selectCurrentSpeed, selectReadingTime, selectSlow } from './reader.selectors';
-import { selectTextEnded, selectTextArray, selectReadingId } from '../reading/reading.selectors';
+import { selectTextEnded, selectTextArray, selectReadingId, selectTextArrayLen } from '../reading/reading.selectors';
 import { setTextEnded } from '../reading/reading.actions';
 import { selectWordOptions, selectSpeedOptions, selectInitialSpeed } from '../reader-options/reader-options.selectors';
 import { setPartInfoSuccess, setCurrentSpeed, setReadingTime, setSlow, resumeReadingSucees, pauseReading } from './reader.actions';
@@ -149,7 +149,10 @@ export function* setCurrentPartByIndex({ payload }) {
 export function* pauseReader() {
 
   const currentIndexes = yield select(selectPartIndexes);
-  yield put(endSession(currentIndexes[0] ? currentIndexes[0] : 0));
+  const textEnded = yield select(selectTextEnded);
+  const lastWordIndex = yield select(selectTextArrayLen);
+  const endLocation = textEnded ? lastWordIndex : currentIndexes[0];
+  yield put(endSession(endLocation));
 }
 
 export function* onChangePart() {

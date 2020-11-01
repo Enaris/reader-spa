@@ -1,1 +1,1 @@
-export const whitespaces = [" ", "\n", "\t"];
+export const whitespaces = [" ", "\n", "\t", "\r", "\v" ];
