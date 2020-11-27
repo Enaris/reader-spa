@@ -17,7 +17,7 @@ export function* login({ payload }) {
     yield put(push('/'));
   }
   catch (e) {
-    yield put(loginFailure(e.response.data));
+    yield put(loginFailure(e.response.data.errors));
   }
 }
 
@@ -30,7 +30,7 @@ export function* register({ payload }) {
     yield put(loginStart({ email: payload.email, password: payload.password }));
   }
   catch (e) {
-    yield put(registerFailure(e.response.data));
+    yield put(registerFailure(e.response.data.errors));
   }
 }
 

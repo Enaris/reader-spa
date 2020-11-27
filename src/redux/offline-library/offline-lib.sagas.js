@@ -1,6 +1,7 @@
 import { call, all, takeLatest, put } from 'redux-saga/effects';
 import OfflineLibActionTypes from './offline-lib.types';
 import { addTags, updateReadingOfflineSuccess, setReadingPosition } from './offline-lib.actions';
+import { push } from 'connected-react-router';
 
 export function* updateReadingOffline({ payload }) {
 
@@ -15,6 +16,7 @@ export function* updateReadingOffline({ payload }) {
     yield put(setReadingPosition(reading.id, 0));
   }
   yield put(updateReadingOfflineSuccess(reading, changeText))
+  yield put(push('/lib'));
 
 }
 

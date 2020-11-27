@@ -26,6 +26,7 @@ export function* addReadingStart({ payload }) {
   try {
     yield call(axios.post, addReadingUrl, formData, dataFormConfig)
     yield put(addReadingSuccess());
+    yield put(push('/lib'));
   }
   catch (e) {
     yield put(addReadingFailure(e.response.data));
@@ -117,6 +118,7 @@ export function* updateReadingStart({ payload }) {
   try {
     yield call(axios.post, updateReadingUrl, formData, dataFormConfig)
     yield put(updateReadingOnlineSuccess());
+    yield put(push('/lib'));
   }
   catch (e) {
     yield put(updateReadingOnlineFailure(e.response.data));

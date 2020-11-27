@@ -92,6 +92,18 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         token: null
       }  
 
+    case AuthActionTypes.SET_LOGIN_ERRORS:
+      return {
+        ...state, 
+        loginErrors: action.payload
+      }
+
+    case AuthActionTypes.SET_REGISTER_ERRORS:
+      return {
+        ...state, 
+        registerErrors: action.payload
+      }
+
     default:
       return state;
   }

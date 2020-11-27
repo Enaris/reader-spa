@@ -28,7 +28,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
   const [ addCover, setAddCover ] = useState(false);
   const [ useTextFile, setUseTextFile ] = useState(false);
 
-  const { location } = useHistory();
+  const { push, location } = useHistory();
 
   const handleDropImg = img => {
     setCoverImg(img);
@@ -46,9 +46,13 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
     setTagsAdded([...tagsAdded, {id: addedTag, name: addedTag}]); 
   }
   const handleSubmit = data => {
-    user 
-    ? addReadingOnline(formToAddRequestData(data, user.aspUserId, tagsAdded, coverImg))
-    : addReadingOffline(formToOfflineText(data, tagsAdded, largestIdInReadings));
+    if (user) {
+      addReadingOnline(formToAddRequestData(data, user.aspUserId, tagsAdded, coverImg));
+    }
+    else {
+      addReadingOffline(formToOfflineText(data, tagsAdded, largestIdInReadings));
+      push('/lib');
+    }
   }
 
   return (

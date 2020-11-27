@@ -47,3 +47,14 @@ export const checkTokenFailure = () => ({
 export const logout = () => ({
   type: AuthActionTypes.LOGOUT
 })
+
+export const setLoginErrors = errors => ({
+  type: AuthActionTypes.SET_LOGIN_ERRORS,
+  payload: errors
+})
+
+export const setRegisterErrors = errors => ({
+  type: AuthActionTypes.SET_REGISTER_ERRORS,
+  payload: errors
+})
+

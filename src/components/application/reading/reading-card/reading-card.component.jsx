@@ -26,9 +26,9 @@ const ReadingCard = ({ imageCard, reading, setFilters }) => {
           </Link>
         }
         <div className='reading-card-desc-container'>
-          <h4 className='reading-card-desc-title'>
+          <h5 className='reading-card-desc-title'>
             <Link to={`/lib/${reading.id}`}>{ reading.title }</Link> 
-          </h4>
+          </h5>
           <div className='reading-card-desc-tags'>
             {
               reading.tags.map(t => {
