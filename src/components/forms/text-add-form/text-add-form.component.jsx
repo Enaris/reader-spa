@@ -143,6 +143,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               multiline 
               rows={10} 
               rowsMax={10} 
+              inputProps={{ spellCheck: "true" }}
               variant='outlined' 
               color='primary' 
               disabled={ useTextFile }
