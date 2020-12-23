@@ -20,6 +20,7 @@ import RDrop from '../../general/RDropzone/RDrop/RDrop.component';
 import { getPDFText } from '../../../utils/pdf-to-text';
 import { mbToBytes } from '../../../utils/file-size-helpers';
 import validationSchema from './text-add-form.validation';
+import RLinkField from '../../general/formik/RLinkField/r-link-field.component';
 
 const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
 
@@ -160,7 +161,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               variant='outlined' 
               color='primary' 
             />
-            <RField 
+            {/* <RField 
               containerClass='mb5' 
               fullWidth 
               name='links' 
@@ -170,6 +171,12 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               rowsMax={3} 
               variant='outlined' 
               color='primary' 
+            />
+             */}
+            <RLinkField
+              containerClass='mb5'
+              name='links' 
+              label='Links'
             />
             
             { tags && tags.length > 0 &&

@@ -127,8 +127,11 @@ const ReadingDetails = ({ reading,
         <div className='reading-details-desc mb5px'>
           { reading.description && `Description: ${reading.description}` }
         </div>
-        <div className='reading-details-links mb5px'>
-          { reading.links && `Links: ${reading.links}` }
+        <div 
+          className='reading-details-links mb5px'
+          dangerouslySetInnerHTML={{ __html: reading.links && `Links: ${reading.links}` }}  
+        >
+          
         </div>
         { user && 
           <>

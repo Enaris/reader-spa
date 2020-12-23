@@ -19,6 +19,7 @@ import { updateReadingOfflineStart } from '../../../redux/offline-library/offlin
 import { updateReadingOnlineStart } from '../../../redux/library/library.actions';
 import RFormControlLabel from '../../general/formik/RFormControlLabel/RFormControlLabel.component';
 import validationSchema from './reading-edit-form.validation';
+import RLinkField from '../../general/formik/RLinkField/r-link-field.component';
 
 const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingOffline, updateReadingOnline }) => {
 
@@ -140,16 +141,10 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               variant='outlined' 
               color='primary' 
             />
-            <RField 
-              containerClass='mb5' 
-              fullWidth 
+            <RLinkField
+              containerClass='mb5'
               name='links' 
-              label='Links' 
-              multiline 
-              rows={3} 
-              rowsMax={3} 
-              variant='outlined' 
-              color='primary' 
+              label='Links'
             />
             { readingTags && 
               <div className='mb5'>
