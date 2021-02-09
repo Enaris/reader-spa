@@ -1,10 +1,19 @@
 .add-text-form {
-  padding: 1rem 0;
+  padding: 1rem;
 
   .tags-added {
     display: flex;
     flex-wrap: 1;
     flex-direction: row;
+  }
+
+  .file-txt-container {
+    width: 100%;
+    color: lightgray;
+    border-radius: 5px;
+    border: 1px solid gray;
+    max-height: 300px;
+    overflow-y: auto;
   }
   
   .added-image-container {

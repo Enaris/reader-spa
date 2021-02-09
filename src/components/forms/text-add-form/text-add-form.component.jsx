@@ -29,6 +29,8 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
   const [ addCover, setAddCover ] = useState(false);
   const [ useTextFile, setUseTextFile ] = useState(false);
 
+  const [ takingTextFromFile, setTakingTextFromFile ] = useState(false);
+
   const { push, location } = useHistory();
 
   const handleDropImg = img => {
@@ -57,7 +59,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
   }
 
   return (
-    <div className='min-vw50 add-text-form'>
+    <div className='max-w-1000 add-text-form'>
 
       { user &&
         <div>
@@ -106,7 +108,12 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
             />
             <FormControlLabel 
               value={ useTextFile }
-              onChange={ e => setUseTextFile(e.target.checked) }
+              onChange={ e => {
+                if (useTextFile) {
+                  props.setFieldValue('text', '');
+                }
+                setUseTextFile(e.target.checked)
+              }}
               control={<Switch color='primary' checked={ useTextFile } />} 
               label='Text from file .pdf or .txt'
             />
@@ -120,11 +127,13 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
                 handleAccepted={ file => {
                   const extension = getExtension(file.name);
                   var fileReader = new FileReader();
+                  setTakingTextFromFile(true);
                   fileReader.onloadend = async () => {
                     const text = extension === '.pdf' 
                       ? await getPDFText(fileReader.result)
                       : fileReader.result;
                     props.setFieldValue('text', text);
+                    setTakingTextFromFile(false);
                   }
                   if (extension === '.pdf') {
                     fileReader.readAsDataURL(file);
@@ -136,19 +145,26 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
                 errorsInside={ true }
               />
             } 
-            <RField 
-              containerClass='mb5' 
-              fullWidth 
-              name='text' 
-              label='Text' 
-              multiline 
-              rows={10} 
-              rowsMax={10} 
-              inputProps={{ spellCheck: "true" }}
-              variant='outlined' 
-              color='primary' 
-              disabled={ useTextFile }
-            />
+            { useTextFile ?
+              <div className='file-txt-container mb5'>
+                { takingTextFromFile ? "Loading..." : props.values.text }
+              </div>
+              :
+              <RField 
+                containerClass='mb5' 
+                fullWidth 
+                name='text' 
+                label='Text' 
+                multiline 
+                rows={10} 
+                rowsMax={10} 
+                inputProps={{ spellCheck: "true" }}
+                variant='outlined' 
+                color='primary' 
+                disabled={ useTextFile }
+              />
+            }
+            
             
             <RField 
               containerClass='mb5' 
