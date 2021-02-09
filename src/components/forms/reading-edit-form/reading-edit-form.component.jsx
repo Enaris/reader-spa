@@ -67,7 +67,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
   }
 
   return (
-    <div className='reading-edit-form min-vw50'>
+    <div className='reading-edit-form max-w-1000'>
       { user &&
         <div className='added-image-container mb5'>
           <div className='added-image'>
