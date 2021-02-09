@@ -17,7 +17,7 @@ const TagsTable = ({ tags, user, isLoading }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Count</TableCell>
+                <TableCell>Readings Count</TableCell>
                 { user &&
                   <TableCell>Mean cpm</TableCell>
                 }

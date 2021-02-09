@@ -154,7 +154,7 @@ const ReaderSpeedForm = ({ changeOptions, options, sType }) => {
               <RFormControlLabel
                 name='doAppendWords' 
                 control={<Switch color='primary' checked={props.values.doAppendWords} />} 
-                label='Append short words to next'
+                label='Append next word if previous is'
               />
               <RField 
                 className='txt-field-width-primary'
