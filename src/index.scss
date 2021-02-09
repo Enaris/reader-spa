@@ -94,6 +94,15 @@ body, html, #root {
   min-width: 50vw;
 }
 
+.max-w-1000 {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.px5 {
+  padding: 1rem 0;
+}
+
 .simple-link {
   font-size: 1em;
   text-decoration: none;
