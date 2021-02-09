@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import './r-link-field.styles.scss';
 import { Field } from 'formik';
 
-const RLinkField = ({ containerClass, ...props }) => {
+const RLinkField = ({ containerClass, label, ...props }) => {
 
   const modules = {
     toolbar: [
@@ -15,7 +15,7 @@ const RLinkField = ({ containerClass, ...props }) => {
 
   return (
     <div className={`${containerClass ? containerClass : ''} r-link-filed`}>
-      
+      { label && <div>{ label }</div> }
       <Field name={ props.name }>
         { ({ field }) => <ReactQuill 
           { ...props }
