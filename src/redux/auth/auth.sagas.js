@@ -17,7 +17,12 @@ export function* login({ payload }) {
     yield put(push('/'));
   }
   catch (e) {
-    yield put(loginFailure(e.response.data.errors));
+    if (e.message === "Network Error") {
+      yield put(loginFailure({ "Server": ["Cannot connect to the server"] }));
+    }
+    else {
+      yield put(loginFailure(e.response.data.errors));
+    }
   }
 }
 
