@@ -135,7 +135,7 @@ const ReadingDetails = ({ reading,
         </div>
         { user && 
           <>
-            <Tabs value={ tabIndex } onChange={ (e, v) => setTabIndex(v) } aria-label="simple tabs example">
+            <Tabs value={ tabIndex } onChange={ (e, v) => setTabIndex(v) } aria-label="chart-desc-tabs">
               <Tab label="Sessions charts" { ...a11yProps(0) } />
               <Tab label="Overall chart" { ...a11yProps(1) } />
               <Tab label="Text" { ...a11yProps(2) } />

@@ -80,14 +80,13 @@ const ReadingSessionChart = ({ chartData, isLoading }) => {
               />
               <VictoryLine
                 style={{
-                  data: { stroke: "#c43a31" },
+                  data: { stroke: "#c43a31", strokeWidth: 1 },
                   parent: { border: "1px solid #ccc"}
                 }}
                 // padding={{ top: 5, bottom: 5, left: 5, right: 5 }}
                 data={ chartData.sets[0].points }
                 y={ speedType }
                 x="msFromStart"
-                
               />
             </VictoryChart>
           </div>

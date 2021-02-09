@@ -130,7 +130,7 @@ const AllSessionsChart = ({ isLoading, chartData }) => {
             { setsToUse.map((s, i) => <VictoryLine 
               key={ i }
               style={{
-                data: { stroke: colors[i] },
+                data: { stroke: colors[i], strokeWidth: 1 },
                 parent: { border: "1px solid #ccc"}
               }}
 
