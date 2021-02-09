@@ -5,17 +5,17 @@
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 640px) {
+  @media (min-width: 870px) {
     .reader-text {
       font-size: 20px;
     }
   }
-  @media (max-width: 640px) {
+  @media (max-width: 870px) {
     .reader-text {
       font-size: 16px;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 610px) {
     .reader-text {
       font-size: 13px;
     }

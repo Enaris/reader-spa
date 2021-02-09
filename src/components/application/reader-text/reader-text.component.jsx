@@ -36,13 +36,13 @@ const ReaderText = ({ textArray,
     push('/lib');
   }
 
-  var tWidth = 630;
+  var tWidth = 800;
   var textRowsIndexes = textRowsIndexesAll.l
-  if (useMediaQuery('(max-width: 640px)')) {
-    tWidth = 450;
+  if (useMediaQuery('(max-width: 870px)')) {
+    tWidth = 540;
     textRowsIndexes = textRowsIndexesAll.m;
   }
-  if (useMediaQuery('(max-width: 480px)')) {
+  if (useMediaQuery('(max-width: 610px)')) {
     tWidth = 300;
     textRowsIndexes = textRowsIndexesAll.s;
   }
@@ -126,7 +126,7 @@ const ReaderText = ({ textArray,
         />
         :
         <div className='reader-text-test'>
-          { currentSpeed && `Your speed was: ${currentSpeed.speed.toFixed(2)}.`}
+          { currentSpeed && `Your speed was: ${currentSpeed.speed.toFixed(2)} wpm.`}
         </div>
       }
     </div>
