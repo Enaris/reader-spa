@@ -131,3 +131,8 @@ export const deleteTagOnlineFailure = errors => ({
   type: LibraryActionTypes.DELETE_TAG_ONLINE_FAILURE, 
   payload: errors
 })
+
+export const addReadingSetErrors = errors => ({
+  type: LibraryActionTypes.ADD_READING_SET_ERRORS, 
+  payload: errors
+})

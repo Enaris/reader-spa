@@ -35,7 +35,12 @@ export function* register({ payload }) {
     yield put(loginStart({ email: payload.email, password: payload.password }));
   }
   catch (e) {
-    yield put(registerFailure(e.response.data.errors));
+    if (e.message === "Network Error") {
+      yield put(registerFailure({ "Server": ["Cannot connect to the server"] }));
+    }
+    else {
+      yield put(registerFailure(e.response.data.errors));
+    }
   }
 }
 

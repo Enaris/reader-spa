@@ -29,7 +29,12 @@ export function* addReadingStart({ payload }) {
     yield put(push('/lib'));
   }
   catch (e) {
-    yield put(addReadingFailure(e.response.data));
+    if (e.message === "Network Error") {
+      yield put(addReadingFailure({ "Server": ["Cannot connect to the server"] }));
+    }
+    else {
+      yield put(addReadingFailure(e.response.data.errors));
+    }
   }
 }
 

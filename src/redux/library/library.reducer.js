@@ -55,6 +55,12 @@ const LibraryReducer = (state = INITIAL_STATE, action) => {
         addingReading: false, 
         addReadingErrors: action.payload
       }
+    case LibraryActionTypes.ADD_READING_SET_ERRORS: 
+      return {
+        ...state,
+        addReadingErrors: action.payload
+      }
+      
 
     case LibraryActionTypes.FETCH_TAGS_START: 
       return {
