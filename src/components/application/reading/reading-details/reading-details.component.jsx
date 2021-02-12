@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './reading-details.styles.scss';
-import { Chip, Button, Tabs, Tab } from '@material-ui/core';
+import { Chip, Button, Tabs, Tab, FormControlLabel, Switch } from '@material-ui/core';
 import { imageUrl } from '../../../../utils/api-urls';
 import { processTextStart, setReadingId } from '../../../../redux/reading/reading.actions';
 import { setCurrentPartByIndex } from '../../../../redux/reader/reader.actions';
@@ -29,6 +29,7 @@ const ReadingDetails = ({ reading,
   const [ openConfirmDelete, setOpenConfirmDelete ] = useState(false);
 
   const [ tabIndex, setTabIndex ] = useState(0);
+  const [ showText, setShowText ] = useState(false);
 
   const handleReadBtn = () => {
     setReadingId(reading.id);
@@ -133,7 +134,7 @@ const ReadingDetails = ({ reading,
         >
           
         </div>
-        { user && 
+        { user ? 
           <>
             <Tabs value={ tabIndex } onChange={ (e, v) => setTabIndex(v) } aria-label="chart-desc-tabs">
               <Tab label="Sessions charts" { ...a11yProps(0) } />
@@ -153,6 +154,20 @@ const ReadingDetails = ({ reading,
             <TabPanel value={ tabIndex } index={2}>
               { reading.text }
             </TabPanel>
+          </>
+          :
+          <>
+            <FormControlLabel 
+              onChange={ e => setShowText(e.target.checked) }
+              name='showText'
+              control={<Switch color='primary' checked={ showText } />} 
+              label='Show text'
+            />
+            { showText && 
+              <div>
+                { reading.text }
+              </div>
+            }
           </>
         }
       </div>
