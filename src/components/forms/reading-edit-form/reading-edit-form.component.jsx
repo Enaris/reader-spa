@@ -212,7 +212,7 @@ const ReadingEditForm = ({ user, reading, readingId, tagsOptions, updateReadingO
               color='primary'
               containerClass='mb5'
               onTagAdd={ handleAddNewTag }
-              maxLen={ 7 }
+              maxLen={ 20 }
               alreadyAdded={[ ...tagsOptions, ...tagsAdded, ...readingTags ]}
             />
             

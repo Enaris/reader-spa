@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import './text-add-form.styles.scss';
 import { Formik, Form } from 'formik';
@@ -13,7 +13,7 @@ import { isNullOrWhitespace, getExtension } from '../../../utils/string-helpers'
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../../redux/auth/auth.selectors';
 import { formToAddRequestData, formToOfflineText } from './text-add-form.utils';
-import { addReadingStart } from '../../../redux/library/library.actions';
+import { addReadingSetErrors, addReadingStart } from '../../../redux/library/library.actions';
 import { selectLastReadingIndex } from '../../../redux/offline-library/offline-lib.selectors';
 import { useHistory } from 'react-router-dom';
 import RDrop from '../../general/RDropzone/RDrop/RDrop.component';
@@ -21,9 +21,23 @@ import { getPDFText } from '../../../utils/pdf-to-text';
 import { mbToBytes } from '../../../utils/file-size-helpers';
 import validationSchema from './text-add-form.validation';
 import RLinkField from '../../general/formik/RLinkField/r-link-field.component';
+import FormErrors from '../../general/form-errors/form-errors.component';
+import { selectAddReadingErrors } from '../../../redux/library/library.selectors';
 
-const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestIdInReadings }) => {
+const TextAddForm = ({ user, 
+  tags, 
+  addReadingOffline, 
+  addReadingOnline, 
+  largestIdInReadings,
+  addReadingErrors, 
+  setAddErrors
+ }) => {
 
+  useEffect(() => {
+    return () => {
+      setAddErrors(null);
+    }
+  }, [setAddErrors])
   const [ tagsAdded, setTagsAdded ] = useState([]);
   const [ coverImg, setCoverImg ] = useState(null);
   const [ addCover, setAddCover ] = useState(false);
@@ -61,6 +75,10 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
   return (
     <div className='max-w-1000 add-text-form'>
 
+      <FormErrors
+        containerClass='mb5px'
+        errors={ addReadingErrors }
+      />
       { user &&
         <div>
           <FormControlLabel 
@@ -234,7 +252,7 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
               variant='outlined'
               color='primary'
               containerClass='mb5'
-              maxLen={ 7 }
+              maxLen={ 20 }
               alreadyAdded={[ ...tags, ...tagsAdded ]}
               onTagAdd={ handleAddNewTag }
             />
@@ -249,12 +267,14 @@ const TextAddForm = ({ user, tags, addReadingOffline, addReadingOnline, largestI
 
 const mapStateToProps = createStructuredSelector({
   user: selectCurrentUser,
-  largestIdInReadings: selectLastReadingIndex
+  largestIdInReadings: selectLastReadingIndex, 
+  addReadingErrors: selectAddReadingErrors
 })
 
 const mapDispatchToProps = dispatch => ({
   addReadingOffline: data => dispatch(addReading(data)),
-  addReadingOnline: data => dispatch(addReadingStart(data))
+  addReadingOnline: data => dispatch(addReadingStart(data)), 
+  setAddErrors: errors => dispatch(addReadingSetErrors(errors))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TextAddForm);
